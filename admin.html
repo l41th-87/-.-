@@ -19,16 +19,19 @@
         body { background-color: var(--bg-main); color: var(--text-main); padding: 1.5rem; }
         
         #loginScreen {
-            max-width: 400px;
-            margin: 100px auto;
+            max-width: 420px;
+            margin: 80px auto;
             background: var(--bg-card);
             padding: 2rem;
             border-radius: 16px;
             border: 1px solid var(--border-color);
-            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
-        input, textarea { width: 100%; padding: 0.8rem; margin: 0.5rem 0 1rem 0; background: var(--bg-card-alt); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 0.95rem; }
-        button { background: var(--primary-gold); color: black; font-weight: bold; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1rem; }
+        .login-group { margin-bottom: 1rem; text-align: right; }
+        .login-group label { display: block; font-size: 0.85rem; color: var(--primary-gold); margin-bottom: 0.3rem; font-weight: bold; }
+        input, textarea { width: 100%; padding: 0.8rem; background: var(--bg-card-alt); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 0.95rem; }
+        button { background: var(--primary-gold); color: black; font-weight: bold; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1rem; transition: background 0.3s; }
+        button:hover { background: #d97706; }
         
         #adminDashboard { display: none; }
         .admin-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1rem; }
@@ -53,17 +56,37 @@
 <body>
 
 
+    <!-- شاشة التحقق الأمني الثلاثي -->
     <div id="loginScreen">
-        <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem;">🔒 لوحة القيادة العليا</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">أدخل رمز الأمان السيادي للدخول:</p>
-        <input type="password" id="adminPassInput" placeholder="رمز المرور">
-        <button onclick="loginAdmin()">دخول للإدارة</button>
+        <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem; text-align: center;">🛡️ البوابة السيادية المشددة</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center;">منطقة محمية - يتطلب الاعتماد الثلاثي للوصول:</p>
+        
+        <div class="login-group">
+            <label>الاسم السيادي المعتمد:</label>
+            <input type="text" id="adminNameInput" placeholder="أدخل الاسم الثلاثي/المعتمد">
+        </div>
+
+
+        <div class="login-group">
+            <label>البريد الإلكتروني المعتمد:</label>
+            <input type="email" id="adminEmailInput" placeholder="laithowaisn@gmail.com">
+        </div>
+
+
+        <div class="login-group">
+            <label>رمز المرور السيادي:</label>
+            <input type="password" id="adminPassInput" placeholder="كلمة المرور">
+        </div>
+
+
+        <button onclick="loginAdmin()" style="margin-top: 0.5rem;">تحقق ودخول الإدارة</button>
     </div>
 
 
+    <!-- لوحة التحكم الحقيقية -->
     <div id="adminDashboard">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px;">
-            <h1 style="color: var(--primary-gold); font-size: 1.5rem;">👑 إدارة دولة كِيُوشَان</h1>
+            <h1 style="color: var(--primary-gold); font-size: 1.5rem;">👑 إدارة دولة كِيُوشَان (منطقة آمنة)</h1>
             <button onclick="location.reload()" style="width: auto; background: #ef4444; color: white;">تسجيل خروج</button>
         </div>
 
@@ -75,17 +98,17 @@
                 <div>
                     <label style="font-size:0.85rem; color:var(--text-muted);">سعر المواطنة الفردية:</label>
                     <input type="text" id="priceSingle" placeholder="مثال: 0$ (مجاناً)">
-                    <label style="font-size:0.85rem; color:var(--text-muted);">ملاحظة الفردية (اختياري - اتركه فارغاً إن لم ترد):</label>
-                    <textarea id="noteSingle" rows="2" placeholder="مثال: إعفاء استثنائي للدفعة الأولى..."></textarea>
+                    <label style="font-size:0.85rem; color:var(--text-muted); display:block; margin-top:5px;">ملاحظة الفردية (اختياري):</label>
+                    <textarea id="noteSingle" rows="2" placeholder="إعفاء استثنائي..."></textarea>
                 </div>
                 <div>
                     <label style="font-size:0.85rem; color:var(--text-muted);">سعر المواطنة العائلية:</label>
                     <input type="text" id="priceFamily" placeholder="مثال: 0$ (مجاناً)">
-                    <label style="font-size:0.85rem; color:var(--text-muted);">ملاحظة العائلية (اختياري):</label>
-                    <textarea id="noteFamily" rows="2" placeholder="مثال: تشمل حتى 5 أفراد..."></textarea>
+                    <label style="font-size:0.85rem; color:var(--text-muted); display:block; margin-top:5px;">ملاحظة العائلية (اختياري):</label>
+                    <textarea id="noteFamily" rows="2" placeholder="تشمل حتى عائلة..."></textarea>
                 </div>
             </div>
-            <button onclick="savePrices()" style="width: auto; margin-top: 0.5rem;">حفظ وتحديث الموقع</button>
+            <button onclick="savePrices()" style="width: auto; margin-top: 0.8rem;">حفظ وتحديث الموقع</button>
         </div>
 
 
@@ -115,13 +138,23 @@
 
 
         function loginAdmin() {
-            const pass = document.getElementById('adminPassInput').value;
-            if(pass === 'كيوليسن20142026') {
+            const enteredName = document.getElementById('adminNameInput').value.trim();
+            const enteredEmail = document.getElementById('adminEmailInput').value.trim();
+            const enteredPass = document.getElementById('adminPassInput').value;
+
+
+            // الشروط الأمنية الثلاثية الحصينة
+            const validName = "فلجكا ليث عويس كيوشان";
+            const validEmail = "laithowaisn@gmail.com";
+            const validPass = "kyvosh2026"; // كلمة السر (يمكنك تعديلها هنا إن شئت)
+
+
+            if(enteredName === validName && enteredEmail === validEmail && enteredPass === validPass) {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminDashboard').style.display = 'block';
                 loadAdminData();
             } else {
-                alert('كلمة المرور غير صحيحة!');
+                alert('خطأ في إحدى البيانات السيادية (الاسم، البريد، أو رمز المرور غير متطابق)!');
             }
         }
 
