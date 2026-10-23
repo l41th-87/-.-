@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم السيادية - دولة كِيُوشَان</title>
+    <title>لوحة التحكم السحابية السيادية - دولة كِيُوشَان</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -56,10 +56,10 @@
 <body>
 
 
-    <!-- شاشة التحقق الأمني الثلاثي النظيفة -->
+    <!-- شاشة التحقق الأمني السحابي -->
     <div id="loginScreen">
-        <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem; text-align: center;">🛡️ البوابة السيادية المشددة</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center;">منطقة محمية - يتطلب الاعتماد الثلاثي للوصول:</p>
+        <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem; text-align: center;">🛡️ البوابة السحابية المؤمنة</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center;">مصادقة سحابية حقيقية للوصول:</p>
         
         <div class="login-group">
             <label>الاسم السيادي المعتمد:</label>
@@ -79,20 +79,20 @@
         </div>
 
 
-        <button onclick="loginAdmin()" style="margin-top: 0.5rem;">تحقق ودخول الإدارة</button>
+        <button onclick="loginAdmin()" style="margin-top: 0.5rem;">مصادقة سحابية ودخول</button>
     </div>
 
 
-    <!-- لوحة التحكم الحقيقية -->
+    <!-- لوحة التحكم السحابية -->
     <div id="adminDashboard">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px;">
-            <h1 style="color: var(--primary-gold); font-size: 1.5rem;">👑 إدارة دولة كِيُوشَان (منطقة آمنة)</h1>
+            <h1 style="color: var(--primary-gold); font-size: 1.5rem;">👑 إدارة دولة كِيُوشَان (سحابية مؤمنة)</h1>
             <button onclick="location.reload()" style="width: auto; background: #ef4444; color: white;">تسجيل خروج</button>
         </div>
 
 
         <div style="background: var(--bg-card); padding: 1.2rem; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem;">
-            <h3 style="color: var(--primary-gold); margin-bottom: 0.8rem; font-size: 1.1rem;">⚙️ تعديل الأسعار والملاحظات</h3>
+            <h3 style="color: var(--primary-gold); margin-bottom: 0.8rem; font-size: 1.1rem;">⚙️ تعديل الأسعار والملاحظات السحابية</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
                 <div>
                     <label style="font-size:0.85rem; color:var(--text-muted);">سعر المواطنة الفردية:</label>
@@ -107,7 +107,7 @@
                     <textarea id="noteFamily" rows="2" placeholder="تشمل حتى عائلة..."></textarea>
                 </div>
             </div>
-            <button onclick="savePrices()" style="width: auto; margin-top: 0.8rem;">حفظ وتحديث الموقع</button>
+            <button onclick="saveCloudPrices()" style="width: auto; margin-top: 0.8rem;">حفظ بالسحابة وتحديث الموقع</button>
         </div>
 
 
@@ -128,15 +128,34 @@
     </div>
 
 
-    <script>
-        function getStorage(k) { return JSON.parse(localStorage.getItem(k) || '[]'); }
-        function setStorage(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, set, get, push, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyBglolyIuZIJ802RuhO7sklFxB9GwS8EAE",
+          authDomain: "kyushan-state.firebaseapp.com",
+          databaseURL: "https://kyushan-state-default-rtdb.firebaseio.com",
+          projectId: "kyushan-state",
+          storageBucket: "kyushan-state.firebasestorage.app",
+          messagingSenderId: "303493310895",
+          appId: "1:303493310895:web:4dae4eea24873cbf77a75a",
+          measurementId: "G-G04Z2BZMJB"
+        };
+
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
 
 
         let activeId = null;
 
 
-        function loginAdmin() {
+        window.loginAdmin = function() {
             const enteredName = document.getElementById('adminNameInput').value.trim();
             const enteredEmail = document.getElementById('adminEmailInput').value.trim();
             const enteredPass = document.getElementById('adminPassInput').value;
@@ -144,119 +163,143 @@
 
             const validName = "فلجكا ليث عويس كيوشان";
             const validEmail = "laithowaisn@gmail.com";
-            const validPass = "كيوليسن20142026";
 
 
-            if(enteredName === validName && enteredEmail === validEmail && enteredPass === validPass) {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('adminDashboard').style.display = 'block';
-                loadAdminData();
-            } else {
-                alert('خطأ في إحدى البيانات السيادية (الاسم، البريد، أو رمز المرور غير متطابق)!');
-            }
-        }
-
-
-        function loadAdminData() {
-            document.getElementById('priceSingle').value = localStorage.getItem('kyv_price_single') || '0$ (مجاناً)';
-            document.getElementById('noteSingle').value = localStorage.getItem('kyv_note_single') || '';
-            document.getElementById('priceFamily').value = localStorage.getItem('kyv_price_family') || '0$ (مجاناً)';
-            document.getElementById('noteFamily').value = localStorage.getItem('kyv_note_family') || '';
-            
-            const apps = getStorage('kyv_apps');
-            const list = document.getElementById('applicantsList');
-            list.innerHTML = '';
-
-
-            if(apps.length === 0) {
-                list.innerHTML = '<div style="padding:1rem; color:var(--text-muted);">لا توجد طلبات حتى الآن.</div>';
+            if (enteredName !== validName || enteredEmail !== validEmail) {
+                alert('الاسم السيادي أو البريد الإلكتروني غير متطابق!');
                 return;
             }
 
 
-            apps.forEach(a => {
-                const div = document.createElement('div');
-                div.className = 'applicant-item';
-                div.innerHTML = `<strong>${a.fullName}</strong><br><small style="color:var(--text-muted);">${a.country} - ${a.id}</small>`;
-                div.onclick = () => selectApp(a.id);
-                list.appendChild(div);
+            // المصادقة السحابية الحقيقية عبر Firebase Auth
+            signInWithEmailAndPassword(auth, enteredEmail, enteredPass)
+                .then((userCredential) => {
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    loadAdminData();
+                })
+                .catch((error) => {
+                    alert('كلمة المرور غير صحيحة أو فشل الاتصال بالسحابة: ' + error.message);
+                });
+        };
+
+
+        function loadAdminData() {
+            // تحميل الأسعار
+            get(ref(db, 'settings/pricing')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const p = snapshot.val();
+                    document.getElementById('priceSingle').value = p.singlePrice || '';
+                    document.getElementById('noteSingle').value = p.singleNote || '';
+                    document.getElementById('priceFamily').value = p.familyPrice || '';
+                    document.getElementById('noteFamily').value = p.familyNote || '';
+                }
+            });
+
+
+            // مراقبة المتقدمين سحابياً
+            const appsRef = ref(db, 'applications');
+            onValue(appsRef, (snapshot) => {
+                const data = snapshot.val();
+                const list = document.getElementById('applicantsList');
+                list.innerHTML = '';
+
+
+                if(!data) {
+                    list.innerHTML = '<div style="padding:1rem; color:var(--text-muted);">لا توجد طلبات سحابية حتى الآن.</div>';
+                    return;
+                }
+
+
+                Object.values(data).forEach(a => {
+                    const div = document.createElement('div');
+                    div.className = 'applicant-item';
+                    div.innerHTML = `<strong>${a.fullName}</strong><br><small style="color:var(--text-muted);">${a.country} - ${a.id}</small>`;
+                    div.onclick = () => selectApp(a.id);
+                    list.appendChild(div);
+                });
             });
         }
 
 
-        function savePrices() {
-            localStorage.setItem('kyv_price_single', document.getElementById('priceSingle').value);
-            localStorage.setItem('kyv_note_single', document.getElementById('noteSingle').value);
-            localStorage.setItem('kyv_price_family', document.getElementById('priceFamily').value);
-            localStorage.setItem('kyv_note_family', document.getElementById('noteFamily').value);
-            alert('تم تحديث الأسعار والملاحظات بنجاح!');
-        }
+        window.saveCloudPrices = function() {
+            const pricingData = {
+                singlePrice: document.getElementById('priceSingle').value,
+                singleNote: document.getElementById('noteSingle').value,
+                familyPrice: document.getElementById('priceFamily').value,
+                familyNote: document.getElementById('noteFamily').value
+            };
+            set(ref(db, 'settings/pricing'), pricingData).then(() => {
+                alert('تم تحديث الأسعار والملاحظات على السحابة بنجاح!');
+            });
+        };
 
 
         function selectApp(id) {
             activeId = id;
-            const apps = getStorage('kyv_apps');
-            const app = apps.find(a => a.id === id);
+            get(ref(db, `applications/${id}`)).then((snapshot) => {
+                const app = snapshot.val();
+                if(!app) return;
 
 
-            document.getElementById('chatHeader').innerText = `المحادثة مع: ${app.fullName} (${app.id})`;
-            const info = document.getElementById('applicantInfo');
-            info.style.display = 'block';
-            info.innerHTML = `البريد: ${app.email} | الدولة: ${app.country} | المهارات: ${app.skills}`;
-            document.getElementById('adminFooter').style.display = 'flex';
-            renderChat(app);
+                document.getElementById('chatHeader').innerText = `المحادثة السحابية مع: ${app.fullName} (${app.id})`;
+                const info = document.getElementById('applicantInfo');
+                info.style.display = 'block';
+                info.innerHTML = `البريد: ${app.email} | الدولة: ${app.country} | المهارات: ${app.skills}`;
+                document.getElementById('adminFooter').style.display = 'flex';
+                
+                renderAdminChat(app);
+            });
         }
 
 
-        function renderChat(app) {
+        function renderAdminChat(app) {
             const box = document.getElementById('adminChatBox');
             box.innerHTML = '';
-            app.chatHistory.forEach(m => {
-                const d = document.createElement('div');
-                d.className = `msg ${m.sender === 'user' ? 'in' : 'out'}`;
-                if(m.img) {
-                    d.innerHTML = `<div><strong>${m.sender}:</strong> ${m.text || ''}</div><img src="${m.img}" class="msg-img" onclick="window.open('${m.img}')">`;
-                } else {
-                    d.innerText = `${m.sender}: ${m.text}`;
-                }
-                box.appendChild(d);
-            });
-            box.scrollTop = box.scrollHeight;
+            if(app.chatHistory) {
+                Object.values(app.chatHistory).forEach(m => {
+                    const d = document.createElement('div');
+                    d.className = `msg ${m.sender === 'user' ? 'in' : 'out'}`;
+                    if(m.img) {
+                        d.innerHTML = `<div><strong>${m.sender}:</strong> ${m.text || ''}</div><img src="${m.img}" class="msg-img" onclick="window.open('${m.img}')">`;
+                    } else {
+                        d.innerText = `${m.sender}: ${m.text}`;
+                    }
+                    box.appendChild(d);
+                });
+                box.scrollTop = box.scrollHeight;
+            }
         }
 
 
-        function sendAdminText() {
+        window.sendAdminText = function() {
             const inp = document.getElementById('adminInput');
             const txt = inp.value.trim();
             if(!txt || !activeId) return;
 
 
-            let apps = getStorage('kyv_apps');
-            let app = apps.find(a => a.id === activeId);
-            if(app) {
-                app.chatHistory.push({ sender: 'admin', text: txt });
-                setStorage('kyv_apps', apps);
+            const chatRef = ref(db, `applications/${activeId}/chatHistory`);
+            const newKey = push(chatRef).key;
+            set(ref(db, `applications/${activeId}/chatHistory/${newKey}`), { sender: 'admin', text: txt }).then(() => {
                 inp.value = '';
-                renderChat(app);
-            }
-        }
+                selectApp(activeId);
+            });
+        };
 
 
-        function sendAdminImg(e) {
+        window.sendAdminImg = function(e) {
             const file = e.target.files[0];
             if(!file || !activeId) return;
             const reader = new FileReader();
             reader.onload = function(evt) {
-                let apps = getStorage('kyv_apps');
-                let app = apps.find(a => a.id === activeId);
-                if(app) {
-                    app.chatHistory.push({ sender: 'admin', text: '📷 [صورة من الإدارة]', img: evt.target.result });
-                    setStorage('kyv_apps', apps);
-                    renderChat(app);
-                }
+                const chatRef = ref(db, `applications/${activeId}/chatHistory`);
+                const newKey = push(chatRef).key;
+                set(ref(db, `applications/${activeId}/chatHistory/${newKey}`), { sender: 'admin', text: '📷 [صورة من الإدارة]', img: evt.target.result }).then(() => {
+                    selectApp(activeId);
+                });
             };
             reader.readAsDataURL(file);
-        }
+        };
     </script>
 </body>
 </html>
