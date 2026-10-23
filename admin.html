@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم السيادية - دولة كِيُوشَان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #030712;
+            --bg-card: #111827;
+            --bg-card-alt: #1f2937;
+            --primary-gold: #fbbf24;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --border-color: #374151;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); padding: 1.5rem; }
+        
+        #loginScreen {
+            max-width: 400px;
+            margin: 100px auto;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        input, textarea { width: 100%; padding: 0.8rem; margin: 0.5rem 0 1rem 0; background: var(--bg-card-alt); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 0.95rem; }
+        button { background: var(--primary-gold); color: black; font-weight: bold; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1rem; }
+        
+        #adminDashboard { display: none; }
+        .admin-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1rem; }
+        @media (min-width: 768px) { .admin-grid { grid-template-columns: 320px 1fr; height: calc(100vh - 140px); } }
+        
+        .sidebar { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; overflow-y: auto; max-height: 400px; }
+        @media (min-width: 768px) { .sidebar { max-height: none; } }
+        
+        .applicant-item { padding: 1rem; border-bottom: 1px solid var(--border-color); cursor: pointer; }
+        .applicant-item:hover { background: rgba(251,191,36,0.1); }
+        
+        .chat-area { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; display: flex; flex-direction: column; height: 500px; }
+        @media (min-width: 768px) { .chat-area { height: auto; } }
+        
+        .chat-box { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; background: #090e1a; }
+        .msg { max-width: 80%; padding: 0.7rem 1rem; border-radius: 10px; font-size: 0.95rem; }
+        .msg.in { background: #334155; align-self: flex-start; }
+        .msg.out { background: #1e40af; align-self: flex-end; }
+        .msg-img { max-width: 100%; max-height: 180px; border-radius: 8px; margin-top: 0.4rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+
+    <div id="loginScreen">
+        <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem;">🔒 لوحة القيادة العليا</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">أدخل رمز الأمان السيادي للدخول:</p>
+        <input type="password" id="adminPassInput" placeholder="رمز المرور">
+        <button onclick="loginAdmin()">دخول للإدارة</button>
+    </div>
+
+
+    <div id="adminDashboard">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px;">
+            <h1 style="color: var(--primary-gold); font-size: 1.5rem;">👑 إدارة دولة كِيُوشَان</h1>
+            <button onclick="location.reload()" style="width: auto; background: #ef4444; color: white;">تسجيل خروج</button>
+        </div>
+
+
+        <!-- قسم إدارة الأسعار والملاحظات الاختيارية -->
+        <div style="background: var(--bg-card); padding: 1.2rem; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem;">
+            <h3 style="color: var(--primary-gold); margin-bottom: 0.8rem; font-size: 1.1rem;">⚙️ تعديل الأسعار والملاحظات</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div>
+                    <label style="font-size:0.85rem; color:var(--text-muted);">سعر المواطنة الفردية:</label>
+                    <input type="text" id="priceSingle" placeholder="مثال: 0$ (مجاناً)">
+                    <label style="font-size:0.85rem; color:var(--text-muted);">ملاحظة الفردية (اختياري - اتركه فارغاً إن لم ترد):</label>
+                    <textarea id="noteSingle" rows="2" placeholder="مثال: إعفاء استثنائي للدفعة الأولى..."></textarea>
+                </div>
+                <div>
+                    <label style="font-size:0.85rem; color:var(--text-muted);">سعر المواطنة العائلية:</label>
+                    <input type="text" id="priceFamily" placeholder="مثال: 0$ (مجاناً)">
+                    <label style="font-size:0.85rem; color:var(--text-muted);">ملاحظة العائلية (اختياري):</label>
+                    <textarea id="noteFamily" rows="2" placeholder="مثال: تشمل حتى 5 أفراد..."></textarea>
+                </div>
+            </div>
+            <button onclick="savePrices()" style="width: auto; margin-top: 0.5rem;">حفظ وتحديث الموقع</button>
+        </div>
+
+
+        <div class="admin-grid">
+            <div class="sidebar" id="applicantsList"></div>
+            <div class="chat-area">
+                <div id="chatHeader" style="padding: 1rem; background: var(--bg-card-alt); border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--primary-gold);">اختر متقدماً</div>
+                <div id="applicantInfo" style="padding: 0.8rem; background: #151d36; font-size: 0.88rem; border-bottom: 1px solid var(--border-color); display:none;"></div>
+                <div class="chat-box" id="adminChatBox"></div>
+                <div style="padding: 0.8rem; background: var(--bg-card-alt); display: flex; gap: 0.5rem; display:none;" id="adminFooter">
+                    <input type="file" id="adminFile" accept="image/*" style="display:none;" onchange="sendAdminImg(event)">
+                    <button onclick="document.getElementById('adminFile').click()" style="width: auto; background:#334155; color:white;">📷</button>
+                    <input type="text" id="adminInput" placeholder="اكتب ردك هنا..." style="margin:0;">
+                    <button onclick="sendAdminText()" style="width: auto;">إرسال</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function getStorage(k) { return JSON.parse(localStorage.getItem(k) || '[]'); }
+        function setStorage(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+
+
+        let activeId = null;
+
+
+        function loginAdmin() {
+            const pass = document.getElementById('adminPassInput').value;
+            if(pass === 'كيوليسن20142026') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                loadAdminData();
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+
+        function loadAdminData() {
+            document.getElementById('priceSingle').value = localStorage.getItem('kyv_price_single') || '0$ (مجاناً)';
+            document.getElementById('noteSingle').value = localStorage.getItem('kyv_note_single') || '';
+            document.getElementById('priceFamily').value = localStorage.getItem('kyv_price_family') || '0$ (مجاناً)';
+            document.getElementById('noteFamily').value = localStorage.getItem('kyv_note_family') || '';
+            
+            const apps = getStorage('kyv_apps');
+            const list = document.getElementById('applicantsList');
+            list.innerHTML = '';
+
+
+            if(apps.length === 0) {
+                list.innerHTML = '<div style="padding:1rem; color:var(--text-muted);">لا توجد طلبات حتى الآن.</div>';
+                return;
+            }
+
+
+            apps.forEach(a => {
+                const div = document.createElement('div');
+                div.className = 'applicant-item';
+                div.innerHTML = `<strong>${a.fullName}</strong><br><small style="color:var(--text-muted);">${a.country} - ${a.id}</small>`;
+                div.onclick = () => selectApp(a.id);
+                list.appendChild(div);
+            });
+        }
+
+
+        function savePrices() {
+            localStorage.setItem('kyv_price_single', document.getElementById('priceSingle').value);
+            localStorage.setItem('kyv_note_single', document.getElementById('noteSingle').value);
+            localStorage.setItem('kyv_price_family', document.getElementById('priceFamily').value);
+            localStorage.setItem('kyv_note_family', document.getElementById('noteFamily').value);
+            alert('تم تحديث الأسعار والملاحظات بنجاح!');
+        }
+
+
+        function selectApp(id) {
+            activeId = id;
+            const apps = getStorage('kyv_apps');
+            const app = apps.find(a => a.id === id);
+
+
+            document.getElementById('chatHeader').innerText = `المحادثة مع: ${app.fullName} (${app.id})`;
+            const info = document.getElementById('applicantInfo');
+            info.style.display = 'block';
+            info.innerHTML = `البريد: ${app.email} | الدولة: ${app.country} | المهارات: ${app.skills}`;
+            document.getElementById('adminFooter').style.display = 'flex';
+            renderChat(app);
+        }
+
+
+        function renderChat(app) {
+            const box = document.getElementById('adminChatBox');
+            box.innerHTML = '';
+            app.chatHistory.forEach(m => {
+                const d = document.createElement('div');
+                d.className = `msg ${m.sender === 'user' ? 'in' : 'out'}`;
+                if(m.img) {
+                    d.innerHTML = `<div><strong>${m.sender}:</strong> ${m.text || ''}</div><img src="${m.img}" class="msg-img" onclick="window.open('${m.img}')">`;
+                } else {
+                    d.innerText = `${m.sender}: ${m.text}`;
+                }
+                box.appendChild(d);
+            });
+            box.scrollTop = box.scrollHeight;
+        }
+
+
+        function sendAdminText() {
+            const inp = document.getElementById('adminInput');
+            const txt = inp.value.trim();
+            if(!txt || !activeId) return;
+
+
+            let apps = getStorage('kyv_apps');
+            let app = apps.find(a => a.id === activeId);
+            if(app) {
+                app.chatHistory.push({ sender: 'admin', text: txt });
+                setStorage('kyv_apps', apps);
+                inp.value = '';
+                renderChat(app);
+            }
+        }
+
+
+        function sendAdminImg(e) {
+            const file = e.target.files[0];
+            if(!file || !activeId) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                let apps = getStorage('kyv_apps');
+                let app = apps.find(a => a.id === activeId);
+                if(app) {
+                    app.chatHistory.push({ sender: 'admin', text: '📷 [صورة من الإدارة]', img: evt.target.result });
+                    setStorage('kyv_apps', apps);
+                    renderChat(app);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html>
+
