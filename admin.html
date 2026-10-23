@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم السحابية السيادية - دولة كِيُوشَان</title>
+    <title>لوحة القيادة السيادية - دولة كِيُوشَان</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -56,10 +56,10 @@
 <body>
 
 
-    <!-- شاشة التحقق الأمني السحابي -->
+    <!-- شاشة التحقق الأمني السيادي -->
     <div id="loginScreen">
-        <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem; text-align: center;">🛡️ البوابة السحابية المؤمنة</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center;">مصادقة سحابية حقيقية للوصول:</p>
+        <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem; text-align: center;">🛡️ البوابة السيادية المحمية</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center;">مصادقة إدارية رسمية للوصول:</p>
         
         <div class="login-group">
             <label>الاسم السيادي المعتمد:</label>
@@ -79,20 +79,20 @@
         </div>
 
 
-        <button onclick="loginAdmin()" style="margin-top: 0.5rem;">مصادقة سحابية ودخول</button>
+        <button onclick="loginAdmin()" style="margin-top: 0.5rem;">تحقق ودخول الإدارة</button>
     </div>
 
 
-    <!-- لوحة التحكم السحابية -->
+    <!-- لوحة القيادة الرسمية -->
     <div id="adminDashboard">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px;">
-            <h1 style="color: var(--primary-gold); font-size: 1.5rem;">👑 إدارة دولة كِيُوشَان (سحابية مؤمنة)</h1>
+            <h1 style="color: var(--primary-gold); font-size: 1.5rem;">👑 إدارة دولة كِيُوشَان الرسمية</h1>
             <button onclick="location.reload()" style="width: auto; background: #ef4444; color: white;">تسجيل خروج</button>
         </div>
 
 
         <div style="background: var(--bg-card); padding: 1.2rem; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem;">
-            <h3 style="color: var(--primary-gold); margin-bottom: 0.8rem; font-size: 1.1rem;">⚙️ تعديل الأسعار والملاحظات السحابية</h3>
+            <h3 style="color: var(--primary-gold); margin-bottom: 0.8rem; font-size: 1.1rem;">⚙️ إدارة الأسعار والملاحظات الرسمية</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
                 <div>
                     <label style="font-size:0.85rem; color:var(--text-muted);">سعر المواطنة الفردية:</label>
@@ -107,7 +107,7 @@
                     <textarea id="noteFamily" rows="2" placeholder="تشمل حتى عائلة..."></textarea>
                 </div>
             </div>
-            <button onclick="saveCloudPrices()" style="width: auto; margin-top: 0.8rem;">حفظ بالسحابة وتحديث الموقع</button>
+            <button onclick="saveCloudPrices()" style="width: auto; margin-top: 0.8rem;">حفظ وتحديث الموقع الرسمي</button>
         </div>
 
 
@@ -132,7 +132,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, push, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, get, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 
         const firebaseConfig = {
@@ -171,7 +171,6 @@
             }
 
 
-            // المصادقة السحابية الحقيقية عبر Firebase Auth
             signInWithEmailAndPassword(auth, enteredEmail, enteredPass)
                 .then((userCredential) => {
                     document.getElementById('loginScreen').style.display = 'none';
@@ -179,13 +178,12 @@
                     loadAdminData();
                 })
                 .catch((error) => {
-                    alert('كلمة المرور غير صحيحة أو فشل الاتصال بالسحابة: ' + error.message);
+                    alert('كلمة المرور غير صحيحة أو فشل الاتصال بالنظام: ' + error.message);
                 });
         };
 
 
         function loadAdminData() {
-            // تحميل الأسعار
             get(ref(db, 'settings/pricing')).then((snapshot) => {
                 if (snapshot.exists()) {
                     const p = snapshot.val();
@@ -197,7 +195,6 @@
             });
 
 
-            // مراقبة المتقدمين سحابياً
             const appsRef = ref(db, 'applications');
             onValue(appsRef, (snapshot) => {
                 const data = snapshot.val();
@@ -206,7 +203,7 @@
 
 
                 if(!data) {
-                    list.innerHTML = '<div style="padding:1rem; color:var(--text-muted);">لا توجد طلبات سحابية حتى الآن.</div>';
+                    list.innerHTML = '<div style="padding:1rem; color:var(--text-muted);">لا توجد طلبات رسمية حتى الآن.</div>';
                     return;
                 }
 
@@ -230,7 +227,7 @@
                 familyNote: document.getElementById('noteFamily').value
             };
             set(ref(db, 'settings/pricing'), pricingData).then(() => {
-                alert('تم تحديث الأسعار والملاحظات على السحابة بنجاح!');
+                alert('تم تحديث الأسعار والملاحظات الرسمية بنجاح!');
             });
         };
 
@@ -242,7 +239,7 @@
                 if(!app) return;
 
 
-                document.getElementById('chatHeader').innerText = `المحادثة السحابية مع: ${app.fullName} (${app.id})`;
+                document.getElementById('chatHeader').innerText = `متابعة طلب المواطن: ${app.fullName} (${app.id})`;
                 const info = document.getElementById('applicantInfo');
                 info.style.display = 'block';
                 info.innerHTML = `البريد: ${app.email} | الدولة: ${app.country} | المهارات: ${app.skills}`;
@@ -294,7 +291,7 @@
             reader.onload = function(evt) {
                 const chatRef = ref(db, `applications/${activeId}/chatHistory`);
                 const newKey = push(chatRef).key;
-                set(ref(db, `applications/${activeId}/chatHistory/${newKey}`), { sender: 'admin', text: '📷 [صورة من الإدارة]', img: evt.target.result }).then(() => {
+                set(ref(db, `applications/${activeId}/chatHistory/${newKey}`), { sender: 'admin', text: '📷 [وثيقة أو رد رسمي من المجلس]', img: evt.target.result }).then(() => {
                     selectApp(activeId);
                 });
             };
