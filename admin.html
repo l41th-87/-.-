@@ -56,20 +56,20 @@
 <body>
 
 
-    <!-- شاشة التحقق الأمني الثلاثي -->
+    <!-- شاشة التحقق الأمني الثلاثي النظيفة -->
     <div id="loginScreen">
         <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem; text-align: center;">🛡️ البوابة السيادية المشددة</h2>
         <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center;">منطقة محمية - يتطلب الاعتماد الثلاثي للوصول:</p>
         
         <div class="login-group">
             <label>الاسم السيادي المعتمد:</label>
-            <input type="text" id="adminNameInput" placeholder="أدخل الاسم الثلاثي/المعتمد">
+            <input type="text" id="adminNameInput" placeholder="أدخل الاسم المعتمد">
         </div>
 
 
         <div class="login-group">
             <label>البريد الإلكتروني المعتمد:</label>
-            <input type="email" id="adminEmailInput" placeholder="laithowaisn@gmail.com">
+            <input type="email" id="adminEmailInput" placeholder="أدخل البريد الإلكتروني">
         </div>
 
 
@@ -91,7 +91,6 @@
         </div>
 
 
-        <!-- قسم إدارة الأسعار والملاحظات الاختيارية -->
         <div style="background: var(--bg-card); padding: 1.2rem; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem;">
             <h3 style="color: var(--primary-gold); margin-bottom: 0.8rem; font-size: 1.1rem;">⚙️ تعديل الأسعار والملاحظات</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
@@ -143,10 +142,9 @@
             const enteredPass = document.getElementById('adminPassInput').value;
 
 
-            // الشروط الأمنية الثلاثية الحصينة
             const validName = "فلجكا ليث عويس كيوشان";
             const validEmail = "laithowaisn@gmail.com";
-            const validPass = "كيوليسن20142026"; // كلمة السر (يمكنك تعديلها هنا إن شئت)
+            const validPass = "كيوليسن20142026";
 
 
             if(enteredName === validName && enteredEmail === validEmail && enteredPass === validPass) {
