@@ -31,7 +31,7 @@
             padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
         }
         .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary-gold); }
-        nav { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+        nav { display: flex; gap: 15px; flex-wrap: wrap; }
         nav a { color: var(--text-main); text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: color 0.3s; }
         nav a:hover { color: var(--primary-gold); }
 
@@ -68,7 +68,7 @@
         th { background: var(--bg-card-alt); color: var(--primary-gold); }
         .price-note { display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; font-weight: normal; }
 
-        .form-group, .question-item { margin-bottom: 1.2rem; }
+        .form-group { margin-bottom: 1.2rem; }
         label { display: block; margin-bottom: 0.4rem; font-weight: 700; color: var(--text-main); font-size: 0.95rem; }
         input[type="text"], input[type="email"], input[type="date"], textarea {
             width: 100%; padding: 0.85rem; background: var(--bg-input);
@@ -82,34 +82,22 @@
         .btn-submit:hover { background: var(--gold-hover); }
 
         .urgency-bar {
-            background: rgba(251, 191, 36, 0.14);
-            border: 1px solid var(--primary-gold);
-            border-radius: 12px;
-            padding: 0.9rem 1.2rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            font-weight: 700;
-            color: #fde68a;
+            background: var(--bg-card-alt); border: 1px solid var(--primary-gold);
+            border-radius: 12px; padding: 0.9rem 1.2rem; margin-bottom: 1.5rem;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+            color: var(--primary-gold); font-weight: 700;
         }
-        .accepted-pill {
-            background: #16a34a;
-            color: #ffffff;
-            padding: 0.3rem 0.85rem;
-            border-radius: 999px;
-            font-size: 0.9rem;
+        .status-notice {
+            background: var(--bg-card-alt); border-right: 4px solid var(--primary-gold);
+            padding: 1rem; border-radius: 10px; margin-top: 1rem; font-size: 0.95rem;
         }
-        .notice-5h {
-            background: rgba(30, 64, 175, 0.25);
-            border-right: 4px solid #60a5fa;
-            padding: 0.9rem 1.1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-            color: #dbeafe;
-            font-size: 0.95rem;
+        .msg-time {
+            display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;
+        }
+        .poll-options { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.6rem; }
+        .poll-btn {
+            background: var(--primary-gold); color: #000; border: none; border-radius: 6px;
+            padding: 0.35rem 0.75rem; font-weight: 700; cursor: pointer; font-size: 0.85rem;
         }
 
         .chat-section-container {
@@ -124,18 +112,17 @@
         .msg { max-width: 85%; padding: 0.7rem 1rem; border-radius: 12px; font-size: 0.92rem; word-wrap: break-word; }
         .msg.in { background: var(--chat-admin-bg); color: #ffffff; align-self: flex-start; border-bottom-right-radius: 2px; }
         .msg.out { background: var(--chat-user-bg); color: #ffffff; align-self: flex-end; border-bottom-left-radius: 2px; }
-        .msg-time { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem; }
-        .poll-box { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.45rem; }
-        .poll-row {
-            background: #0f172a; border: 1px solid var(--border-color); border-radius: 8px;
-            padding: 0.55rem 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 8px;
-        }
-        .vote-btn {
-            background: var(--primary-gold); color: #000; border: none; border-radius: 6px;
-            padding: 0.35rem 0.8rem; font-weight: 700; cursor: pointer; font-size: 0.85rem;
-        }
-        .hidden { display: none; }
+        .msg-img { max-width: 100%; max-height: 180px; border-radius: 8px; margin-top: 0.4rem; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); }
 
+        .chat-footer { padding: 0.7rem; background: #0f172a; border-top: 1px solid var(--border-color); display: flex; gap: 0.5rem; align-items: center; }
+        .chat-footer input[type="text"] { flex: 1; padding: 0.7rem; }
+        .btn-icon { background: #334155; color: white; border: none; padding: 0.7rem 0.9rem; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+
+        #imageModal {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.9); z-index: 9999; justify-content: center; align-items: center; padding: 1rem;
+        }
+        #imageModal img { max-width: 95%; max-height: 90vh; border-radius: 10px; }
         footer { text-align: center; padding: 1.5rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem; }
     </style>
 </head>
@@ -147,8 +134,7 @@
             <a href="#about">عن الدولة</a>
             <a href="#pricing">الأسعار والرسوم</a>
             <a href="#apply">طلب الاعتماد</a>
-            <a href="#chatSection">الشات الجماعي</a>
-            <a href="admin.html" style="color: var(--primary-gold);">لوحة الإدارة</a>
+            <a href="#chatSection">المحادثة</a>
         </nav>
     </header>
 
@@ -160,8 +146,8 @@
     <div class="container">
 
         <div class="urgency-bar">
-            <span>🔥 الفرص تقل.... سجل قبل أن تختفي!</span>
-            <span class="accepted-pill">عدد المقبولين: <span id="acceptedCount">0</span></span>
+            <span>الفرص تقل.... سجل قبل أن تختفي!</span>
+            <span>عدد المقبولين: <strong id="acceptedCount">0</strong></span>
         </div>
 
         <section id="about" class="section-card">
@@ -211,8 +197,6 @@
 
         <section id="apply" class="section-card">
             <h2 class="section-title">📝 3. استمارة طلب الاعتماد السكاني</h2>
-
-            <!-- الخطوة 1: إرسال البيانات الأساسية -->
             <form id="citizenshipForm">
                 <div class="grid-2">
                     <div class="form-group">
@@ -238,51 +222,53 @@
                     <label>المؤهل / المهارات *</label>
                     <textarea id="skills" rows="2" required placeholder="ما هي مهاراتك التي يمكنك تقديمها للدولة؟"></textarea>
                 </div>
-                <button type="submit" class="btn-submit">🚀 إرسال البيانات والانتقال للأسئلة</button>
+                <button type="submit" class="btn-submit">🚀 تقديم طلب المواطنة الرسمي</button>
             </form>
 
-            <!-- الخطوة 2: الأسئلة التي تحددها أنت -->
-            <div id="questionsStep" class="hidden" style="margin-top: 1.2rem;">
-                <h3 style="color: var(--primary-gold); margin-bottom: 0.8rem;">❓ أجب عن الأسئلة التالية لإتمام طلبك:</h3>
+            <!-- أسئلة الإدارة بعد إرسال البيانات -->
+            <div id="questionsBox" style="display:none; margin-top: 1.2rem;">
+                <h3 style="color: var(--primary-gold); margin-bottom: 0.8rem;">أجب عن الأسئلة التالية:</h3>
                 <div id="questionsList"></div>
-                <button type="button" id="submitQuizBtn" class="btn-submit">إرسال الإجابات</button>
+                <button type="button" id="submitAnswersBtn" class="btn-submit">إرسال الإجابات</button>
             </div>
 
-            <!-- الخطوة 3: تأكيد الاستلام وموعد الرد (5 ساعات كحد أقصى) -->
-            <div id="statusStep" class="hidden" style="margin-top: 1.2rem;">
-                <div id="submissionDetails" style="color: var(--text-muted); font-size: 0.95rem;"></div>
-                <div class="notice-5h">
-                    ⏳ خلال <strong>5 ساعات كحد أقصى</strong> سيتم إرسال قبولك أو رفضك.
-                </div>
-                <div style="margin-top: 0.8rem; font-weight: 700;">
-                    حالة الطلب: <span id="appStatusText" style="color: var(--primary-gold);">قيد المراجعة</span>
-                </div>
+            <!-- رسالة ما بعد الإجابة + حد أقصى 5 ساعات + وقت الإرسال -->
+            <div id="afterAnswersBox" class="status-notice" style="display:none;">
+                <div id="sentTimeInfo" style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 0.4rem;"></div>
+                <div>بعد 5 ساعات كحد أقصى سيتم إرسال قبولك أو رفضك.</div>
+                <div style="margin-top: 0.5rem;">الحالة الحالية: <strong id="currentStatusText" style="color: var(--primary-gold);">قيد المراجعة</strong></div>
             </div>
         </section>
 
         <section id="chatSection" class="section-card">
-            <h2 class="section-title">💬 4. الشات الجماعي للمقبولين والانتخابات</h2>
-            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.92rem;">
-                يُفتح للمقبولين فقط، حيث ترسل الإدارة القرارات والانتخابات والتصويت.
-            </p>
+            <h2 class="section-title">💬 4. مركز المحادثة وإرفاق الوثائق</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.92rem;">الشات الجماعي للمقبولين والانتخابات الرسمية من الإدارة.</p>
 
             <div class="chat-section-container">
                 <div class="chat-header">
-                    <span>قناة الشات الجماعي الرسمية</span>
-                    <small id="chatAccessBadge" style="color: #fbbf24;">بانتظار القبول</small>
+                    <span>الشات الجماعي للمقبولين</span>
+                    <small id="chatStatusBadge" style="color: var(--primary-gold);">بانتظار القبول</small>
                 </div>
-                <div class="chat-body" id="groupChatBody">
-                    <div class="msg in">بعد قبول طلبك من الإدارة سيظهر لك الشات الجماعي والانتخابات هنا تلقائياً.</div>
+                <div class="chat-body" id="userChatBody">
+                    <div class="msg in">مرحباً بك في دولة كِيُوشَان! بعد قبول طلبك سيفتح لك الشات الجماعي والانتخابات هنا.</div>
+                </div>
+                <div class="chat-footer" style="display:none;" id="userChatFooter">
+                    <span style="color: var(--text-muted); font-size: 0.85rem;">الرسائل والانتخابات ترسلها الإدارة فقط — يمكنك التصويت أعلاه.</span>
                 </div>
             </div>
         </section>
 
     </div>
 
+    <div id="imageModal" onclick="this.style.display='none'">
+        <img id="modalImg" src="" alt="صورة مكبرة">
+    </div>
+
     <footer>
         <p>© 2026 دولة كِيُوشَان السيادية - كافة الحقوق محفوظة للمجلس الأعلى</p>
     </footer>
 
+    <!-- Supabase SDK -->
     <script type="module">
         import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -292,61 +278,53 @@
 
         // عدّل الأسئلة هنا كما تريد
         const ADMIN_QUESTIONS = [
-            "لماذا تريد الانضمام إلى دولة كِيُوشَان؟",
-            "ما هي أبرز مهارة يمكنك تقديمها؟",
-            "هل ستلتزم بقوانين الدولة والمشاركة في التصويت والانتخابات؟"
+            "لماذا ترغب بالانضمام إلى دولة كِيُوشَان؟",
+            "ما هي المهارة أو الفكرة التي يمكنك إضافتها؟",
+            "هل ستلتزم بقوانين الدولة والمشاركة في الانتخابات؟"
         ];
 
-        let currentAppId = localStorage.getItem("kyv_app_id") || null;
+        let currentAppId = localStorage.getItem("kyv_user_id") || null;
         let currentVoterName = localStorage.getItem("kyv_voter_name") || "مواطن";
 
         function formatTime(isoStr) {
             if (!isoStr) return "";
             return new Date(isoStr).toLocaleString("ar-EG", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
+                year: "numeric", month: "short", day: "numeric",
+                hour: "2-digit", minute: "2-digit"
             });
         }
 
-        async function updateAcceptedCount() {
+        async function loadAcceptedCount() {
             const { count, error } = await supabase
                 .from("applications")
                 .select("*", { count: "exact", head: true })
                 .eq("status", "accepted");
-
             if (!error && typeof count === "number") {
                 document.getElementById("acceptedCount").innerText = count;
             }
         }
 
         function renderQuestions() {
-            const list = document.getElementById("questionsList");
-            list.innerHTML = ADMIN_QUESTIONS.map((q, idx) => `
-                <div class="question-item">
-                    <label>سؤال ${idx + 1}: ${q}</label>
-                    <textarea data-q-idx="${idx}" rows="2" placeholder="اكتب إجابتك هنا..."></textarea>
+            const box = document.getElementById("questionsList");
+            box.innerHTML = ADMIN_QUESTIONS.map((q, idx) => `
+                <div class="form-group">
+                    <label>${idx + 1}. ${q}</label>
+                    <textarea data-q="${idx}" rows="2" placeholder="اكتب إجابتك..."></textarea>
                 </div>
             `).join("");
         }
 
-        function showStatusView(app) {
-            document.getElementById("citizenshipForm").classList.add("hidden");
-            document.getElementById("questionsStep").classList.add("hidden");
-            document.getElementById("statusStep").classList.remove("hidden");
+        function showAfterAnswers(app) {
+            document.getElementById("citizenshipForm").style.display = "none";
+            document.getElementById("questionsBox").style.display = "none";
+            document.getElementById("afterAnswersBox").style.display = "block";
+            document.getElementById("sentTimeInfo").innerText = `وقت الإرسال: ${formatTime(app.created_at)}`;
 
-            document.getElementById("submissionDetails").innerHTML = `
-                <div><strong>الاسم:</strong> ${app.full_name}</div>
-                <div><strong>وقت إرسال الطلب:</strong> ${formatTime(app.created_at)}</div>
-            `;
-
-            const statusEl = document.getElementById("appStatusText");
-            const badgeEl = document.getElementById("chatAccessBadge");
+            const statusEl = document.getElementById("currentStatusText");
+            const badgeEl = document.getElementById("chatStatusBadge");
 
             if (app.status === "accepted") {
-                statusEl.innerText = "مقبول 🎉";
+                statusEl.innerText = "مقبول";
                 statusEl.style.color = "#4ade80";
                 badgeEl.innerText = "● مقبول - الشات الجماعي مفعل";
                 badgeEl.style.color = "#4ade80";
@@ -357,14 +335,14 @@
                 badgeEl.innerText = "غير متاح";
                 badgeEl.style.color = "#f87171";
             } else {
-                statusEl.innerText = "قيد المراجعة (الرد خلال 5 ساعات كحد أقصى)";
+                statusEl.innerText = "قيد المراجعة";
                 statusEl.style.color = "#fbbf24";
                 badgeEl.innerText = "بانتظار القبول";
                 badgeEl.style.color = "#fbbf24";
             }
         }
 
-        document.getElementById("citizenshipForm").addEventListener("submit", async (e) => {
+        document.getElementById("citizenshipForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             const fullName = document.getElementById("fullName").value.trim();
             const email = document.getElementById("email").value.trim();
@@ -385,28 +363,28 @@
                 .single();
 
             if (error) {
-                alert("حدث خطأ أثناء إرسال البيانات: " + error.message);
+                alert("حدث خطأ أثناء الإرسال: " + error.message);
                 return;
             }
 
             currentAppId = data.id;
             currentVoterName = data.full_name;
-            localStorage.setItem("kyv_app_id", data.id);
+            localStorage.setItem("kyv_user_id", data.id);
             localStorage.setItem("kyv_voter_name", data.full_name);
 
-            document.getElementById("citizenshipForm").classList.add("hidden");
+            document.getElementById("citizenshipForm").style.display = "none";
             renderQuestions();
-            document.getElementById("questionsStep").classList.remove("hidden");
+            document.getElementById("questionsBox").style.display = "block";
         });
 
-        document.getElementById("submitQuizBtn").addEventListener("click", async () => {
-            const textareas = [...document.querySelectorAll("#questionsList textarea")];
-            const answers = textareas.map((ta, i) => ({
+        document.getElementById("submitAnswersBtn").addEventListener("click", async function() {
+            const areas = [...document.querySelectorAll("#questionsList textarea")];
+            const answers = areas.map((ta, i) => ({
                 question: ADMIN_QUESTIONS[i],
                 answer: ta.value.trim()
             }));
 
-            if (answers.some(item => !item.answer)) {
+            if (answers.some(a => !a.answer)) {
                 alert("يرجى الإجابة عن جميع الأسئلة.");
                 return;
             }
@@ -423,7 +401,7 @@
                 return;
             }
 
-            showStatusView(data);
+            showAfterAnswers(data);
         });
 
         async function loadGroupChat() {
@@ -431,58 +409,54 @@
                 .from("group_messages")
                 .select("*")
                 .order("created_at", { ascending: true });
-
             if (!messages) return;
 
             const { data: votes } = await supabase.from("poll_votes").select("*");
             const allVotes = votes || [];
 
-            const box = document.getElementById("groupChatBody");
+            const box = document.getElementById("userChatBody");
             box.innerHTML = messages.map(m => {
-                const msgVotes = allVotes.filter(v => v.message_id === m.id);
+                const mVotes = allVotes.filter(v => v.message_id === m.id);
                 let pollHtml = "";
-
                 if (m.message_type === "election" && Array.isArray(m.options) && m.options.length > 0) {
-                    pollHtml = `<div class="poll-box">` + m.options.map(opt => {
-                        const countOpt = msgVotes.filter(v => v.choice === opt).length;
+                    pollHtml = `<div class="poll-options">` + m.options.map(opt => {
+                        const c = mVotes.filter(v => v.choice === opt).length;
                         return `
-                            <div class="poll-row">
-                                <span>🗳️ <strong>${opt}</strong> (${countOpt} صوت)</span>
-                                <button type="button" class="vote-btn" onclick="window.voteOption('${m.id}', '${opt.replace(/'/g, "\\'")}')">تصويت</button>
+                            <div style="display:flex; justify-content:space-between; align-items:center; background:#0f172a; padding:6px 10px; border-radius:6px;">
+                                <span>${opt} (${c} صوت)</span>
+                                <button type="button" class="poll-btn" onclick="window.votePoll('${m.id}', '${opt.replace(/'/g, "\\'")}')">تصويت</button>
                             </div>
                         `;
                     }).join("") + `</div>`;
                 }
-
                 return `
                     <div class="msg in">
-                        <div style="color:#fbbf24; font-weight:bold; margin-bottom:3px;">${m.sender}</div>
+                        <div style="color:var(--primary-gold); font-weight:bold;">${m.sender}</div>
                         <div>${m.text}</div>
                         ${pollHtml}
-                        <span class="msg-time">🕒 وقت الإرسال: ${formatTime(m.created_at)}</span>
+                        <span class="msg-time">وقت الإرسال: ${formatTime(m.created_at)}</span>
                     </div>
                 `;
             }).join("");
             box.scrollTop = box.scrollHeight;
         }
 
-        window.voteOption = async function(messageId, choice) {
+        window.votePoll = async function(messageId, choice) {
             const { error } = await supabase
                 .from("poll_votes")
                 .upsert(
                     [{ message_id: messageId, voter_name: currentVoterName, choice }],
                     { onConflict: "message_id,voter_name" }
                 );
-
             if (error) {
-                alert("تعذر تسجيل الصوت: " + error.message);
+                alert("خطأ في التصويت: " + error.message);
                 return;
             }
             loadGroupChat();
         };
 
-        async function init() {
-            await updateAcceptedCount();
+        window.addEventListener("load", async () => {
+            await loadAcceptedCount();
 
             if (currentAppId) {
                 const { data: app } = await supabase
@@ -490,41 +464,38 @@
                     .select("*")
                     .eq("id", currentAppId)
                     .single();
-
                 if (app) {
                     currentVoterName = app.full_name;
                     if (Array.isArray(app.answers) && app.answers.length > 0) {
-                        showStatusView(app);
+                        showAfterAnswers(app);
                     } else {
-                        document.getElementById("citizenshipForm").classList.add("hidden");
+                        document.getElementById("citizenshipForm").style.display = "none";
                         renderQuestions();
-                        document.getElementById("questionsStep").classList.remove("hidden");
+                        document.getElementById("questionsBox").style.display = "block";
                     }
                 }
             }
 
             supabase
-                .channel("kyushan-public-rt")
+                .channel("kyushan-index-rt")
                 .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, async (payload) => {
-                    await updateAcceptedCount();
+                    await loadAcceptedCount();
                     if (payload.new && payload.new.id === currentAppId) {
-                        showStatusView(payload.new);
+                        showAfterAnswers(payload.new);
                     }
                 })
                 .on("postgres_changes", { event: "*", schema: "public", table: "group_messages" }, () => {
-                    if (document.getElementById("chatAccessBadge").innerText.includes("مقبول")) {
+                    if (document.getElementById("chatStatusBadge").innerText.includes("مقبول")) {
                         loadGroupChat();
                     }
                 })
                 .on("postgres_changes", { event: "*", schema: "public", table: "poll_votes" }, () => {
-                    if (document.getElementById("chatAccessBadge").innerText.includes("مقبول")) {
+                    if (document.getElementById("chatStatusBadge").innerText.includes("مقبول")) {
                         loadGroupChat();
                     }
                 })
                 .subscribe();
-        }
-
-        init();
+        });
     </script>
 </body>
 </html>
