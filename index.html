@@ -1,501 +1,1002 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دولة كِيُوشَان السيادية - البوابة السكانية الرسمية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-main: #0b132b;
-            --bg-card: #1c2541;
-            --bg-card-alt: #151d36;
-            --bg-input: #0f172a;
-            --primary-gold: #fbbf24;
-            --gold-hover: #d97706;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --chat-user-bg: #1e40af;
-            --chat-admin-bg: #334155;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>دولة كِيُوشَان — البوابة الرسمية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #091412;
+      --bg-surface: #102420;
+      --bg-card: #152e29;
+      --bg-input: #0b1916;
+      --accent-emerald: #10b981;
+      --accent-crimson: #e11d48;
+      --accent-amber: #f59e0b;
+      --accent-cyan: #06b6d4;
+      --text-main: #f8fafc;
+      --text-muted: #a7f3d0;
+      --border-soft: rgba(167, 243, 208, 0.16);
+    }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.7; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
 
-        header {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--border-color);
-            position: sticky; top: 0; z-index: 100;
-            padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
-        }
-        .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary-gold); }
-        nav { display: flex; gap: 15px; flex-wrap: wrap; }
-        nav a { color: var(--text-main); text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: color 0.3s; }
-        nav a:hover { color: var(--primary-gold); }
+    body {
+      background: radial-gradient(circle at 15% 10%, #133830 0%, var(--bg-main) 55%),
+                  radial-gradient(circle at 85% 85%, #2a0d19 0%, var(--bg-main) 60%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.75;
+    }
 
-        .hero {
-            text-align: center; padding: 3rem 1rem;
-            background: radial-gradient(circle at top, #1e293b 0%, var(--bg-main) 100%);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .hero h1 { font-size: 2.2rem; font-weight: 900; color: var(--primary-gold); margin-bottom: 0.5rem; }
-        .hero p { font-size: 1.1rem; color: var(--text-muted); }
+    header {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(9, 20, 18, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 0.85rem 1.25rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
 
-        .container { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem; }
-        .section-card {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        .section-title {
-            font-size: 1.4rem; font-weight: 900; color: var(--primary-gold);
-            border-bottom: 3px solid var(--primary-gold); padding-bottom: 0.4rem; margin-bottom: 1.2rem;
-        }
-        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-        @media (min-width: 768px) {
-            .grid-2 { grid-template-columns: repeat(2, 1fr); }
-            .hero h1 { font-size: 2.8rem; }
-            .section-card { padding: 2rem; }
-        }
-        .info-box { background: var(--bg-card-alt); padding: 1.1rem; border-radius: 12px; border-right: 4px solid var(--primary-gold); }
-        .info-box h3 { color: var(--primary-gold); margin-bottom: 0.4rem; }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 900; font-size: 1.2rem; color: var(--accent-amber);
+    }
 
-        .table-responsive { width: 100%; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; min-width: 450px; }
-        th, td { padding: 0.9rem; text-align: right; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
-        th { background: var(--bg-card-alt); color: var(--primary-gold); }
-        .price-note { display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; font-weight: normal; }
+    .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; }
+    .nav-btn {
+      background: var(--bg-card); color: var(--text-main);
+      border: 1px solid var(--border-soft); padding: 0.5rem 0.95rem;
+      border-radius: 999px; font-weight: 700; font-size: 0.9rem; cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover { border-color: var(--accent-emerald); transform: translateY(-1px); }
+    .nav-btn.active {
+      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+      color: #041310; border-color: transparent;
+    }
 
-        .form-group { margin-bottom: 1.2rem; }
-        label { display: block; margin-bottom: 0.4rem; font-weight: 700; color: var(--text-main); font-size: 0.95rem; }
-        input[type="text"], input[type="email"], input[type="date"], textarea {
-            width: 100%; padding: 0.85rem; background: var(--bg-input);
-            border: 1.5px solid var(--border-color); border-radius: 10px; color: #ffffff; font-size: 0.95rem;
-        }
-        input:focus, textarea:focus { outline: none; border-color: var(--primary-gold); }
-        .btn-submit {
-            background: var(--primary-gold); color: #000; font-weight: 900;
-            border: none; padding: 0.9rem 1.5rem; font-size: 1.05rem; border-radius: 10px; cursor: pointer; width: 100%; transition: background 0.3s;
-        }
-        .btn-submit:hover { background: var(--gold-hover); }
+    .top-ticker {
+      max-width: 1050px; margin: 1rem auto 0; padding: 0 1rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .ticker-pill {
+      background: var(--bg-card); border: 1px solid var(--border-soft);
+      padding: 0.55rem 1rem; border-radius: 999px; font-size: 0.9rem; font-weight: 700;
+    }
+    .ticker-pill strong { color: var(--accent-amber); }
 
-        .urgency-bar {
-            background: var(--bg-card-alt); border: 1px solid var(--primary-gold);
-            border-radius: 12px; padding: 0.9rem 1.2rem; margin-bottom: 1.5rem;
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
-            color: var(--primary-gold); font-weight: 700;
-        }
-        .status-notice {
-            background: var(--bg-card-alt); border-right: 4px solid var(--primary-gold);
-            padding: 1rem; border-radius: 10px; margin-top: 1rem; font-size: 0.95rem;
-        }
-        .msg-time {
-            display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;
-        }
-        .poll-options { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.6rem; }
-        .poll-btn {
-            background: var(--primary-gold); color: #000; border: none; border-radius: 6px;
-            padding: 0.35rem 0.75rem; font-weight: 700; cursor: pointer; font-size: 0.85rem;
-        }
+    .container { max-width: 1050px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+    .page-view { display: none; animation: fadeIn 0.28s ease; }
+    .page-view.active { display: block; }
 
-        .chat-section-container {
-            background: var(--bg-card-alt); border: 2px solid var(--border-color);
-            border-radius: 16px; overflow: hidden; height: 420px; display: flex; flex-direction: column;
-        }
-        .chat-header {
-            background: #0f172a; padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--border-color);
-            font-weight: 800; color: var(--primary-gold); display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;
-        }
-        .chat-body { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; background: #090e1a; }
-        .msg { max-width: 85%; padding: 0.7rem 1rem; border-radius: 12px; font-size: 0.92rem; word-wrap: break-word; }
-        .msg.in { background: var(--chat-admin-bg); color: #ffffff; align-self: flex-start; border-bottom-right-radius: 2px; }
-        .msg.out { background: var(--chat-user-bg); color: #ffffff; align-self: flex-end; border-bottom-left-radius: 2px; }
-        .msg-img { max-width: 100%; max-height: 180px; border-radius: 8px; margin-top: 0.4rem; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .chat-footer { padding: 0.7rem; background: #0f172a; border-top: 1px solid var(--border-color); display: flex; gap: 0.5rem; align-items: center; }
-        .chat-footer input[type="text"] { flex: 1; padding: 0.7rem; }
-        .btn-icon { background: #334155; color: white; border: none; padding: 0.7rem 0.9rem; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(225, 29, 72, 0.14), rgba(245, 158, 11, 0.14));
+      border: 1px solid var(--border-soft); border-radius: 24px;
+      padding: 2rem 1.5rem; margin-bottom: 1.5rem;
+      display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: center;
+    }
+    @media (min-width: 820px) {
+      .hero-banner { grid-template-columns: 240px 1fr; padding: 2.4rem; }
+    }
 
-        #imageModal {
-            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.9); z-index: 9999; justify-content: center; align-items: center; padding: 1rem;
-        }
-        #imageModal img { max-width: 95%; max-height: 90vh; border-radius: 10px; }
-        footer { text-align: center; padding: 1.5rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem; }
-    </style>
+    /* الدائرة الحماسية المتحركة */
+    .hype-circle-wrap {
+      position: relative; width: 200px; height: 200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hype-ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      border: 3px dashed var(--accent-amber);
+      animation: spinSlow 14s linear infinite;
+    }
+    .hype-ring-inner {
+      position: absolute; inset: 12px; border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--accent-emerald);
+      border-right-color: var(--accent-crimson);
+      animation: spinReverse 6s linear infinite;
+    }
+    .hype-core {
+      position: relative; z-index: 2; width: 150px; height: 150px; border-radius: 50%;
+      background: radial-gradient(circle, #1d4ed8 0%, #0f766e 60%, #881337 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 10px; box-shadow: 0 0 28px rgba(16, 185, 129, 0.35);
+      animation: pulseBeat 2.2s ease-in-out infinite;
+    }
+    .hype-core span { font-size: 0.78rem; font-weight: 800; color: #fde68a; }
+    .hype-core strong { font-size: 1.05rem; font-weight: 900; color: #fff; margin-top: 4px; }
+
+    @keyframes spinSlow { to { transform: rotate(360deg); } }
+    @keyframes spinReverse { to { transform: rotate(-360deg); } }
+    @keyframes pulseBeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .hype-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 1rem 0; }
+    .hype-tag {
+      background: rgba(245, 158, 11, 0.16); border: 1px solid rgba(245, 158, 11, 0.45);
+      color: #fde68a; padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700;
+    }
+
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border-soft);
+      border-radius: 20px; padding: 1.5rem; margin-bottom: 1.4rem;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+    @media (min-width: 768px) { .card { padding: 2rem; } }
+
+    .card-title {
+      font-size: 1.35rem; font-weight: 900; color: var(--accent-amber);
+      margin-bottom: 1rem; padding-bottom: 0.45rem;
+      border-bottom: 2px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .pillars-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1rem; }
+    @media (min-width: 700px) { .pillars-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .pillar-box {
+      background: var(--bg-surface); border: 1px solid var(--border-soft);
+      border-right: 4px solid var(--accent-emerald); border-radius: 14px; padding: 1.1rem;
+    }
+    .pillar-box:nth-child(2n) { border-right-color: var(--accent-crimson); }
+    .pillar-box h4 { color: var(--accent-amber); margin-bottom: 0.35rem; font-size: 1rem; }
+    .pillar-box p { color: #e2e8f0; font-size: 0.92rem; }
+
+    /* تصميم العلم المطابق للصورة */
+    .flag-stage {
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      background: var(--bg-surface); padding: 1.5rem; border-radius: 18px;
+      border: 1px solid var(--border-soft);
+    }
+    .flag-svg-box {
+      width: 100%; max-width: 440px; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5); border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 720px) { .grid-2 { grid-template-columns: repeat(2, 1fr); } }
+
+    .form-group { margin-bottom: 1.1rem; }
+    label { display: block; font-weight: 700; margin-bottom: 0.4rem; font-size: 0.95rem; }
+    input[type="text"], input[type="email"], input[type="date"], select, textarea {
+      width: 100%; padding: 0.8rem 0.95rem; border-radius: 12px;
+      background: var(--bg-input); border: 1.5px solid var(--border-soft);
+      color: var(--text-main); font-size: 0.95rem;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-emerald); }
+
+    .btn-primary {
+      width: 100%; padding: 0.9rem 1.4rem; border: none; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+      color: #041310; font-weight: 900; font-size: 1rem; cursor: pointer;
+    }
+    .btn-secondary {
+      padding: 0.7rem 1.2rem; border: none; border-radius: 10px;
+      background: var(--accent-amber); color: #140e02; font-weight: 800; cursor: pointer;
+    }
+
+    .alert-box {
+      padding: 1rem 1.2rem; border-radius: 14px; margin-bottom: 1.2rem; font-size: 0.95rem;
+    }
+    .alert-deleted {
+      background: rgba(225, 29, 72, 0.18); border: 1px solid rgba(225, 29, 72, 0.5); color: #fecdd3;
+    }
+    .alert-info {
+      background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.45); color: #cffafe;
+    }
+
+    .social-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 0.8rem; }
+    .social-link {
+      display: inline-block; padding: 0.45rem 0.9rem; border-radius: 10px;
+      background: var(--bg-surface); border: 1px solid var(--border-soft);
+      color: var(--accent-amber); text-decoration: none; font-weight: 700; font-size: 0.9rem;
+    }
+
+    /* تبويب المحادثتين */
+    .chat-tabs { display: flex; gap: 10px; margin-bottom: 1rem; flex-wrap: wrap; }
+    .chat-tab {
+      padding: 0.6rem 1.1rem; border-radius: 10px; border: 1px solid var(--border-soft);
+      background: var(--bg-surface); color: var(--text-main); font-weight: 800; cursor: pointer;
+    }
+    .chat-tab.active { background: var(--accent-crimson); color: #fff; border-color: transparent; }
+
+    .chat-box {
+      background: var(--bg-surface); border: 1px solid var(--border-soft);
+      border-radius: 16px; height: 420px; display: flex; flex-direction: column; overflow: hidden;
+    }
+    .chat-messages {
+      flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .bubble {
+      max-width: 84%; padding: 0.7rem 0.95rem; border-radius: 14px; font-size: 0.92rem; word-break: break-word;
+    }
+    .bubble.other { background: #1e3a34; align-self: flex-start; border-bottom-right-radius: 3px; }
+    .bubble.mine { background: #1d4ed8; align-self: flex-end; border-bottom-left-radius: 3px; }
+    .bubble-meta { font-size: 0.75rem; opacity: 0.8; margin-top: 0.3rem; }
+    .bubble img {
+      max-width: 100%; max-height: 190px; border-radius: 10px; margin-top: 0.45rem;
+      display: block; cursor: pointer; border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .chat-input-bar {
+      padding: 0.65rem; background: var(--bg-input); border-top: 1px solid var(--border-soft);
+      display: flex; gap: 8px; align-items: center;
+    }
+    .chat-input-bar input[type="text"] { flex: 1; margin: 0; padding: 0.65rem 0.85rem; }
+    .icon-btn {
+      background: var(--bg-card); color: var(--accent-amber); border: 1px solid var(--border-soft);
+      padding: 0.65rem 0.85rem; border-radius: 10px; cursor: pointer; font-weight: 800;
+    }
+
+    .poll-box { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .poll-row {
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(0,0,0,0.28); padding: 0.45rem 0.7rem; border-radius: 8px;
+    }
+    .poll-vote-btn {
+      background: var(--accent-amber); color: #111; border: none; border-radius: 6px;
+      padding: 0.25rem 0.65rem; font-weight: 800; cursor: pointer; font-size: 0.82rem;
+    }
+
+    #imageModal {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+      z-index: 9999; justify-content: center; align-items: center; padding: 1rem;
+    }
+    #imageModal img { max-width: 95%; max-height: 90vh; border-radius: 12px; }
+
+    footer {
+      text-align: center; padding: 1.5rem; color: #94a3b8;
+      border-top: 1px solid var(--border-soft); font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">🏛️ دولة كِيُوشَان السيادية</div>
-        <nav>
-            <a href="#about">عن الدولة</a>
-            <a href="#pricing">الأسعار والرسوم</a>
-            <a href="#apply">طلب الاعتماد</a>
-            <a href="#chatSection">المحادثة</a>
-        </nav>
-    </header>
+  <header>
+    <div class="brand">✦ دولة كِيُوشَان — سِنْدُسِيَا</div>
+    <nav class="nav-menu">
+      <button class="nav-btn active" data-page="homePage">البداية والبيان</button>
+      <button class="nav-btn" data-page="flagPage">العلم والهوية</button>
+      <button class="nav-btn" data-page="applyPage">التسجيل والأسئلة</button>
+      <button class="nav-btn" data-page="chatPage">المحادثات</button>
+    </nav>
+  </header>
 
-    <div class="hero">
-        <h1>دولة كِيُوشَان السيادية</h1>
-        <p>العاصمة: سِنْدُسِيَا | البوابة الرسمية لتسجيل المواطنة وإدارة شؤون الدولة</p>
-    </div>
+  <div class="top-ticker">
+    <div class="ticker-pill">الدفعة التأسيسية مفتوحة — <strong>سيادة تُبنى بالنظام</strong></div>
+    <div class="ticker-pill">عدد المقبولين: <strong id="acceptedCount">0</strong></div>
+  </div>
 
-    <div class="container">
+  <div class="container">
+    <div id="globalNoticeBox" class="alert-box alert-deleted" style="display:none;"></div>
 
-        <div class="urgency-bar">
-            <span>الفرص تقل.... سجل قبل أن تختفي!</span>
-            <span>عدد المقبولين: <strong id="acceptedCount">0</strong></span>
+    <!-- صفحة 1: البداية الحماسية والبيان التعريفي -->
+    <section id="homePage" class="page-view active">
+      <div class="hero-banner">
+        <div class="hype-circle-wrap">
+          <div class="hype-ring"></div>
+          <div class="hype-ring-inner"></div>
+          <div class="hype-core">
+            <span id="rotatingHypeTop">الدفعة التأسيسية</span>
+            <strong id="rotatingHypeMain">اصنع التاريخ معنا</strong>
+          </div>
         </div>
 
-        <section id="about" class="section-card">
-            <h2 class="section-title">📌 1. التعريف بالدولة والمبادئ</h2>
-            <p style="margin-bottom: 1.2rem; font-size: 0.98rem;">دولة كِيُوشَان هي دولة سيادية مستقلة، تقوم على أسس النظام والقانون والعدالة التقنية في عاصمتها سِنْدُسِيَا.</p>
-            <div class="grid-2">
-                <div class="info-box">
-                    <h3>🏛️ السيادة والتشريع</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">أنظمة قانونية وإدارية دقيقة لخدمة المواطنين وحفظ حقوقهم.</p>
-                </div>
-                <div class="info-box">
-                    <h3>🛡️ حماية المؤسسات</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">حماية تامة للبيانات والوثائق الرسمية وفق أعلى معايير الأمان.</p>
-                </div>
+        <div>
+          <h1 style="font-size: 1.9rem; font-weight: 900; color: var(--accent-amber); margin-bottom: 0.6rem;">
+            دولة كيوشان — البيان التعريفي الرسمي
+          </h1>
+          <div class="hype-tags">
+            <span class="hype-tag">⚡ الدفعة الأولى للبناة</span>
+            <span class="hype-tag">🏛️ العاصمة: سِنْدُسِيَا</span>
+            <span class="hype-tag">🗣️ لغة المقمڛية</span>
+            <span class="hype-tag">🧭 ست محافظات سيادية</span>
+          </div>
+          <p style="margin-bottom: 0.75rem;">
+            تُعد دولة كيوشان كياناً سيادياً قيد التأسيس المؤسسي، تُدار شؤونه وتُصاغ هويته من عاصمته <strong>سِنْدُسِيَا</strong>. تقوم الدولة على أطر تنظيمية واضحة تجمع بين الانضباط الإداري، والهوية اللغوية الخاصة المتمثلة بلغة <strong>المقمڛية</strong> وحروفها السيادية، ونشيدها الوطني الرسمي.
+          </p>
+          <p style="margin-bottom: 1.1rem; color: var(--text-muted); font-weight: 700;">
+            دولة كيوشان — سيادة تُبنى بالنظام، ومؤسسات تُصان بالمسؤولية. لتقديم طلب الانضمام إلى السجل التأسيسي، يُرجى التوجه إلى بوابة التقديم الرسمية.
+          </p>
+          <button class="btn-secondary" type="button" onclick="openPage('applyPage')">
+            🚀 الانتقال إلى بوابة التقديم الرسمية
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">الركائز المؤسسية والسيادية</h2>
+        <div class="pillars-grid">
+          <div class="pillar-box">
+            <h4>الهيكلة الإدارية والجغرافية</h4>
+            <p>تقسيم إداري معتمد يشمل ست محافظات ذات اختصاصات محددة، مع اعتماد تسميات خالصة خالية من التداخل مع المناطق المعاصرة.</p>
+          </div>
+          <div class="pillar-box">
+            <h4>النظام الزمني والبيولوجي</h4>
+            <p>اعتماد ضوابط زمنية منضبطة تراعي التوازن الطبيعي والساعة البيولوجية للمواطنين.</p>
+          </div>
+          <div class="pillar-box">
+            <h4>المواطنة القائمة على المساهمة</h4>
+            <p>نظام انضمام يربط القبول الرسمي بالتحقق المهني والأمني، وتكليف المواطنين بمهام تأسيسية تخدم بناء الدولة ومؤسساتها.</p>
+          </div>
+          <div class="pillar-box">
+            <h4>الدفعة التأسيسية</h4>
+            <p>إتاحة التسجيل الأولي لأصحاب المهارات والكفاءات للمشاركة في وضع اللبنات الإدارية والتقنية والتنظيمية للعاصمة سِنْدُسِيَا وفق الضوابط المعتمدة.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- صفحة 2: العلم والهوية والقنوات الرسمية -->
+    <section id="flagPage" class="page-view">
+      <div class="card">
+        <h2 class="card-title">العلم الوطني والهوية السيادية</h2>
+        <div class="flag-stage">
+          <div class="flag-svg-box">
+            <svg viewBox="0 0 600 360" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="علم دولة كيوشان">
+              <!-- أبيض علوي -->
+              <polygon points="0,0 600,0 385,180" fill="#f8fafc" />
+              <!-- أحمر أيمن -->
+              <polygon points="600,0 600,360 385,180" fill="#d61f2c" />
+              <!-- أخضر سفلي -->
+              <polygon points="0,360 600,360 385,180" fill="#0f7a3e" />
+              <!-- أسود أيسر -->
+              <polygon points="0,0 0,360 385,180" fill="#0b0d10" />
+            </svg>
+          </div>
+          <p style="text-align: center; max-width: 620px; color: #e2e8f0;">
+            علم دولة كيوشان يجمع بين الأسود والأبيض والأخضر والأحمر في توازن هندسي يرمز إلى الحزم المؤسسي، والنقاء الإداري، والنماء التأسيسي، والعزيمة في العاصمة سِنْدُسِيَا.
+          </p>
+        </div>
+
+        <div class="pillars-grid" style="margin-top: 1.25rem;">
+          <div class="pillar-box">
+            <h4>العاصمة واللغة</h4>
+            <p>العاصمة الرسمية هي <strong>سِنْدُسِيَا</strong>، وتعتمد الدولة لغة <strong>المقمڛية</strong> وحروفها السيادية ونشيدها الوطني الرسمي.</p>
+          </div>
+          <div class="pillar-box">
+            <h4>المسار التأسيسي</h4>
+            <p>كل عضو في الدفعة التأسيسية يشارك في بناء نظام فعلي عبر الإدارة والتقنية والتنظيم والمشاريع.</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <h3 style="color: var(--accent-amber); margin-bottom: 0.4rem;">القنوات الرسمية لدولة كيوشان</h3>
+          <div class="social-links">
+            <a class="social-link" href="https://www.facebook.com/share/1Fap1UTtkc/" target="_blank" rel="noopener noreferrer">فيسبوك الرسمي</a>
+            <a class="social-link" href="https://www.instagram.com/president.of.kyushan?jplx=MTRyN21lcnRhb21uMQ==" target="_blank" rel="noopener noreferrer">انستغرام الرسمي</a>
+            <a class="social-link" href="https://x.com/Kushan0Presiden" target="_blank" rel="noopener noreferrer">إكس (X) الرسمي</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- صفحة 3: استمارة التسجيل والأسئلة -->
+    <section id="applyPage" class="page-view">
+      <div class="card">
+        <h2 class="card-title">بوابة التقديم إلى السجل التأسيسي</h2>
+
+        <form id="citizenshipForm">
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="fullName">الاسم الكامل *</label>
+              <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل" />
             </div>
-        </section>
-
-        <section id="pricing" class="section-card">
-            <h2 class="section-title">💳 2. الأسعار ورسوم المواطنة</h2>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>نوع المواطنة</th>
-                            <th>السعر الرسمي الحالي</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>المواطنة الفردية الرسمية</strong></td>
-                            <td>
-                                <strong id="displaySinglePrice" style="color: var(--primary-gold); font-size: 1.1rem;">0$ (مجاناً)</strong>
-                                <span id="displaySingleNote" class="price-note"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>المواطنة العائلية الرسمية</strong></td>
-                            <td>
-                                <strong id="displayFamilyPrice" style="color: var(--primary-gold); font-size: 1.1rem;">0$ (مجاناً)</strong>
-                                <span id="displayFamilyNote" class="price-note"></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="form-group">
+              <label for="email">البريد الإلكتروني *</label>
+              <input type="email" id="email" required placeholder="example@mail.com" />
             </div>
-        </section>
+          </div>
 
-        <section id="apply" class="section-card">
-            <h2 class="section-title">📝 3. استمارة طلب الاعتماد السكاني</h2>
-            <form id="citizenshipForm">
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>الاسم الكامل *</label>
-                        <input type="text" id="fullName" required placeholder="أدخل اسمك الثلاثي">
-                    </div>
-                    <div class="form-group">
-                        <label>البريد الإلكتروني *</label>
-                        <input type="email" id="email" required placeholder="example@mail.com">
-                    </div>
-                </div>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>تاريخ الميلاد *</label>
-                        <input type="date" id="dob" required>
-                    </div>
-                    <div class="form-group">
-                        <label>الدولة / الإقامة *</label>
-                        <input type="text" id="country" required placeholder="مثال: فلسطين، السويد...">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>المؤهل / المهارات *</label>
-                    <textarea id="skills" rows="2" required placeholder="ما هي مهاراتك التي يمكنك تقديمها للدولة؟"></textarea>
-                </div>
-                <button type="submit" class="btn-submit">🚀 تقديم طلب المواطنة الرسمي</button>
-            </form>
-
-            <!-- أسئلة الإدارة بعد إرسال البيانات -->
-            <div id="questionsBox" style="display:none; margin-top: 1.2rem;">
-                <h3 style="color: var(--primary-gold); margin-bottom: 0.8rem;">أجب عن الأسئلة التالية:</h3>
-                <div id="questionsList"></div>
-                <button type="button" id="submitAnswersBtn" class="btn-submit">إرسال الإجابات</button>
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="dob">تاريخ الميلاد *</label>
+              <input type="date" id="dob" required />
             </div>
-
-            <!-- رسالة ما بعد الإجابة + حد أقصى 5 ساعات + وقت الإرسال -->
-            <div id="afterAnswersBox" class="status-notice" style="display:none;">
-                <div id="sentTimeInfo" style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 0.4rem;"></div>
-                <div>بعد 5 ساعات كحد أقصى سيتم إرسال قبولك أو رفضك.</div>
-                <div style="margin-top: 0.5rem;">الحالة الحالية: <strong id="currentStatusText" style="color: var(--primary-gold);">قيد المراجعة</strong></div>
+            <div class="form-group">
+              <label for="country">الدولة / الإقامة *</label>
+              <input type="text" id="country" required placeholder="مثال: فلسطين، الأردن، مصر..." />
             </div>
-        </section>
+          </div>
 
-        <section id="chatSection" class="section-card">
-            <h2 class="section-title">💬 4. مركز المحادثة وإرفاق الوثائق</h2>
-            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.92rem;">الشات الجماعي للمقبولين والانتخابات الرسمية من الإدارة.</p>
+          <div class="form-group">
+            <label for="howFound">كيف تعرفت علينا؟ *</label>
+            <select id="howFound" required>
+              <option value="">اختر وسيلة المعرفة...</option>
+              <option value="فيسبوك">فيسبوك</option>
+              <option value="انستغرام">انستغرام</option>
+              <option value="إكس (X)">إكس (X)</option>
+              <option value="صديق أو دعوة مباشرة">صديق أو دعوة مباشرة</option>
+              <option value="بحث أو منصة أخرى">بحث أو منصة أخرى</option>
+            </select>
+          </div>
 
-            <div class="chat-section-container">
-                <div class="chat-header">
-                    <span>الشات الجماعي للمقبولين</span>
-                    <small id="chatStatusBadge" style="color: var(--primary-gold);">بانتظار القبول</small>
-                </div>
-                <div class="chat-body" id="userChatBody">
-                    <div class="msg in">مرحباً بك في دولة كِيُوشَان! بعد قبول طلبك سيفتح لك الشات الجماعي والانتخابات هنا.</div>
-                </div>
-                <div class="chat-footer" style="display:none;" id="userChatFooter">
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">الرسائل والانتخابات ترسلها الإدارة فقط — يمكنك التصويت أعلاه.</span>
-                </div>
-            </div>
-        </section>
+          <div class="form-group">
+            <label for="skills">المؤهل / المهارات *</label>
+            <textarea id="skills" rows="2" required placeholder="اذكر مهاراتك أو خبراتك التي يمكنك المساهمة بها..."></textarea>
+          </div>
 
-    </div>
+          <button type="submit" class="btn-primary">متابعة إلى استمارة الاستكمال المؤسسي</button>
+        </form>
 
-    <div id="imageModal" onclick="this.style.display='none'">
-        <img id="modalImg" src="" alt="صورة مكبرة">
-    </div>
+        <!-- استمارة الاستكمال المؤسسي -->
+        <div id="questionsBox" style="display:none; margin-top: 1.2rem;">
+          <h3 style="color: var(--accent-amber); margin-bottom: 0.4rem;">
+            استمارة الاستكمال المؤسسي للمتقدمين — دولة كيوشان
+          </h3>
+          <p style="color: #cbd5e1; font-size: 0.92rem; margin-bottom: 1rem;">
+            عقب إرسال بياناتك الأساسية، يُرجى استكمال الأسئلة التالية لتمكين الجهات المختصة من تصنيف ملفك وتحديد مسارك داخل الدولة:
+          </p>
 
-    <footer>
-        <p>© 2026 دولة كِيُوشَان السيادية - كافة الحقوق محفوظة للمجلس الأعلى</p>
-    </footer>
+          <h4 style="color: var(--accent-emerald); margin-bottom: 0.7rem;">أولاً: الأسئلة الأساسية والتنظيمية (مطلوبة لاستكمال الملف)</h4>
 
-    <!-- Supabase SDK -->
-    <script type="module">
-        import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+          <div class="form-group">
+            <label>1. المجال التخصصي الرئيسي: ما هو المجال العملي أو المهاري الأساسي الذي يمكنك المساهمة به؟ *</label>
+            <select id="q_field" required>
+              <option value="">اختر المجال...</option>
+              <option value="إدارة">إدارة</option>
+              <option value="تقنية/إلكترونيات">تقنية/إلكترونيات</option>
+              <option value="برمجة">برمجة</option>
+              <option value="تصميم">تصميم</option>
+              <option value="إعلام">إعلام</option>
+              <option value="تنظيم">تنظيم</option>
+              <option value="أخرى">أخرى</option>
+            </select>
+          </div>
 
-        const SUPABASE_URL = "https://rrwessrapdcozozcxlcq.supabase.co";
-        const SUPABASE_ANON_KEY = "sb_publishable_QPjklI2G5v0kC8S7I9-T1A_rZR7aJUN";
-        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          <div class="form-group">
+            <label>2. مستوى الجاهزية والمشاركة: هل يمكنك الالتزام بمهام تأسيسية دورية ضمن فرق العمل في العاصمة سِنْدُسِيَا أو المحافظات؟ *</label>
+            <select id="q_readiness" required>
+              <option value="">اختر مستوى الجاهزية...</option>
+              <option value="نعم، بشكل منتظم">نعم، بشكل منتظم</option>
+              <option value="حسب المهام المتاحة">حسب المهام المتاحة</option>
+              <option value="غير متفرغ حالياً">غير متفرغ حالياً</option>
+            </select>
+          </div>
 
-        // عدّل الأسئلة هنا كما تريد
-        const ADMIN_QUESTIONS = [
-            "لماذا ترغب بالانضمام إلى دولة كِيُوشَان؟",
-            "ما هي المهارة أو الفكرة التي يمكنك إضافتها؟",
-            "هل ستلتزم بقوانين الدولة والمشاركة في الانتخابات؟"
-        ];
+          <div class="form-group">
+            <label>3. القطاع المفضل للعمل: أي من المسارات التالية تفضل الانضمام إليه؟ *</label>
+            <select id="q_sector" required>
+              <option value="">اختر القطاع المفضل...</option>
+              <option value="البنية التحتية والتطوير">البنية التحتية والتطوير</option>
+              <option value="الإدارة والتنظيم">الإدارة والتنظيم</option>
+              <option value="الإعلام والعلاقات">الإعلام والعلاقات</option>
+              <option value="المشاريع والموارد">المشاريع والموارد</option>
+            </select>
+          </div>
 
-        let currentAppId = localStorage.getItem("kyv_user_id") || null;
-        let currentVoterName = localStorage.getItem("kyv_voter_name") || "مواطن";
+          <div class="form-group">
+            <label>4. الإقرار بالأنظمة الداخلية: هل تقر بالالتزام بالضوابط التنظيمية وميثاق العمل المعتمد في دولة كيوشان؟ *</label>
+            <select id="q_pledge" required>
+              <option value="">اختر الإقرار...</option>
+              <option value="نعم، أقر بالالتزام">نعم، أقر بالالتزام</option>
+            </select>
+          </div>
 
-        function formatTime(isoStr) {
-            if (!isoStr) return "";
-            return new Date(isoStr).toLocaleString("ar-EG", {
-                year: "numeric", month: "short", day: "numeric",
-                hour: "2-digit", minute: "2-digit"
-            });
+          <h4 style="color: var(--accent-amber); margin: 1.2rem 0 0.4rem;">ثانياً: بيانات السلامة والرعاية (اختيارية — لأغراض الحماية والتهيئة)</h4>
+          <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 0.8rem;">
+            ملاحظة: الإجابة على هذه البنود اختيارية بالكامل، وتُستخدم حصراً لتوفير بيئة عمل آمنة ومناسبة للمتقدم عند بدء المهام.
+          </p>
+
+          <div class="form-group">
+            <label>5. الظروف الصحية أو البيئية: هل توجد أي ملاحظات صحية أو حساسية معينة تود التنويه عنها لضمان ملاءمة المهام الموكلة إليك؟ (اختياري)</label>
+            <textarea id="q_health" rows="2" placeholder="اختياري..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>6. الارتباطات أو الملاحظات الأمنية: هل تود الإفصاح عن أي التزامات سابقة أو ملاحظات تتعلق بالسلامة والأمن التنظيمي؟ (اختياري)</label>
+            <textarea id="q_security" rows="2" placeholder="اختياري..."></textarea>
+          </div>
+
+          <button type="button" id="submitAnswersBtn" class="btn-primary">إرسال استمارة الاستكمال</button>
+        </div>
+
+        <!-- حالة ما بعد الإرسال -->
+        <div id="afterAnswersBox" class="alert-box alert-info" style="display:none; margin-top: 1.2rem;">
+          <div id="sentTimeInfo" style="font-size: 0.88rem; opacity: 0.85; margin-bottom: 0.4rem;"></div>
+          <div style="font-weight: 700;">
+            بعد 5 ساعات كحد أقصى سيتم إرسال قبولك أو رفضك؛ وإذا لم يتم الرد بعد مرور 5 ساعات فيُرجى التواصل عبر القنوات الرسمية:
+          </div>
+          <div class="social-links">
+            <a class="social-link" href="https://www.facebook.com/share/1Fap1UTtkc/" target="_blank" rel="noopener noreferrer">فيسبوك</a>
+            <a class="social-link" href="https://www.instagram.com/president.of.kyushan?jplx=MTRyN21lcnRhb21uMQ==" target="_blank" rel="noopener noreferrer">انستغرام</a>
+            <a class="social-link" href="https://x.com/Kushan0Presiden" target="_blank" rel="noopener noreferrer">إكس (X)</a>
+          </div>
+          <div style="margin-top: 0.7rem;">
+            الحالة الحالية: <strong id="currentStatusText" style="color: var(--accent-amber);">قيد المراجعة</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- صفحة 4: المحادثات (خاصة مع الرئاسة + جماعية للجميع مع إرسال صور) -->
+    <section id="chatPage" class="page-view">
+      <div class="card">
+        <h2 class="card-title">مركز المحادثات وتبادل الصور</h2>
+
+        <div class="chat-tabs">
+          <button class="chat-tab active" id="tabDirect" type="button" onclick="switchChatTab('direct')">
+            محادثة مع الرئاسة (خاصة)
+          </button>
+          <button class="chat-tab" id="tabGroup" type="button" onclick="switchChatTab('group')">
+            محادثة للجميع (الجماعية)
+          </button>
+        </div>
+
+        <!-- محادثة خاصة بين المتقدم والرئاسة -->
+        <div id="directChatPanel" class="chat-box">
+          <div class="chat-messages" id="directMessagesBody">
+            <div class="bubble other">مرحباً بك. يمكنك هنا مراسلة الرئاسة مباشرة وإرسال الصور.</div>
+          </div>
+          <div class="chat-input-bar">
+            <input type="file" id="directImageInput" accept="image/*" style="display:none;" />
+            <button type="button" class="icon-btn" id="directImageBtn" title="إرسال صورة">📷</button>
+            <input type="text" id="directInput" placeholder="اكتب رسالتك إلى الرئاسة..." />
+            <button type="button" class="btn-secondary" id="sendDirectBtn">إرسال</button>
+          </div>
+        </div>
+
+        <!-- محادثة للجميع -->
+        <div id="groupChatPanel" class="chat-box" style="display:none;">
+          <div class="chat-messages" id="groupMessagesBody">
+            <div class="bubble other">مرحباً بالجميع في محادثة دولة كيوشان.</div>
+          </div>
+          <div class="chat-input-bar">
+            <input type="file" id="groupImageInput" accept="image/*" style="display:none;" />
+            <button type="button" class="icon-btn" id="groupImageBtn" title="إرسال صورة">📷</button>
+            <input type="text" id="groupInput" placeholder="اكتب رسالة للجميع..." />
+            <button type="button" class="btn-secondary" id="sendGroupBtn">إرسال</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="imageModal" onclick="this.style.display='none'">
+    <img id="modalImg" src="" alt="صورة مكبرة" />
+  </div>
+
+  <footer>
+    دولة كيوشان — العاصمة: سِنْدُسِيَا | سيادة تُبنى بالنظام، ومؤسسات تُصان بالمسؤولية
+  </footer>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://rrwessrapdcozozcxlcq.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_QPjklI2G5v0kC8S7I9-T1A_rZR7aJUN";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentAppId = localStorage.getItem("kyv_user_id") || null;
+    let currentUserName = localStorage.getItem("kyv_voter_name") || "متقدم";
+    let activeChatTab = "direct";
+
+    // عبارات حماسية متحركة في الدائرة
+    const hypePhrases = [
+      ["الدفعة التأسيسية", "اصنع التاريخ معنا"],
+      ["العاصمة سِنْدُسِيَا", "نظام وانضباط"],
+      ["لغة المقمڛية", "هوية سيادية أصيلة"],
+      ["ست محافظات", "بناء ومؤسسات"]
+    ];
+    let hypeIdx = 0;
+    setInterval(() => {
+      hypeIdx = (hypeIdx + 1) % hypePhrases.length;
+      const topEl = document.getElementById("rotatingHypeTop");
+      const mainEl = document.getElementById("rotatingHypeMain");
+      if (topEl && mainEl) {
+        topEl.textContent = hypePhrases[hypeIdx][0];
+        mainEl.textContent = hypePhrases[hypeIdx][1];
+      }
+    }, 2800);
+
+    // التنقل بين الصفحات
+    window.openPage = function(pageId) {
+      document.querySelectorAll(".page-view").forEach(v => v.classList.remove("active"));
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      const btn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
+      if (btn) btn.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+      btn.addEventListener("click", () => openPage(btn.dataset.page));
+    });
+
+    window.switchChatTab = function(tab) {
+      activeChatTab = tab;
+      document.getElementById("tabDirect").classList.toggle("active", tab === "direct");
+      document.getElementById("tabGroup").classList.toggle("active", tab === "group");
+      document.getElementById("directChatPanel").style.display = tab === "direct" ? "flex" : "none";
+      document.getElementById("groupChatPanel").style.display = tab === "group" ? "flex" : "none";
+      if (tab === "direct") loadDirectChat();
+      else loadGroupChat();
+    };
+
+    window.previewImage = function(src) {
+      document.getElementById("modalImg").src = src;
+      document.getElementById("imageModal").style.display = "flex";
+    };
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function formatTime(isoStr) {
+      if (!isoStr) return "";
+      return new Date(isoStr).toLocaleString("ar-EG", {
+        year: "numeric", month: "short", day: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      });
+    }
+
+    function triggerBrowserNotification(title, body) {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, { body });
+      }
+    }
+
+    function showDeletionNotice(reason) {
+      const box = document.getElementById("globalNoticeBox");
+      box.innerHTML = `
+        <strong>تم حذف ملفك من السجل:</strong> ${escapeHtml(reason || "لم يتم ذكر سبب محدد")}
+      `;
+      box.style.display = "block";
+      triggerBrowserNotification("إشعار من دولة كيوشان", `تم حذف طلبك. السبب: ${reason || "لم يتم ذكر سبب"}`);
+    }
+
+    async function loadAcceptedCount() {
+      const { count, error } = await supabase
+        .from("applications")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "accepted");
+      const offset = Number(localStorage.getItem("kyv_accepted_offset") || "0");
+      if (!error && typeof count === "number") {
+        document.getElementById("acceptedCount").textContent = Math.max(0, count + offset);
+      }
+    }
+
+    function showAfterAnswers(app) {
+      document.getElementById("citizenshipForm").style.display = "none";
+      document.getElementById("questionsBox").style.display = "none";
+      document.getElementById("afterAnswersBox").style.display = "block";
+      document.getElementById("sentTimeInfo").textContent = `وقت الإرسال: ${formatTime(app.created_at)}`;
+
+      const statusEl = document.getElementById("currentStatusText");
+      if (app.status === "accepted") {
+        statusEl.textContent = "مقبول";
+        statusEl.style.color = "#34d399";
+      } else if (app.status === "rejected") {
+        statusEl.textContent = "مرفوض";
+        statusEl.style.color = "#fb7185";
+      } else if (app.status === "deleted") {
+        statusEl.textContent = "محذوف";
+        statusEl.style.color = "#fb7185";
+        showDeletionNotice(app.deletion_reason);
+      } else {
+        statusEl.textContent = "قيد المراجعة";
+        statusEl.style.color = "#fbbf24";
+      }
+    }
+
+    document.getElementById("citizenshipForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if ("Notification" in window && Notification.permission === "default") {
+        await Notification.requestPermission();
+      }
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const dob = document.getElementById("dob").value;
+      const country = document.getElementById("country").value.trim();
+      const howFound = document.getElementById("howFound").value;
+      const skills = document.getElementById("skills").value.trim();
+
+      const { data, error } = await supabase
+        .from("applications")
+        .insert([{
+          full_name: fullName,
+          subject: `${country} — مصدر المعرفة: ${howFound}`,
+          details: `البريد: ${email} | الميلاد: ${dob} | كيف تعرف علينا: ${howFound} | المهارات: ${skills}`,
+          answers: [],
+          status: "pending"
+        }])
+        .select()
+        .single();
+
+      if (error) {
+        alert("حدث خطأ أثناء الإرسال: " + error.message);
+        return;
+      }
+
+      currentAppId = data.id;
+      currentUserName = data.full_name;
+      localStorage.setItem("kyv_user_id", data.id);
+      localStorage.setItem("kyv_voter_name", data.full_name);
+
+      document.getElementById("citizenshipForm").style.display = "none";
+      document.getElementById("questionsBox").style.display = "block";
+    });
+
+    document.getElementById("submitAnswersBtn").addEventListener("click", async () => {
+      const qField = document.getElementById("q_field").value;
+      const qReadiness = document.getElementById("q_readiness").value;
+      const qSector = document.getElementById("q_sector").value;
+      const qPledge = document.getElementById("q_pledge").value;
+      const qHealth = document.getElementById("q_health").value.trim();
+      const qSecurity = document.getElementById("q_security").value.trim();
+
+      if (!qField || !qReadiness || !qSector || !qPledge) {
+        alert("يرجى الإجابة عن جميع الأسئلة الأساسية والتنظيمية المطلوبة.");
+        return;
+      }
+
+      const answers = [
+        { question: "المجال التخصصي الرئيسي", answer: qField },
+        { question: "مستوى الجاهزية والمشاركة", answer: qReadiness },
+        { question: "القطاع المفضل للعمل", answer: qSector },
+        { question: "الإقرار بالأنظمة الداخلية", answer: qPledge },
+        { question: "الظروف الصحية أو البيئية (اختياري)", answer: qHealth || "لم يُذكر" },
+        { question: "الارتباطات أو الملاحظات الأمنية (اختياري)", answer: qSecurity || "لم يُذكر" }
+      ];
+
+      const { data, error } = await supabase
+        .from("applications")
+        .update({ answers })
+        .eq("id", currentAppId)
+        .select()
+        .single();
+
+      if (error) {
+        alert("حدث خطأ أثناء حفظ الإجابات: " + error.message);
+        return;
+      }
+
+      showAfterAnswers(data);
+    });
+
+    function readImageAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve("");
+        if (file.size > 1.5 * 1024 * 1024) {
+          return reject(new Error("حجم الصورة كبير، اختر صورة أقل من 1.5 ميجابايت."));
+        }
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function loadDirectChat() {
+      const body = document.getElementById("directMessagesBody");
+      if (!currentAppId) {
+        body.innerHTML = `<div class="bubble other">أرسل طلب التقديم أولاً لتفتح محادثتك الخاصة مع الرئاسة.</div>`;
+        return;
+      }
+      const { data, error } = await supabase
+        .from("direct_messages")
+        .select("*")
+        .eq("application_id", currentAppId)
+        .order("created_at", { ascending: true });
+
+      if (error) return;
+      if (!data || data.length === 0) {
+        body.innerHTML = `<div class="bubble other">لا توجد رسائل بعد. يمكنك إرسال رسالة أو صورة للرئاسة الآن.</div>`;
+        return;
+      }
+
+      body.innerHTML = data.map(m => {
+        const cls = m.sender_role === "user" ? "mine" : "other";
+        const imgHtml = m.image_data
+          ? `<img src="${m.image_data}" alt="مرفق" onclick="previewImage(this.src)" />`
+          : "";
+        return `
+          <div class="bubble ${cls}">
+            <div style="font-weight:800; color:#fde68a;">${escapeHtml(m.sender_name)}</div>
+            ${m.text ? `<div>${escapeHtml(m.text)}</div>` : ""}
+            ${imgHtml}
+            <div class="bubble-meta">${formatTime(m.created_at)}</div>
+          </div>
+        `;
+      }).join("");
+      body.scrollTop = body.scrollHeight;
+    }
+
+    async function sendDirectMessage(imageData = "") {
+      if (!currentAppId) {
+        alert("يرجى تقديم طلبك أولاً من صفحة التسجيل والأسئلة.");
+        return;
+      }
+      const input = document.getElementById("directInput");
+      const text = input.value.trim();
+      if (!text && !imageData) return;
+
+      const { error } = await supabase.from("direct_messages").insert([{
+        application_id: currentAppId,
+        sender_role: "user",
+        sender_name: currentUserName,
+        text,
+        image_data: imageData
+      }]);
+
+      if (error) {
+        alert("تعذر إرسال الرسالة: " + error.message);
+        return;
+      }
+      input.value = "";
+      document.getElementById("directImageInput").value = "";
+      loadDirectChat();
+    }
+
+    document.getElementById("sendDirectBtn").addEventListener("click", () => sendDirectMessage(""));
+    document.getElementById("directInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendDirectMessage("");
+    });
+    document.getElementById("directImageBtn").addEventListener("click", () => {
+      document.getElementById("directImageInput").click();
+    });
+    document.getElementById("directImageInput").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const imgUrl = await readImageAsDataUrl(file);
+        await sendDirectMessage(imgUrl);
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    async function loadGroupChat() {
+      const { data: messages } = await supabase
+        .from("group_messages")
+        .select("*")
+        .order("created_at", { ascending: true });
+      if (!messages) return;
+
+      const { data: votes } = await supabase.from("poll_votes").select("*");
+      const allVotes = votes || [];
+      const body = document.getElementById("groupMessagesBody");
+
+      body.innerHTML = messages.map(m => {
+        const senderLabel = m.sender_name || m.sender || "عضو";
+        const isMine = m.sender_name === currentUserName;
+        const imgHtml = m.image_data
+          ? `<img src="${m.image_data}" alt="صورة" onclick="previewImage(this.src)" />`
+          : "";
+
+        let pollHtml = "";
+        if ((m.message_type === "poll" || m.message_type === "election") && Array.isArray(m.options) && m.options.length > 0) {
+          pollHtml = `<div class="poll-box">` + m.options.map(opt => {
+            const count = allVotes.filter(v => v.message_id === m.id && v.choice === opt).length;
+            return `
+              <div class="poll-row">
+                <span>${escapeHtml(opt)} (${count} صوت)</span>
+                <button type="button" class="poll-vote-btn" onclick="window.votePoll('${m.id}', '${escapeHtml(opt).replace(/'/g, "\\'")}')">تصويت</button>
+              </div>
+            `;
+          }).join("") + `</div>`;
         }
 
-        async function loadAcceptedCount() {
-            const { count, error } = await supabase
-                .from("applications")
-                .select("*", { count: "exact", head: true })
-                .eq("status", "accepted");
-            if (!error && typeof count === "number") {
-                document.getElementById("acceptedCount").innerText = count;
-            }
-        }
+        return `
+          <div class="bubble ${isMine ? "mine" : "other"}">
+            <div style="font-weight:800; color:#fde68a;">${escapeHtml(senderLabel)}</div>
+            ${m.text ? `<div>${escapeHtml(m.text)}</div>` : ""}
+            ${imgHtml}
+            ${pollHtml}
+            <div class="bubble-meta">${formatTime(m.created_at)}</div>
+          </div>
+        `;
+      }).join("");
+      body.scrollTop = body.scrollHeight;
+    }
 
-        function renderQuestions() {
-            const box = document.getElementById("questionsList");
-            box.innerHTML = ADMIN_QUESTIONS.map((q, idx) => `
-                <div class="form-group">
-                    <label>${idx + 1}. ${q}</label>
-                    <textarea data-q="${idx}" rows="2" placeholder="اكتب إجابتك..."></textarea>
-                </div>
-            `).join("");
-        }
+    window.votePoll = async function(messageId, choice) {
+      const { error } = await supabase.from("poll_votes").upsert(
+        [{ message_id: messageId, voter_name: currentUserName, choice }],
+        { onConflict: "message_id,voter_name" }
+      );
+      if (!error) loadGroupChat();
+    };
 
-        function showAfterAnswers(app) {
+    async function sendGroupMessage(imageData = "") {
+      const input = document.getElementById("groupInput");
+      const text = input.value.trim();
+      if (!text && !imageData) return;
+
+      const { error } = await supabase.from("group_messages").insert([{
+        sender: currentUserName,
+        sender_name: currentUserName,
+        message_type: "chat",
+        text,
+        image_data: imageData,
+        options: []
+      }]);
+
+      if (error) {
+        alert("تعذر إرسال الرسالة: " + error.message);
+        return;
+      }
+      input.value = "";
+      document.getElementById("groupImageInput").value = "";
+      loadGroupChat();
+    }
+
+    document.getElementById("sendGroupBtn").addEventListener("click", () => sendGroupMessage(""));
+    document.getElementById("groupInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendGroupMessage("");
+    });
+    document.getElementById("groupImageBtn").addEventListener("click", () => {
+      document.getElementById("groupImageInput").click();
+    });
+    document.getElementById("groupImageInput").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const imgUrl = await readImageAsDataUrl(file);
+        await sendGroupMessage(imgUrl);
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    window.addEventListener("load", async () => {
+      await loadAcceptedCount();
+
+      if (currentAppId) {
+        const { data: app } = await supabase
+          .from("applications")
+          .select("*")
+          .eq("id", currentAppId)
+          .single();
+
+        if (app) {
+          currentUserName = app.full_name;
+          if (app.status === "deleted") {
+            showDeletionNotice(app.deletion_reason);
+          } else if (Array.isArray(app.answers) && app.answers.length > 0) {
+            showAfterAnswers(app);
+          } else {
             document.getElementById("citizenshipForm").style.display = "none";
-            document.getElementById("questionsBox").style.display = "none";
-            document.getElementById("afterAnswersBox").style.display = "block";
-            document.getElementById("sentTimeInfo").innerText = `وقت الإرسال: ${formatTime(app.created_at)}`;
-
-            const statusEl = document.getElementById("currentStatusText");
-            const badgeEl = document.getElementById("chatStatusBadge");
-
-            if (app.status === "accepted") {
-                statusEl.innerText = "مقبول";
-                statusEl.style.color = "#4ade80";
-                badgeEl.innerText = "● مقبول - الشات الجماعي مفعل";
-                badgeEl.style.color = "#4ade80";
-                loadGroupChat();
-            } else if (app.status === "rejected") {
-                statusEl.innerText = "مرفوض";
-                statusEl.style.color = "#f87171";
-                badgeEl.innerText = "غير متاح";
-                badgeEl.style.color = "#f87171";
-            } else {
-                statusEl.innerText = "قيد المراجعة";
-                statusEl.style.color = "#fbbf24";
-                badgeEl.innerText = "بانتظار القبول";
-                badgeEl.style.color = "#fbbf24";
-            }
-        }
-
-        document.getElementById("citizenshipForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const fullName = document.getElementById("fullName").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const dob = document.getElementById("dob").value;
-            const country = document.getElementById("country").value.trim();
-            const skills = document.getElementById("skills").value.trim();
-
-            const { data, error } = await supabase
-                .from("applications")
-                .insert([{
-                    full_name: fullName,
-                    subject: country,
-                    details: `البريد: ${email} | الميلاد: ${dob} | المهارات: ${skills}`,
-                    answers: [],
-                    status: "pending"
-                }])
-                .select()
-                .single();
-
-            if (error) {
-                alert("حدث خطأ أثناء الإرسال: " + error.message);
-                return;
-            }
-
-            currentAppId = data.id;
-            currentVoterName = data.full_name;
-            localStorage.setItem("kyv_user_id", data.id);
-            localStorage.setItem("kyv_voter_name", data.full_name);
-
-            document.getElementById("citizenshipForm").style.display = "none";
-            renderQuestions();
             document.getElementById("questionsBox").style.display = "block";
-        });
-
-        document.getElementById("submitAnswersBtn").addEventListener("click", async function() {
-            const areas = [...document.querySelectorAll("#questionsList textarea")];
-            const answers = areas.map((ta, i) => ({
-                question: ADMIN_QUESTIONS[i],
-                answer: ta.value.trim()
-            }));
-
-            if (answers.some(a => !a.answer)) {
-                alert("يرجى الإجابة عن جميع الأسئلة.");
-                return;
-            }
-
-            const { data, error } = await supabase
-                .from("applications")
-                .update({ answers })
-                .eq("id", currentAppId)
-                .select()
-                .single();
-
-            if (error) {
-                alert("حدث خطأ أثناء حفظ الإجابات: " + error.message);
-                return;
-            }
-
-            showAfterAnswers(data);
-        });
-
-        async function loadGroupChat() {
-            const { data: messages } = await supabase
-                .from("group_messages")
-                .select("*")
-                .order("created_at", { ascending: true });
-            if (!messages) return;
-
-            const { data: votes } = await supabase.from("poll_votes").select("*");
-            const allVotes = votes || [];
-
-            const box = document.getElementById("userChatBody");
-            box.innerHTML = messages.map(m => {
-                const mVotes = allVotes.filter(v => v.message_id === m.id);
-                let pollHtml = "";
-                if (m.message_type === "election" && Array.isArray(m.options) && m.options.length > 0) {
-                    pollHtml = `<div class="poll-options">` + m.options.map(opt => {
-                        const c = mVotes.filter(v => v.choice === opt).length;
-                        return `
-                            <div style="display:flex; justify-content:space-between; align-items:center; background:#0f172a; padding:6px 10px; border-radius:6px;">
-                                <span>${opt} (${c} صوت)</span>
-                                <button type="button" class="poll-btn" onclick="window.votePoll('${m.id}', '${opt.replace(/'/g, "\\'")}')">تصويت</button>
-                            </div>
-                        `;
-                    }).join("") + `</div>`;
-                }
-                return `
-                    <div class="msg in">
-                        <div style="color:var(--primary-gold); font-weight:bold;">${m.sender}</div>
-                        <div>${m.text}</div>
-                        ${pollHtml}
-                        <span class="msg-time">وقت الإرسال: ${formatTime(m.created_at)}</span>
-                    </div>
-                `;
-            }).join("");
-            box.scrollTop = box.scrollHeight;
+          }
         }
+      }
 
-        window.votePoll = async function(messageId, choice) {
-            const { error } = await supabase
-                .from("poll_votes")
-                .upsert(
-                    [{ message_id: messageId, voter_name: currentVoterName, choice }],
-                    { onConflict: "message_id,voter_name" }
-                );
-            if (error) {
-                alert("خطأ في التصويت: " + error.message);
-                return;
+      loadDirectChat();
+      loadGroupChat();
+
+      supabase
+        .channel("kyushan-rt-v2")
+        .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, async (payload) => {
+          await loadAcceptedCount();
+          if (payload.new && payload.new.id === currentAppId) {
+            showAfterAnswers(payload.new);
+          }
+        })
+        .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, (payload) => {
+          if (payload.new && payload.new.application_id === currentAppId) {
+            loadDirectChat();
+            if (payload.new.sender_role === "admin") {
+              triggerBrowserNotification("رسالة جديدة من الرئاسة", payload.new.text || "تم إرسال صورة");
             }
-            loadGroupChat();
-        };
-
-        window.addEventListener("load", async () => {
-            await loadAcceptedCount();
-
-            if (currentAppId) {
-                const { data: app } = await supabase
-                    .from("applications")
-                    .select("*")
-                    .eq("id", currentAppId)
-                    .single();
-                if (app) {
-                    currentVoterName = app.full_name;
-                    if (Array.isArray(app.answers) && app.answers.length > 0) {
-                        showAfterAnswers(app);
-                    } else {
-                        document.getElementById("citizenshipForm").style.display = "none";
-                        renderQuestions();
-                        document.getElementById("questionsBox").style.display = "block";
-                    }
-                }
-            }
-
-            supabase
-                .channel("kyushan-index-rt")
-                .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, async (payload) => {
-                    await loadAcceptedCount();
-                    if (payload.new && payload.new.id === currentAppId) {
-                        showAfterAnswers(payload.new);
-                    }
-                })
-                .on("postgres_changes", { event: "*", schema: "public", table: "group_messages" }, () => {
-                    if (document.getElementById("chatStatusBadge").innerText.includes("مقبول")) {
-                        loadGroupChat();
-                    }
-                })
-                .on("postgres_changes", { event: "*", schema: "public", table: "poll_votes" }, () => {
-                    if (document.getElementById("chatStatusBadge").innerText.includes("مقبول")) {
-                        loadGroupChat();
-                    }
-                })
-                .subscribe();
-        });
-    </script>
+          }
+        })
+        .on("postgres_changes", { event: "*", schema: "public", table: "group_messages" }, () => loadGroupChat())
+        .on("postgres_changes", { event: "*", schema: "public", table: "poll_votes" }, () => loadGroupChat())
+        .subscribe();
+    });
+  </script>
 </body>
 </html>
