@@ -7,265 +7,191 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      --bg: #0b1020;
-      --panel: #131b31;
-      --panel-2: #192440;
-      --text: #f3f6ff;
-      --muted: #9fb0d6;
-      --accent: #38bdf8;
-      --accent-2: #22c55e;
-      --danger: #ef4444;
-      --warn: #f59e0b;
-      --border: rgba(255, 255, 255, 0.1);
+      --bg: #081214;
+      --panel: #0f2226;
+      --panel-2: #152e33;
+      --text: #f8fafc;
+      --muted: #99f6e4;
+      --emerald: #10b981;
+      --crimson: #e11d48;
+      --amber: #f59e0b;
+      --cyan: #06b6d4;
+      --border: rgba(153, 246, 228, 0.16);
     }
 
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
-    }
-
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif; }
     body {
-      margin: 0;
-      background: linear-gradient(160deg, var(--bg), #060913);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 20px;
+      margin: 0; padding: 20px; min-height: 100vh; color: var(--text);
+      background: linear-gradient(155deg, var(--bg), #1b0b14 120%);
     }
-
-    .container {
-      max-width: 1050px;
-      margin: 0 auto;
-    }
-
+    .container { max-width: 1120px; margin: 0 auto; }
     .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px; margin-bottom: 18px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
     }
-
-    .login-box {
-      max-width: 420px;
-      margin: 60px auto;
-    }
-
-    h1, h2, h3 {
-      margin-top: 0;
-    }
-
-    p {
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 0.92rem;
-      color: var(--muted);
-    }
-
+    .login-box { max-width: 420px; margin: 60px auto; }
+    h1, h2, h3 { margin-top: 0; }
+    p { color: #cbd5e1; line-height: 1.6; }
+    label { display: block; margin-bottom: 6px; font-size: 0.9rem; color: var(--muted); }
     input, textarea, select {
-      width: 100%;
-      padding: 11px 13px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--panel-2);
-      color: var(--text);
-      margin-bottom: 14px;
-      font-size: 0.95rem;
+      width: 100%; padding: 10px 12px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+      margin-bottom: 12px; font-size: 0.95rem;
     }
-
     button {
-      border: none;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-weight: 600;
-      cursor: pointer;
-      color: #07111f;
-      background: var(--accent);
-      transition: opacity 0.15s ease, transform 0.1s ease;
+      border: none; border-radius: 10px; padding: 9px 14px; font-weight: 700;
+      cursor: pointer; background: var(--cyan); color: #051316;
     }
+    button:hover { opacity: 0.92; }
+    .btn-accept { background: var(--emerald); color: #041610; }
+    .btn-reject { background: var(--amber); color: #1a1002; }
+    .btn-delete { background: var(--crimson); color: #fff; }
+    .btn-logout { background: transparent; color: var(--text); border: 1px solid var(--border); }
 
-    button:hover {
-      opacity: 0.92;
+    .topbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+    .counter-box {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      background: var(--panel-2); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border);
+      margin-bottom: 14px;
     }
-
-    button:active {
-      transform: scale(0.99);
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .btn-accept {
-      background: var(--accent-2);
-      color: #05160c;
-    }
-
-    .btn-reject {
-      background: var(--danger);
-      color: #fff;
-    }
-
-    .btn-pending {
-      background: var(--warn);
-      color: #1b1102;
-    }
-
-    .btn-logout {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .topbar {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    .status-pending {
-      background: rgba(245, 158, 11, 0.2);
-      color: #fcd34d;
-    }
-
-    .status-accepted {
-      background: rgba(34, 197, 94, 0.2);
-      color: #86efac;
-    }
-
-    .status-rejected {
-      background: rgba(239, 68, 68, 0.2);
-      color: #fca5a5;
-    }
+    .counter-num { font-size: 1.4rem; font-weight: 900; color: var(--amber); }
 
     .app-item {
-      background: var(--panel-2);
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 15px; margin-bottom: 12px;
+    }
+    .answers-list {
+      background: var(--bg); padding: 12px; border-radius: 10px; margin-top: 8px;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 12px;
     }
+    .answer-row { margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.08); }
+    .answer-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .msg-error {
-      color: #fca5a5;
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.35);
-      padding: 10px 12px;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      font-size: 0.9rem;
-    }
-
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
     .msg-ok {
-      color: #86efac;
-      background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      padding: 10px 12px;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      font-size: 0.9rem;
+      background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #a7f3d0; padding: 10px 14px; border-radius: 10px; margin-bottom: 12px;
     }
+    .msg-err {
+      background: rgba(225, 29, 72, 0.18); border: 1px solid rgba(225, 29, 72, 0.45);
+      color: #fecdd3; padding: 10px 14px; border-radius: 10px; margin-bottom: 12px;
+    }
+    .hidden { display: none !important; }
 
-    .hidden {
-      display: none !important;
+    .chat-box {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 14px; height: 390px; display: flex; flex-direction: column; overflow: hidden;
     }
-
-    pre {
-      background: var(--bg);
-      padding: 10px;
-      border-radius: 8px;
-      overflow-x: auto;
-      font-size: 0.82rem;
-      color: #cbd5e1;
+    .chat-body {
+      flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
     }
+    .bubble {
+      max-width: 82%; padding: 8px 12px; border-radius: 12px; font-size: 0.9rem; word-break: break-word;
+    }
+    .bubble.admin { background: #0f766e; align-self: flex-end; }
+    .bubble.user { background: #1e293b; align-self: flex-start; }
+    .bubble img { max-width: 100%; max-height: 180px; border-radius: 8px; margin-top: 6px; display: block; cursor: pointer; }
+    .chat-foot {
+      padding: 8px; background: var(--panel-2); border-top: 1px solid var(--border);
+      display: flex; gap: 8px; align-items: center;
+    }
+    .chat-foot input[type="text"] { margin: 0; flex: 1; }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- شاشة التحقق الأولي -->
-    <div id="loadingScreen" class="card login-box">
-      <h2>جارٍ التحقق من الجلسة...</h2>
-      <p>يتم التحقق من صلاحية الدخول عبر الخادم.</p>
-    </div>
-
-    <!-- شاشة تسجيل الدخول للمشرف -->
-    <div id="loginScreen" class="card login-box hidden">
-      <h2>دخول الإدارة السيادية - كِيُوشَان</h2>
-      <p>سجّل الدخول بحساب المشرف المسجل في Supabase للوصول إلى لوحة التحكم.</p>
-      <div id="loginError" class="msg-error hidden"></div>
+    <!-- شاشة تسجيل الدخول (تظهر دائماً عند إعادة فتح الصفحة) -->
+    <div id="loginScreen" class="card login-box">
+      <h2>دخول الإدارة السيادية — كِيُوشَان</h2>
+      <p>يُشترط تسجيل الدخول في كل جلسة جديدة للوصول إلى لوحة التحكم.</p>
+      <div id="loginError" class="msg-err hidden"></div>
       <form id="loginForm">
         <label for="emailInput">البريد الإلكتروني</label>
-        <input id="emailInput" type="email" required autocomplete="username" placeholder="admin@example.com" />
-
+        <input id="emailInput" type="email" required autocomplete="username" />
         <label for="passwordInput">كلمة المرور</label>
-        <input id="passwordInput" type="password" required autocomplete="current-password" placeholder="••••••••" />
-
-        <button id="loginBtn" type="submit" style="width: 100%;">تسجيل الدخول</button>
+        <input id="passwordInput" type="password" required autocomplete="current-password" />
+        <button type="submit" style="width:100%;">تسجيل الدخول</button>
       </form>
     </div>
 
-    <!-- لوحة التحكم المحمية -->
+    <!-- لوحة التحكم -->
     <div id="dashboardScreen" class="hidden">
       <div class="card topbar">
         <div>
-          <h1>لوحة التحكم - كِيُوشَان</h1>
-          <p id="adminInfo" style="margin: 0;"></p>
+          <h1>لوحة تحكم الإدارة — كِيُوشَان</h1>
+          <p id="adminInfo" style="margin:0;"></p>
         </div>
         <button id="logoutBtn" class="btn-logout" type="button">تسجيل الخروج</button>
       </div>
 
-      <div id="dashNotice" class="msg-ok hidden"></div>
-      <div id="dashError" class="msg-error hidden"></div>
+      <div id="noticeBox" class="msg-ok hidden"></div>
+      <div id="errorBox" class="msg-err hidden"></div>
 
-      <!-- إدارة الطلبات -->
+      <!-- التحكم بعدد المقبولين -->
       <div class="card">
-        <h2>طلبات الجنسية والانضمام</h2>
-        <div id="applicationsList">جارٍ تحميل الطلبات...</div>
+        <h2>التحكم بعدد المقبولين</h2>
+        <div class="counter-box">
+          <span>إجمالي المقبولين المعروض:</span>
+          <span class="counter-num" id="displayTotalAccepted">0</span>
+          <span style="color:#94a3b8; font-size:0.85rem;">(فعلي: <span id="realAcceptedCount">0</span> | تعديل يدوي: <span id="offsetCount">0</span>)</span>
+          <button type="button" class="btn-accept" onclick="adjustAccepted(1)">+ زيادة 1</button>
+          <button type="button" class="btn-reject" onclick="adjustAccepted(-1)">- إنقاص 1</button>
+          <button type="button" class="btn-logout" onclick="resetAcceptedOffset()">إعادة ضبط التعديل</button>
+        </div>
       </div>
 
-      <!-- بث إعلان أو انتخابات للشات الجماعي -->
+      <!-- إدارة الطلبات وكل الأجوبة -->
       <div class="card">
-        <h2>إرسال إعلان أو تصويت للشات الجماعي</h2>
-        <form id="broadcastForm">
-          <label for="msgType">نوع الرسالة</label>
-          <select id="msgType">
-            <option value="announcement">إعلان رسمي</option>
-            <option value="poll">استطلاع / انتخابات</option>
-          </select>
+        <h2>الطلبات وكافة إجابات المتقدمين</h2>
+        <div id="applicationsList">جارٍ التحميل...</div>
+      </div>
 
-          <label for="msgText">نص الإعلان أو سؤال التصويت</label>
-          <textarea id="msgText" rows="3" required placeholder="اكتب الرسالة هنا..."></textarea>
-
-          <div id="pollOptionsBox" class="hidden">
-            <label for="pollOptionsInput">خيارات التصويت (افصل بين الخيارات بفاصلة)</label>
-            <input id="pollOptionsInput" type="text" placeholder="مثال: موافق, غير موافق, امتناع" />
+      <!-- محادثة خاصة مع متقدم/مواطن -->
+      <div class="card">
+        <h2>محادثة خاصة مع متقدم / مواطن</h2>
+        <label for="targetApplicantSelect">اختر الشخص للتواصل معه</label>
+        <select id="targetApplicantSelect" onchange="loadAdminDirectChat()"></select>
+        <div class="chat-box">
+          <div class="chat-body" id="adminDirectBody"></div>
+          <div class="chat-foot">
+            <input type="file" id="adminDirectImgInput" accept="image/*" style="display:none;" />
+            <button type="button" onclick="document.getElementById('adminDirectImgInput').click()">📷</button>
+            <input type="text" id="adminDirectText" placeholder="اكتب رسالة خاصة لهذا الشخص..." />
+            <button type="button" class="btn-accept" id="sendAdminDirectBtn">إرسال</button>
           </div>
+        </div>
+      </div>
 
-          <button id="sendBroadcastBtn" type="submit">نشر في الشات الجماعي</button>
+      <!-- شات الإدارة بامتيازات + إعلانات وتصويت -->
+      <div class="card">
+        <h2>الشات الجماعي (امتيازات الإدارة السيادية)</h2>
+        <form id="broadcastForm">
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+            <div>
+              <label for="msgType">نوع المنشور</label>
+              <select id="msgType">
+                <option value="announcement">إعلان رسمي</option>
+                <option value="poll">استطلاع / انتخابات</option>
+                <option value="chat">رسالة إدارية</option>
+              </select>
+            </div>
+            <div id="pollOptionsWrap" class="hidden">
+              <label for="pollOptionsInput">خيارات التصويت (افصل بفاصلة)</label>
+              <input id="pollOptionsInput" type="text" placeholder="موافق, غير موافق, امتناع" />
+            </div>
+          </div>
+          <label for="msgText">نص الإعلان أو الرسالة</label>
+          <textarea id="msgText" rows="2" required placeholder="اكتب هنا..."></textarea>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <input type="file" id="adminGroupImgInput" accept="image/*" style="max-width:280px; margin:0;" />
+            <button type="submit" class="btn-accept">نشر في الشات الجماعي</button>
+          </div>
         </form>
+
+        <div class="chat-box" style="margin-top: 14px;">
+          <div class="chat-body" id="adminGroupBody"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -273,246 +199,320 @@
   <script>
     const SUPABASE_URL = "https://rrwessrapdcozozcxlcq.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_QPjklI2G5v0kC8S7I9-T1A_rZR7aJUN";
-
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const loadingScreen = document.getElementById("loadingScreen");
-    const loginScreen = document.getElementById("loginScreen");
-    const dashboardScreen = document.getElementById("dashboardScreen");
-    const loginForm = document.getElementById("loginForm");
-    const loginBtn = document.getElementById("loginBtn");
-    const loginError = document.getElementById("loginError");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const adminInfo = document.getElementById("adminInfo");
-    const applicationsList = document.getElementById("applicationsList");
-    const broadcastForm = document.getElementById("broadcastForm");
-    const msgType = document.getElementById("msgType");
-    const pollOptionsBox = document.getElementById("pollOptionsBox");
-    const dashNotice = document.getElementById("dashNotice");
-    const dashError = document.getElementById("dashError");
+    let appsCache = [];
+    let realAccepted = 0;
 
-    let realtimeChannel = null;
-
-    function showNotice(text) {
-      dashError.classList.add("hidden");
-      dashNotice.textContent = text;
-      dashNotice.classList.remove("hidden");
+    function showNotice(msg) {
+      const el = document.getElementById("noticeBox");
+      el.textContent = msg;
+      el.classList.remove("hidden");
+      setTimeout(() => el.classList.add("hidden"), 3500);
     }
 
-    function showError(text) {
-      dashNotice.classList.add("hidden");
-      dashError.textContent = text;
-      dashError.classList.remove("hidden");
+    function showError(msg) {
+      const el = document.getElementById("errorBox");
+      el.textContent = msg;
+      el.classList.remove("hidden");
     }
 
-    function showLoginError(text) {
-      loginError.textContent = text;
-      loginError.classList.remove("hidden");
+    function escapeHtml(v) {
+      return String(v ?? "")
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     }
 
-    function clearMessages() {
-      loginError.classList.add("hidden");
-      dashNotice.classList.add("hidden");
-      dashError.classList.add("hidden");
+    function updateAcceptedDisplay() {
+      const offset = Number(localStorage.getItem("kyv_accepted_offset") || "0");
+      document.getElementById("realAcceptedCount").textContent = realAccepted;
+      document.getElementById("offsetCount").textContent = offset;
+      document.getElementById("displayTotalAccepted").textContent = Math.max(0, realAccepted + offset);
     }
 
-    function renderAuthState(session) {
-      loadingScreen.classList.add("hidden");
-      clearMessages();
+    window.adjustAccepted = function(delta) {
+      const currentOffset = Number(localStorage.getItem("kyv_accepted_offset") || "0");
+      localStorage.setItem("kyv_accepted_offset", String(currentOffset + delta));
+      updateAcceptedDisplay();
+      showNotice("تم تحديث عدد المقبولين.");
+    };
 
-      if (session && session.user) {
-        loginScreen.classList.add("hidden");
-        dashboardScreen.classList.remove("hidden");
-        adminInfo.textContent = `تم التحقق عبر الخادم — الحساب: ${session.user.email}`;
-        loadApplications();
-        subscribeRealtime();
-      } else {
-        dashboardScreen.classList.add("hidden");
-        loginScreen.classList.remove("hidden");
-        applicationsList.innerHTML = "";
-        if (realtimeChannel) {
-          supabaseClient.removeChannel(realtimeChannel);
-          realtimeChannel = null;
-        }
+    window.resetAcceptedOffset = function() {
+      localStorage.setItem("kyv_accepted_offset", "0");
+      updateAcceptedDisplay();
+      showNotice("تمت إعادة ضبط عداد المقبولين.");
+    };
+
+    function renderAnswersHtml(answers) {
+      if (!Array.isArray(answers) || answers.length === 0) {
+        return "<p style='color:#94a3b8; margin:0;'>لم يُكمل الأجوبة بعد.</p>";
       }
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-    }
-
-    function statusBadge(status) {
-      const s = (status || "pending").toLowerCase();
-      if (s === "accepted") return `<span class="badge status-accepted">مقبول</span>`;
-      if (s === "rejected") return `<span class="badge status-rejected">مرفوض</span>`;
-      return `<span class="badge status-pending">قيد الانتظار</span>`;
+      return answers.map((item, idx) => `
+        <div class="answer-row">
+          <div style="color:var(--muted); font-weight:700;">${idx + 1}. ${escapeHtml(item.question)}</div>
+          <div style="color:#fff;">${escapeHtml(item.answer)}</div>
+        </div>
+      `).join("");
     }
 
     async function loadApplications() {
-      applicationsList.innerHTML = "جارٍ تحميل الطلبات...";
       const { data, error } = await supabaseClient
         .from("applications")
         .select("*")
         .order("created_at", { ascending: false });
 
       if (error) {
-        applicationsList.innerHTML = `<div class="msg-error">تعذر جلب الطلبات: ${escapeHtml(error.message)}</div>`;
+        showError("خطأ في تحميل الطلبات: " + error.message);
         return;
       }
 
-      if (!data || data.length === 0) {
-        applicationsList.innerHTML = "<p>لا توجد طلبات مقدمة حتى الآن.</p>";
+      appsCache = data || [];
+      realAccepted = appsCache.filter(a => a.status === "accepted").length;
+      updateAcceptedDisplay();
+
+      const selectEl = document.getElementById("targetApplicantSelect");
+      const prevSelected = selectEl.value;
+      selectEl.innerHTML = appsCache.map(a =>
+        `<option value="${a.id}">${escapeHtml(a.full_name)} (${escapeHtml(a.status)})</option>`
+      ).join("");
+      if (prevSelected && appsCache.some(a => a.id === prevSelected)) {
+        selectEl.value = prevSelected;
+      }
+      loadAdminDirectChat();
+
+      const listEl = document.getElementById("applicationsList");
+      if (appsCache.length === 0) {
+        listEl.innerHTML = "<p>لا توجد طلبات حتى الآن.</p>";
         return;
       }
 
-      applicationsList.innerHTML = data.map((app) => `
+      listEl.innerHTML = appsCache.map(app => `
         <div class="app-item">
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
             <strong>${escapeHtml(app.full_name)}</strong>
-            ${statusBadge(app.status)}
+            <span style="color:var(--amber); font-weight:800;">الحالة: ${escapeHtml(app.status)}</span>
           </div>
-          <p style="margin:6px 0;"><strong>الموضوع:</strong> ${escapeHtml(app.subject)}</p>
-          <p style="margin:6px 0;"><strong>التفاصيل:</strong> ${escapeHtml(app.details)}</p>
-          <details style="margin-top:8px;">
-            <summary style="cursor:pointer; color:var(--accent);">إجابات الاختبار</summary>
-            <pre>${escapeHtml(JSON.stringify(app.answers ?? [], null, 2))}</pre>
-          </details>
+          <p style="margin:6px 0;"><strong>المصدر / المنطقة:</strong> ${escapeHtml(app.subject)}</p>
+          <p style="margin:6px 0;"><strong>البيانات:</strong> ${escapeHtml(app.details)}</p>
+          ${app.deletion_reason ? `<p style="color:#fda4af; margin:6px 0;"><strong>سبب الحذف:</strong> ${escapeHtml(app.deletion_reason)}</p>` : ""}
+
+          <div class="answers-list">
+            <strong style="color:var(--cyan); display:block; margin-bottom:6px;">كافة إجابات المتقدم:</strong>
+            ${renderAnswersHtml(app.answers)}
+          </div>
+
           <div class="actions">
-            <button class="btn-accept" type="button" onclick="updateStatus('${app.id}', 'accepted')">قبول</button>
-            <button class="btn-reject" type="button" onclick="updateStatus('${app.id}', 'rejected')">رفض</button>
-            <button class="btn-pending" type="button" onclick="updateStatus('${app.id}', 'pending')">قيد الانتظار</button>
+            <button type="button" class="btn-accept" onclick="setAppStatus('${app.id}', 'accepted')">قبول</button>
+            <button type="button" class="btn-reject" onclick="setAppStatus('${app.id}', 'rejected')">رفض</button>
+            <button type="button" class="btn-delete" onclick="deleteAppWithReason('${app.id}', '${escapeHtml(app.full_name).replace(/'/g, "\\'")}')">حذف مع ذكر السبب</button>
           </div>
         </div>
       `).join("");
     }
 
-    window.updateStatus = async function(id, nextStatus) {
+    window.setAppStatus = async function(id, nextStatus) {
       const { error } = await supabaseClient
         .from("applications")
         .update({ status: nextStatus })
         .eq("id", id);
-
-      if (error) {
-        showError(`فشل تحديث حالة الطلب: ${error.message}`);
-        return;
-      }
-      showNotice("تم تحديث حالة الطلب بنجاح.");
-      await loadApplications();
+      if (error) return showError(error.message);
+      showNotice("تم تحديث حالة الطلب.");
+      loadApplications();
     };
 
-    function subscribeRealtime() {
-      if (realtimeChannel) {
-        supabaseClient.removeChannel(realtimeChannel);
-      }
-      realtimeChannel = supabaseClient
-        .channel("admin-applications-channel")
-        .on(
-          "postgres_changes",
-          { event: "*", schema: "public", table: "applications" },
-          () => {
-            loadApplications();
-          }
-        )
-        .subscribe();
-    }
-
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      loginError.classList.add("hidden");
-      loginBtn.disabled = true;
-      loginBtn.textContent = "جارٍ التحقق...";
-
-      const email = document.getElementById("emailInput").value.trim();
-      const password = document.getElementById("passwordInput").value;
-
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      loginBtn.disabled = false;
-      loginBtn.textContent = "تسجيل الدخول";
-
-      if (error) {
-        showLoginError("بيانات الدخول غير صحيحة أو الحساب غير مفعل في السيرفر.");
+    window.deleteAppWithReason = async function(id, name) {
+      const reason = prompt(`أدخل سبب حذف طلب (${name}) ليصل إليه كإشعار وتنبيه في الموقع:`);
+      if (reason === null) return;
+      if (!reason.trim()) {
+        alert("يجب إدخال سبب الحذف.");
         return;
       }
 
-      renderAuthState(data.session);
-    });
+      const { error } = await supabaseClient
+        .from("applications")
+        .update({ status: "deleted", deletion_reason: reason.trim() })
+        .eq("id", id);
 
-    logoutBtn.addEventListener("click", async () => {
-      await supabaseClient.auth.signOut();
-      renderAuthState(null);
-    });
+      if (error) return showError("فشل تسجيل سبب الحذف: " + error.message);
+      showNotice(`تم حذف ${name} وإرسال سبب الحذف إليه.`);
+      loadApplications();
+    };
 
-    msgType.addEventListener("change", () => {
-      if (msgType.value === "poll") {
-        pollOptionsBox.classList.remove("hidden");
-      } else {
-        pollOptionsBox.classList.add("hidden");
+    function readImage(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve("");
+        if (file.size > 1.5 * 1024 * 1024) {
+          return reject(new Error("اختر صورة أقل من 1.5 ميجابايت."));
+        }
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    window.loadAdminDirectChat = async function() {
+      const appId = document.getElementById("targetApplicantSelect").value;
+      const body = document.getElementById("adminDirectBody");
+      if (!appId) {
+        body.innerHTML = "<p>لا يوجد متقدم محدد.</p>";
+        return;
+      }
+
+      const { data } = await supabaseClient
+        .from("direct_messages")
+        .select("*")
+        .eq("application_id", appId)
+        .order("created_at", { ascending: true });
+
+      const msgs = data || [];
+      body.innerHTML = msgs.length
+        ? msgs.map(m => `
+            <div class="bubble ${m.sender_role === "admin" ? "admin" : "user"}">
+              <div style="font-weight:800; color:#fde68a;">${escapeHtml(m.sender_name)}</div>
+              ${m.text ? `<div>${escapeHtml(m.text)}</div>` : ""}
+              ${m.image_data ? `<img src="${m.image_data}" alt="صورة" />` : ""}
+            </div>
+          `).join("")
+        : "<p style='color:#94a3b8;'>لا توجد رسائل خاصة مع هذا الشخص بعد.</p>";
+      body.scrollTop = body.scrollHeight;
+    };
+
+    async function sendAdminDirect(imgData = "") {
+      const appId = document.getElementById("targetApplicantSelect").value;
+      const input = document.getElementById("adminDirectText");
+      const text = input.value.trim();
+      if (!appId || (!text && !imgData)) return;
+
+      const { error } = await supabaseClient.from("direct_messages").insert([{
+        application_id: appId,
+        sender_role: "admin",
+        sender_name: "الرئاسة — دولة كيوشان",
+        text,
+        image_data: imgData
+      }]);
+      if (error) return showError(error.message);
+      input.value = "";
+      document.getElementById("adminDirectImgInput").value = "";
+      loadAdminDirectChat();
+    }
+
+    document.getElementById("sendAdminDirectBtn").addEventListener("click", () => sendAdminDirect(""));
+    document.getElementById("adminDirectImgInput").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const imgData = await readImage(file);
+        await sendAdminDirect(imgData);
+      } catch (err) {
+        alert(err.message);
       }
     });
 
-    broadcastForm.addEventListener("submit", async (e) => {
+    document.getElementById("msgType").addEventListener("change", (e) => {
+      document.getElementById("pollOptionsWrap").classList.toggle("hidden", e.target.value !== "poll");
+    });
+
+    document.getElementById("broadcastForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const type = msgType.value;
+      const type = document.getElementById("msgType").value;
       const text = document.getElementById("msgText").value.trim();
-      const rawOptions = document.getElementById("pollOptionsInput").value.trim();
+      const rawOpts = document.getElementById("pollOptionsInput").value.trim();
+      const file = document.getElementById("adminGroupImgInput").files[0];
+
+      let imgData = "";
+      if (file) {
+        try { imgData = await readImage(file); }
+        catch (err) { return alert(err.message); }
+      }
 
       let options = [];
       if (type === "poll") {
-        options = rawOptions
-          .split(",")
-          .map((item) => item.trim())
-          .filter(Boolean);
-
-        if (options.length < 2) {
-          showError("يرجى إدخال خيارين على الأقل مفصولين بفاصلة للتصويت.");
-          return;
-        }
+        options = rawOpts.split(",").map(s => s.trim()).filter(Boolean);
+        if (options.length < 2) return alert("أدخل خيارين على الأقل مفصولين بفاصلة.");
       }
 
-      const sendBtn = document.getElementById("sendBroadcastBtn");
-      sendBtn.disabled = true;
+      const { error } = await supabaseClient.from("group_messages").insert([{
+        sender: "الرئاسة السيادية — كيوشان",
+        sender_name: "الرئاسة السيادية — كيوشان",
+        message_type: type,
+        text,
+        image_data: imgData,
+        options
+      }]);
 
-      const { error } = await supabaseClient
-        .from("group_messages")
-        .insert({
-          sender: "الإدارة السيادية - كِيُوشَان",
-          message_type: type,
-          text,
-          options
-        });
-
-      sendBtn.disabled = false;
-
-      if (error) {
-        showError(`فشل نشر الرسالة: ${error.message}`);
-        return;
-      }
-
+      if (error) return showError(error.message);
       document.getElementById("msgText").value = "";
       document.getElementById("pollOptionsInput").value = "";
-      showNotice("تم نشر الرسالة بنجاح في الشات الجماعي.");
+      document.getElementById("adminGroupImgInput").value = "";
+      showNotice("تم النشر بامتيازات الإدارة.");
+      loadAdminGroupChat();
     });
 
-    // التحقق الفوري من الجلسة عند فتح الصفحة ومراقبة أي تغيير في الجلسة
-    (async function initAuth() {
-      const { data, error } = await supabaseClient.auth.getSession();
-      if (error) {
-        renderAuthState(null);
+    async function loadAdminGroupChat() {
+      const { data } = await supabaseClient
+        .from("group_messages")
+        .select("*")
+        .order("created_at", { ascending: true });
+      const body = document.getElementById("adminGroupBody");
+      body.innerHTML = (data || []).map(m => `
+        <div class="bubble admin">
+          <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+            <strong style="color:#fde68a;">${escapeHtml(m.sender_name || m.sender)}</strong>
+            <button type="button" class="btn-delete" style="padding:2px 8px; font-size:0.75rem;" onclick="deleteGroupMsg('${m.id}')">حذف</button>
+          </div>
+          ${m.text ? `<div style="margin-top:4px;">${escapeHtml(m.text)}</div>` : ""}
+          ${m.image_data ? `<img src="${m.image_data}" alt="صورة" />` : ""}
+        </div>
+      `).join("");
+      body.scrollTop = body.scrollHeight;
+    }
+
+    window.deleteGroupMsg = async function(id) {
+      const { error } = await supabaseClient.from("group_messages").delete().eq("id", id);
+      if (!error) {
+        showNotice("تم حذف الرسالة.");
+        loadAdminGroupChat();
+      }
+    };
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      document.getElementById("loginError").classList.add("hidden");
+      const email = document.getElementById("emailInput").value.trim();
+      const password = document.getElementById("passwordInput").value;
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error || !data.session) {
+        const errBox = document.getElementById("loginError");
+        errBox.textContent = "بيانات الدخول غير صحيحة أو الحساب غير مفعل.";
+        errBox.classList.remove("hidden");
         return;
       }
-      renderAuthState(data.session);
 
-      supabaseClient.auth.onAuthStateChange((_event, session) => {
-        renderAuthState(session);
-      });
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("dashboardScreen").classList.remove("hidden");
+      document.getElementById("adminInfo").textContent = `جلسة سيرفر نشطة: ${data.session.user.email}`;
+
+      await loadApplications();
+      await loadAdminGroupChat();
+
+      supabaseClient
+        .channel("admin-rt-v2")
+        .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => loadApplications())
+        .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, () => loadAdminDirectChat())
+        .on("postgres_changes", { event: "*", schema: "public", table: "group_messages" }, () => loadAdminGroupChat())
+        .subscribe();
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      location.reload();
+    });
+
+    // إجبار طلب تسجيل الدخول في كل مرة يُفتح فيها الموقع من جديد
+    (async function enforceFreshLogin() {
+      await supabaseClient.auth.signOut();
     })();
   </script>
 </body>
