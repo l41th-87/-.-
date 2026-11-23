@@ -1,277 +1,519 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة القيادة السيادية - دولة كِيُوشَان</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-main: #030712;
-            --bg-card: #111827;
-            --bg-card-alt: #1f2937;
-            --primary-gold: #fbbf24;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --border-color: #374151;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); padding: 1.5rem; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة تحكم الإدارة السيادية - كِيُوشَان</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #131b31;
+      --panel-2: #192440;
+      --text: #f3f6ff;
+      --muted: #9fb0d6;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --danger: #ef4444;
+      --warn: #f59e0b;
+      --border: rgba(255, 255, 255, 0.1);
+    }
 
-        #loginScreen {
-            max-width: 420px;
-            margin: 80px auto;
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-        .login-group { margin-bottom: 1rem; text-align: right; }
-        .login-group label { display: block; font-size: 0.85rem; color: var(--primary-gold); margin-bottom: 0.3rem; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 0.8rem; background: var(--bg-card-alt); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 0.95rem; }
-        button { background: var(--primary-gold); color: black; font-weight: bold; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 1rem; transition: background 0.3s; }
-        button:hover { background: #d97706; }
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+    }
 
-        #adminDashboard { display: none; }
-        .admin-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1rem; }
-        @media (min-width: 768px) { .admin-grid { grid-template-columns: 320px 1fr; min-height: calc(100vh - 140px); } }
+    body {
+      margin: 0;
+      background: linear-gradient(160deg, var(--bg), #060913);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-        .sidebar { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; overflow-y: auto; max-height: 450px; }
-        @media (min-width: 768px) { .sidebar { max-height: none; } }
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
 
-        .applicant-item { padding: 1rem; border-bottom: 1px solid var(--border-color); cursor: pointer; }
-        .applicant-item:hover { background: rgba(251,191,36,0.1); }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
 
-        .chat-area { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; display: flex; flex-direction: column; gap: 1rem; padding: 1rem; }
-        .msg-time { display: block; font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; }
-    </style>
+    .login-box {
+      max-width: 420px;
+      margin: 60px auto;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #07111f;
+      background: var(--accent);
+      transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+
+    button:hover {
+      opacity: 0.92;
+    }
+
+    button:active {
+      transform: scale(0.99);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-accept {
+      background: var(--accent-2);
+      color: #05160c;
+    }
+
+    .btn-reject {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-pending {
+      background: var(--warn);
+      color: #1b1102;
+    }
+
+    .btn-logout {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .status-pending {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fcd34d;
+    }
+
+    .status-accepted {
+      background: rgba(34, 197, 94, 0.2);
+      color: #86efac;
+    }
+
+    .status-rejected {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+    }
+
+    .app-item {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .msg-error {
+      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .msg-ok {
+      color: #86efac;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    pre {
+      background: var(--bg);
+      padding: 10px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+    }
+  </style>
 </head>
 <body>
-
-    <!-- شاشة التحقق الأمني السيادي -->
-    <div id="loginScreen">
-        <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem; text-align: center;">🛡️ البوابة السيادية المحمية</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center;">مصادقة إدارية رسمية للوصول:</p>
-
-        <div class="login-group">
-            <label>الاسم السيادي المعتمد:</label>
-            <input type="text" id="adminNameInput" placeholder="أدخل الاسم المعتمد">
-        </div>
-
-        <div class="login-group">
-            <label>البريد الإلكتروني المعتمد:</label>
-            <input type="email" id="adminEmailInput" placeholder="أدخل البريد الإلكتروني">
-        </div>
-
-        <div class="login-group">
-            <label>رمز المرور السيادي:</label>
-            <input type="password" id="adminPassInput" placeholder="كلمة المرور">
-        </div>
-
-        <button onclick="loginAdmin()" style="width: 100%; margin-top: 0.5rem;">تحقق ودخول الإدارة</button>
+  <div class="container">
+    <!-- شاشة التحقق الأولي -->
+    <div id="loadingScreen" class="card login-box">
+      <h2>جارٍ التحقق من الجلسة...</h2>
+      <p>يتم التحقق من صلاحية الدخول عبر الخادم.</p>
     </div>
 
-    <!-- لوحة القيادة الرسمية -->
-    <div id="adminDashboard">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px;">
-            <h1 style="color: var(--primary-gold); font-size: 1.5rem;">👑 إدارة دولة كِيُوشَان الرسمية</h1>
-            <button onclick="location.reload()" style="width: auto; background: #ef4444; color: white;">تسجيل خروج</button>
-        </div>
+    <!-- شاشة تسجيل الدخول للمشرف -->
+    <div id="loginScreen" class="card login-box hidden">
+      <h2>دخول الإدارة السيادية - كِيُوشَان</h2>
+      <p>سجّل الدخول بحساب المشرف المسجل في Supabase للوصول إلى لوحة التحكم.</p>
+      <div id="loginError" class="msg-error hidden"></div>
+      <form id="loginForm">
+        <label for="emailInput">البريد الإلكتروني</label>
+        <input id="emailInput" type="email" required autocomplete="username" placeholder="admin@example.com" />
 
-        <div class="admin-grid">
-            <div class="sidebar" id="applicantsList"></div>
+        <label for="passwordInput">كلمة المرور</label>
+        <input id="passwordInput" type="password" required autocomplete="current-password" placeholder="••••••••" />
 
-            <div class="chat-area">
-                <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
-                    <h3 style="color: var(--primary-gold); margin-bottom: 0.7rem; font-size: 1.05rem;">📢 بث رسالة أو انتخابات في الشات الجماعي (للمقبولين)</h3>
-                    <form id="broadcastForm" style="display: flex; flex-direction: column; gap: 0.6rem;">
-                        <select id="messageType">
-                            <option value="announcement">إعلان / رسالة إدارية</option>
-                            <option value="election">انتخابات / تصويت</option>
-                        </select>
-                        <textarea id="broadcastText" rows="2" placeholder="اكتب الرسالة أو موضوع الانتخابات..." required></textarea>
-                        <input type="text" id="pollOptions" placeholder="خيارات الانتخابات مفصولة بفاصلة (مثال: مرشح 1، مرشح 2)">
-                        <button type="submit" style="width: auto;">إرسال إلى الشات الجماعي</button>
-                    </form>
-                    <div id="adminBroadcastList" style="margin-top: 0.8rem;"></div>
-                </div>
-
-                <div id="applicantDetailBox" style="background: var(--bg-card-alt); padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
-                    <div id="chatHeader" style="font-weight: bold; color: var(--primary-gold); margin-bottom: 0.5rem;">اختر متقدماً من القائمة</div>
-                    <div id="applicantInfo" style="font-size: 0.9rem;"></div>
-                </div>
-            </div>
-        </div>
+        <button id="loginBtn" type="submit" style="width: 100%;">تسجيل الدخول</button>
+      </form>
     </div>
 
-    <!-- Supabase SDK -->
-    <script type="module">
-        import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+    <!-- لوحة التحكم المحمية -->
+    <div id="dashboardScreen" class="hidden">
+      <div class="card topbar">
+        <div>
+          <h1>لوحة التحكم - كِيُوشَان</h1>
+          <p id="adminInfo" style="margin: 0;"></p>
+        </div>
+        <button id="logoutBtn" class="btn-logout" type="button">تسجيل الخروج</button>
+      </div>
 
-        const SUPABASE_URL = "https://rrwessrapdcozozcxlcq.supabase.co";
-        const SUPABASE_ANON_KEY = "sb_publishable_QPjklI2G5v0kC8S7I9-T1A_rZR7aJUN";
-        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      <div id="dashNotice" class="msg-ok hidden"></div>
+      <div id="dashError" class="msg-error hidden"></div>
 
-        let selectedAppId = null;
+      <!-- إدارة الطلبات -->
+      <div class="card">
+        <h2>طلبات الجنسية والانضمام</h2>
+        <div id="applicationsList">جارٍ تحميل الطلبات...</div>
+      </div>
 
-        window.loginAdmin = function() {
-            const enteredName = document.getElementById('adminNameInput').value.trim();
-            const enteredEmail = document.getElementById('adminEmailInput').value.trim();
-            const enteredPass = document.getElementById('adminPassInput').value;
+      <!-- بث إعلان أو انتخابات للشات الجماعي -->
+      <div class="card">
+        <h2>إرسال إعلان أو تصويت للشات الجماعي</h2>
+        <form id="broadcastForm">
+          <label for="msgType">نوع الرسالة</label>
+          <select id="msgType">
+            <option value="announcement">إعلان رسمي</option>
+            <option value="poll">استطلاع / انتخابات</option>
+          </select>
 
-            const validName = "فلجكا ليث عويس كيوشان";
-            const validEmail = "laithowaisn@gmail.com";
-            const validPass = "kyvosh2026";
+          <label for="msgText">نص الإعلان أو سؤال التصويت</label>
+          <textarea id="msgText" rows="3" required placeholder="اكتب الرسالة هنا..."></textarea>
 
-            if (enteredName === validName && enteredEmail === validEmail && enteredPass === validPass) {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('adminDashboard').style.display = 'block';
-                loadAdminData();
-            } else {
-                alert('خطأ في إحدى البيانات السيادية (الاسم، البريد، أو رمز المرور)!');
-            }
-        };
+          <div id="pollOptionsBox" class="hidden">
+            <label for="pollOptionsInput">خيارات التصويت (افصل بين الخيارات بفاصلة)</label>
+            <input id="pollOptionsInput" type="text" placeholder="مثال: موافق, غير موافق, امتناع" />
+          </div>
 
-        function formatTime(isoStr) {
-            if (!isoStr) return "";
-            return new Date(isoStr).toLocaleString("ar-EG", {
-                year: "numeric", month: "short", day: "numeric",
-                hour: "2-digit", minute: "2-digit"
-            });
+          <button id="sendBroadcastBtn" type="submit">نشر في الشات الجماعي</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://rrwessrapdcozozcxlcq.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_QPjklI2G5v0kC8S7I9-T1A_rZR7aJUN";
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const loadingScreen = document.getElementById("loadingScreen");
+    const loginScreen = document.getElementById("loginScreen");
+    const dashboardScreen = document.getElementById("dashboardScreen");
+    const loginForm = document.getElementById("loginForm");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginError = document.getElementById("loginError");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const adminInfo = document.getElementById("adminInfo");
+    const applicationsList = document.getElementById("applicationsList");
+    const broadcastForm = document.getElementById("broadcastForm");
+    const msgType = document.getElementById("msgType");
+    const pollOptionsBox = document.getElementById("pollOptionsBox");
+    const dashNotice = document.getElementById("dashNotice");
+    const dashError = document.getElementById("dashError");
+
+    let realtimeChannel = null;
+
+    function showNotice(text) {
+      dashError.classList.add("hidden");
+      dashNotice.textContent = text;
+      dashNotice.classList.remove("hidden");
+    }
+
+    function showError(text) {
+      dashNotice.classList.add("hidden");
+      dashError.textContent = text;
+      dashError.classList.remove("hidden");
+    }
+
+    function showLoginError(text) {
+      loginError.textContent = text;
+      loginError.classList.remove("hidden");
+    }
+
+    function clearMessages() {
+      loginError.classList.add("hidden");
+      dashNotice.classList.add("hidden");
+      dashError.classList.add("hidden");
+    }
+
+    function renderAuthState(session) {
+      loadingScreen.classList.add("hidden");
+      clearMessages();
+
+      if (session && session.user) {
+        loginScreen.classList.add("hidden");
+        dashboardScreen.classList.remove("hidden");
+        adminInfo.textContent = `تم التحقق عبر الخادم — الحساب: ${session.user.email}`;
+        loadApplications();
+        subscribeRealtime();
+      } else {
+        dashboardScreen.classList.add("hidden");
+        loginScreen.classList.remove("hidden");
+        applicationsList.innerHTML = "";
+        if (realtimeChannel) {
+          supabaseClient.removeChannel(realtimeChannel);
+          realtimeChannel = null;
         }
+      }
+    }
 
-        async function loadAdminData() {
-            await loadApplicants();
-            await loadBroadcasts();
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
 
-            supabase
-                .channel("kyushan-admin-channel")
-                .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, loadApplicants)
-                .on("postgres_changes", { event: "*", schema: "public", table: "group_messages" }, loadBroadcasts)
-                .on("postgres_changes", { event: "*", schema: "public", table: "poll_votes" }, loadBroadcasts)
-                .subscribe();
+    function statusBadge(status) {
+      const s = (status || "pending").toLowerCase();
+      if (s === "accepted") return `<span class="badge status-accepted">مقبول</span>`;
+      if (s === "rejected") return `<span class="badge status-rejected">مرفوض</span>`;
+      return `<span class="badge status-pending">قيد الانتظار</span>`;
+    }
+
+    async function loadApplications() {
+      applicationsList.innerHTML = "جارٍ تحميل الطلبات...";
+      const { data, error } = await supabaseClient
+        .from("applications")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        applicationsList.innerHTML = `<div class="msg-error">تعذر جلب الطلبات: ${escapeHtml(error.message)}</div>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        applicationsList.innerHTML = "<p>لا توجد طلبات مقدمة حتى الآن.</p>";
+        return;
+      }
+
+      applicationsList.innerHTML = data.map((app) => `
+        <div class="app-item">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+            <strong>${escapeHtml(app.full_name)}</strong>
+            ${statusBadge(app.status)}
+          </div>
+          <p style="margin:6px 0;"><strong>الموضوع:</strong> ${escapeHtml(app.subject)}</p>
+          <p style="margin:6px 0;"><strong>التفاصيل:</strong> ${escapeHtml(app.details)}</p>
+          <details style="margin-top:8px;">
+            <summary style="cursor:pointer; color:var(--accent);">إجابات الاختبار</summary>
+            <pre>${escapeHtml(JSON.stringify(app.answers ?? [], null, 2))}</pre>
+          </details>
+          <div class="actions">
+            <button class="btn-accept" type="button" onclick="updateStatus('${app.id}', 'accepted')">قبول</button>
+            <button class="btn-reject" type="button" onclick="updateStatus('${app.id}', 'rejected')">رفض</button>
+            <button class="btn-pending" type="button" onclick="updateStatus('${app.id}', 'pending')">قيد الانتظار</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.updateStatus = async function(id, nextStatus) {
+      const { error } = await supabaseClient
+        .from("applications")
+        .update({ status: nextStatus })
+        .eq("id", id);
+
+      if (error) {
+        showError(`فشل تحديث حالة الطلب: ${error.message}`);
+        return;
+      }
+      showNotice("تم تحديث حالة الطلب بنجاح.");
+      await loadApplications();
+    };
+
+    function subscribeRealtime() {
+      if (realtimeChannel) {
+        supabaseClient.removeChannel(realtimeChannel);
+      }
+      realtimeChannel = supabaseClient
+        .channel("admin-applications-channel")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "applications" },
+          () => {
+            loadApplications();
+          }
+        )
+        .subscribe();
+    }
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      loginError.classList.add("hidden");
+      loginBtn.disabled = true;
+      loginBtn.textContent = "جارٍ التحقق...";
+
+      const email = document.getElementById("emailInput").value.trim();
+      const password = document.getElementById("passwordInput").value;
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      loginBtn.disabled = false;
+      loginBtn.textContent = "تسجيل الدخول";
+
+      if (error) {
+        showLoginError("بيانات الدخول غير صحيحة أو الحساب غير مفعل في السيرفر.");
+        return;
+      }
+
+      renderAuthState(data.session);
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      renderAuthState(null);
+    });
+
+    msgType.addEventListener("change", () => {
+      if (msgType.value === "poll") {
+        pollOptionsBox.classList.remove("hidden");
+      } else {
+        pollOptionsBox.classList.add("hidden");
+      }
+    });
+
+    broadcastForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const type = msgType.value;
+      const text = document.getElementById("msgText").value.trim();
+      const rawOptions = document.getElementById("pollOptionsInput").value.trim();
+
+      let options = [];
+      if (type === "poll") {
+        options = rawOptions
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean);
+
+        if (options.length < 2) {
+          showError("يرجى إدخال خيارين على الأقل مفصولين بفاصلة للتصويت.");
+          return;
         }
+      }
 
-        async function loadApplicants() {
-            const { data, error } = await supabase
-                .from("applications")
-                .select("*")
-                .order("created_at", { ascending: false });
+      const sendBtn = document.getElementById("sendBroadcastBtn");
+      sendBtn.disabled = true;
 
-            const list = document.getElementById("applicantsList");
-            list.innerHTML = "";
-
-            if (error || !data || data.length === 0) {
-                list.innerHTML = '<div style="padding:1rem; color:var(--text-muted);">لا توجد طلبات رسمية حتى الآن.</div>';
-                return;
-            }
-
-            data.forEach(a => {
-                const div = document.createElement("div");
-                div.className = "applicant-item";
-                const st = a.status === "accepted" ? "مقبول" : (a.status === "rejected" ? "مرفوض" : "قيد المراجعة");
-                div.innerHTML = `<strong>${a.full_name}</strong> (${st})<br><small style="color:var(--text-muted);">${a.subject || ''} - ${formatTime(a.created_at)}</small>`;
-                div.onclick = () => selectApp(a);
-                list.appendChild(div);
-            });
-
-            if (selectedAppId) {
-                const current = data.find(item => item.id === selectedAppId);
-                if (current) selectApp(current);
-            }
-        }
-
-        function selectApp(app) {
-            selectedAppId = app.id;
-            document.getElementById("chatHeader").innerText = `طلب المتقدم: ${app.full_name}`;
-
-            const answersHtml = Array.isArray(app.answers) && app.answers.length > 0
-                ? app.answers.map((item, i) => `<div style="margin-top:6px;"><strong>س${i + 1}: ${item.question}</strong><br><span style="color:#fde68a;">الجواب: ${item.answer}</span></div>`).join("")
-                : `<div style="color:var(--text-muted); margin-top:6px;">لم يجب عن الأسئلة بعد.</div>`;
-
-            document.getElementById("applicantInfo").innerHTML = `
-                <div><strong>الدولة:</strong> ${app.subject || ''}</div>
-                <div><strong>التفاصيل:</strong> ${app.details || ''}</div>
-                <div><strong>وقت الإرسال:</strong> ${formatTime(app.created_at)}</div>
-                <div><strong>الحالة:</strong> ${app.status}</div>
-                <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border-color);"><strong>إجابات الأسئلة:</strong>${answersHtml}</div>
-                <div style="display:flex; gap:8px; margin-top:12px;">
-                    <button type="button" style="width:auto; background:#16a34a; color:#fff;" onclick="window.setStatus('${app.id}', 'accepted')">قبول</button>
-                    <button type="button" style="width:auto; background:#dc2626; color:#fff;" onclick="window.setStatus('${app.id}', 'rejected')">رفض</button>
-                </div>
-            `;
-        }
-
-        window.setStatus = async function(id, status) {
-            const { error } = await supabase
-                .from("applications")
-                .update({ status })
-                .eq("id", id);
-            if (error) {
-                alert("خطأ في تحديث الحالة: " + error.message);
-                return;
-            }
-            loadApplicants();
-        };
-
-        document.getElementById("broadcastForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const messageType = document.getElementById("messageType").value;
-            const text = document.getElementById("broadcastText").value.trim();
-            const rawOpts = document.getElementById("pollOptions").value.trim();
-            const options = messageType === "election"
-                ? rawOpts.split("،").join(",").split(",").map(s => s.trim()).filter(Boolean)
-                : [];
-
-            const { error } = await supabase
-                .from("group_messages")
-                .insert([{
-                    sender: "الإدارة السيادية - كِيُوشَان",
-                    message_type: messageType,
-                    text,
-                    options
-                }]);
-
-            if (error) {
-                alert("خطأ في الإرسال: " + error.message);
-                return;
-            }
-
-            e.target.reset();
-            loadBroadcasts();
+      const { error } = await supabaseClient
+        .from("group_messages")
+        .insert({
+          sender: "الإدارة السيادية - كِيُوشَان",
+          message_type: type,
+          text,
+          options
         });
 
-        async function loadBroadcasts() {
-            const { data: messages } = await supabase
-                .from("group_messages")
-                .select("*")
-                .order("created_at", { ascending: false });
-            const { data: votes } = await supabase.from("poll_votes").select("*");
-            const allVotes = votes || [];
+      sendBtn.disabled = false;
 
-            const el = document.getElementById("adminBroadcastList");
-            if (!messages || messages.length === 0) {
-                el.innerHTML = `<div style="color:var(--text-muted); font-size:0.88rem;">لا توجد رسائل أو انتخابات مرسلة بعد.</div>`;
-                return;
-            }
+      if (error) {
+        showError(`فشل نشر الرسالة: ${error.message}`);
+        return;
+      }
 
-            el.innerHTML = messages.map(m => {
-                let voteLine = "";
-                if (m.message_type === "election" && Array.isArray(m.options) && m.options.length > 0) {
-                    const mVotes = allVotes.filter(v => v.message_id === m.id);
-                    voteLine = `<div style="font-size:0.85rem; color:#93c5fd; margin-top:4px;">الأصوات: ` +
-                        m.options.map(o => `${o} (${mVotes.filter(v => v.choice === o).length})`).join(" | ") + `</div>`;
-                }
-                return `
-                    <div style="background:#090e1a; padding:0.75rem; border-radius:8px; margin-top:0.6rem; border:1px solid var(--border-color);">
-                        <div><strong>[${m.message_type === "election" ? "انتخابات" : "إعلان"}]</strong> ${m.text}</div>
-                        ${voteLine}
-                        <span class="msg-time">وقت الإرسال: ${formatTime(m.created_at)}</span>
-                    </div>
-                `;
-            }).join("");
-        }
-    </script>
+      document.getElementById("msgText").value = "";
+      document.getElementById("pollOptionsInput").value = "";
+      showNotice("تم نشر الرسالة بنجاح في الشات الجماعي.");
+    });
+
+    // التحقق الفوري من الجلسة عند فتح الصفحة ومراقبة أي تغيير في الجلسة
+    (async function initAuth() {
+      const { data, error } = await supabaseClient.auth.getSession();
+      if (error) {
+        renderAuthState(null);
+        return;
+      }
+      renderAuthState(data.session);
+
+      supabaseClient.auth.onAuthStateChange((_event, session) => {
+        renderAuthState(session);
+      });
+    })();
+  </script>
 </body>
 </html>
