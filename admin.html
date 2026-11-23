@@ -24,7 +24,7 @@
       margin: 0; padding: 20px; min-height: 100vh; color: var(--text);
       background: linear-gradient(155deg, var(--bg), #1b0b14 120%);
     }
-    .container { max-width: 1120px; margin: 0 auto; }
+    .container { max-width: 1160px; margin: 0 auto; }
     .card {
       background: var(--panel); border: 1px solid var(--border);
       border-radius: 16px; padding: 20px; margin-bottom: 18px;
@@ -53,7 +53,6 @@
     .counter-box {
       display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
       background: var(--panel-2); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border);
-      margin-bottom: 14px;
     }
     .counter-num { font-size: 1.4rem; font-weight: 900; color: var(--amber); }
 
@@ -81,7 +80,7 @@
 
     .chat-box {
       background: var(--bg); border: 1px solid var(--border);
-      border-radius: 14px; height: 390px; display: flex; flex-direction: column; overflow: hidden;
+      border-radius: 14px; height: 420px; display: flex; flex-direction: column; overflow: hidden;
     }
     .chat-body {
       flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
@@ -91,7 +90,7 @@
     }
     .bubble.admin { background: #0f766e; align-self: flex-end; }
     .bubble.user { background: #1e293b; align-self: flex-start; }
-    .bubble img { max-width: 100%; max-height: 180px; border-radius: 8px; margin-top: 6px; display: block; cursor: pointer; }
+    .bubble img { max-width: 100%; max-height: 190px; border-radius: 8px; margin-top: 6px; display: block; }
     .chat-foot {
       padding: 8px; background: var(--panel-2); border-top: 1px solid var(--border);
       display: flex; gap: 8px; align-items: center;
@@ -101,7 +100,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- شاشة تسجيل الدخول (تظهر دائماً عند إعادة فتح الصفحة) -->
     <div id="loginScreen" class="card login-box">
       <h2>دخول الإدارة السيادية — كِيُوشَان</h2>
       <p>يُشترط تسجيل الدخول في كل جلسة جديدة للوصول إلى لوحة التحكم.</p>
@@ -115,20 +113,21 @@
       </form>
     </div>
 
-    <!-- لوحة التحكم -->
     <div id="dashboardScreen" class="hidden">
       <div class="card topbar">
         <div>
           <h1>لوحة تحكم الإدارة — كِيُوشَان</h1>
           <p id="adminInfo" style="margin:0;"></p>
         </div>
-        <button id="logoutBtn" class="btn-logout" type="button">تسجيل الخروج</button>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button id="allowNotifBtn" class="btn-accept" type="button">🔔 قبول الإشعارات</button>
+          <button id="logoutBtn" class="btn-logout" type="button">تسجيل الخروج</button>
+        </div>
       </div>
 
       <div id="noticeBox" class="msg-ok hidden"></div>
       <div id="errorBox" class="msg-err hidden"></div>
 
-      <!-- التحكم بعدد المقبولين -->
       <div class="card">
         <h2>التحكم بعدد المقبولين</h2>
         <div class="counter-box">
@@ -141,13 +140,11 @@
         </div>
       </div>
 
-      <!-- إدارة الطلبات وكل الأجوبة -->
       <div class="card">
         <h2>الطلبات وكافة إجابات المتقدمين</h2>
         <div id="applicationsList">جارٍ التحميل...</div>
       </div>
 
-      <!-- محادثة خاصة مع متقدم/مواطن -->
       <div class="card">
         <h2>محادثة خاصة مع متقدم / مواطن</h2>
         <label for="targetApplicantSelect">اختر الشخص للتواصل معه</label>
@@ -163,7 +160,6 @@
         </div>
       </div>
 
-      <!-- شات الإدارة بامتيازات + إعلانات وتصويت -->
       <div class="card">
         <h2>الشات الجماعي (امتيازات الإدارة السيادية)</h2>
         <form id="broadcastForm">
@@ -203,6 +199,26 @@
 
     let appsCache = [];
     let realAccepted = 0;
+    let knownAppIds = null;
+
+    async function enableAdminNotifications() {
+      if (!("Notification" in window)) {
+        return alert("المتصفح لا يدعم الإشعارات.");
+      }
+      const perm = await Notification.requestPermission();
+      if (perm === "granted") {
+        showNotice("تم قبول الإشعارات بنجاح؛ ستصلك إشعارات عند تسجيل أي شخص جديد.");
+        new Notification("إشعارات إدارة كيوشان", { body: "الإشعارات مفعّلة الآن." });
+      }
+    }
+
+    document.getElementById("allowNotifBtn").addEventListener("click", enableAdminNotifications);
+
+    function notifyAdmin(title, body) {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, { body });
+      }
+    }
 
     function showNotice(msg) {
       const el = document.getElementById("noticeBox");
@@ -267,6 +283,17 @@
       }
 
       appsCache = data || [];
+      if (knownAppIds === null) {
+        knownAppIds = new Set(appsCache.map(a => a.id));
+      } else {
+        for (const item of appsCache) {
+          if (!knownAppIds.has(item.id)) {
+            knownAppIds.add(item.id);
+            notifyAdmin("طلب تسجيل جديد — كيوشان", `قام ${item.full_name} بإرسال طلب جديد.`);
+          }
+        }
+      }
+
       realAccepted = appsCache.filter(a => a.status === "accepted").length;
       updateAcceptedDisplay();
 
@@ -294,7 +321,6 @@
           </div>
           <p style="margin:6px 0;"><strong>المصدر / المنطقة:</strong> ${escapeHtml(app.subject)}</p>
           <p style="margin:6px 0;"><strong>البيانات:</strong> ${escapeHtml(app.details)}</p>
-          ${app.deletion_reason ? `<p style="color:#fda4af; margin:6px 0;"><strong>سبب الحذف:</strong> ${escapeHtml(app.deletion_reason)}</p>` : ""}
 
           <div class="answers-list">
             <strong style="color:var(--cyan); display:block; margin-bottom:6px;">كافة إجابات المتقدم:</strong>
@@ -304,7 +330,7 @@
           <div class="actions">
             <button type="button" class="btn-accept" onclick="setAppStatus('${app.id}', 'accepted')">قبول</button>
             <button type="button" class="btn-reject" onclick="setAppStatus('${app.id}', 'rejected')">رفض</button>
-            <button type="button" class="btn-delete" onclick="deleteAppWithReason('${app.id}', '${escapeHtml(app.full_name).replace(/'/g, "\\'")}')">حذف مع ذكر السبب</button>
+            <button type="button" class="btn-delete" onclick="deleteAppFromBothSides('${app.id}', '${escapeHtml(app.full_name).replace(/'/g, "\\'")}')">حذف مع السبب (من الجهتين)</button>
           </div>
         </div>
       `).join("");
@@ -320,21 +346,31 @@
       loadApplications();
     };
 
-    window.deleteAppWithReason = async function(id, name) {
-      const reason = prompt(`أدخل سبب حذف طلب (${name}) ليصل إليه كإشعار وتنبيه في الموقع:`);
+    window.deleteAppFromBothSides = async function(id, name) {
+      const reason = prompt(`أدخل سبب حذف (${name}) ليصله كإشعار ويُحذف من عندي وعنده:`);
       if (reason === null) return;
       if (!reason.trim()) {
-        alert("يجب إدخال سبب الحذف.");
-        return;
+        return alert("يجب إدخال سبب الحذف.");
       }
 
+      // إرسال الإشعار بالسبب أولاً ليظهر عند المستخدم
+      await supabaseClient.from("direct_messages").insert([{
+        application_id: id,
+        sender_role: "admin",
+        sender_name: "الرئاسة — دولة كيوشان",
+        text: `إشعار حذف الملف — السبب: ${reason.trim()}`,
+        image_data: ""
+      }]);
+
+      // حذف السجل فعلياً من قاعدة البيانات ليختفي من الطرفين
       const { error } = await supabaseClient
         .from("applications")
-        .update({ status: "deleted", deletion_reason: reason.trim() })
+        .delete()
         .eq("id", id);
 
-      if (error) return showError("فشل تسجيل سبب الحذف: " + error.message);
-      showNotice(`تم حذف ${name} وإرسال سبب الحذف إليه.`);
+      if (error) return showError("تعذر الحذف من السيرفر: " + error.message);
+      knownAppIds.delete(id);
+      showNotice(`تم حذف ${name} من الجهتين وإرسال السبب.`);
       loadApplications();
     };
 
@@ -490,6 +526,10 @@
         return;
       }
 
+      if ("Notification" in window && Notification.permission === "default") {
+        await enableAdminNotifications();
+      }
+
       document.getElementById("loginScreen").classList.add("hidden");
       document.getElementById("dashboardScreen").classList.remove("hidden");
       document.getElementById("adminInfo").textContent = `جلسة سيرفر نشطة: ${data.session.user.email}`;
@@ -498,9 +538,14 @@
       await loadAdminGroupChat();
 
       supabaseClient
-        .channel("admin-rt-v2")
+        .channel("admin-rt-v3")
         .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => loadApplications())
-        .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, () => loadAdminDirectChat())
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, (payload) => {
+          loadAdminDirectChat();
+          if (payload.new && payload.new.sender_role === "user") {
+            notifyAdmin("رسالة خاصة جديدة", `${payload.new.sender_name}: ${payload.new.text || "أرسل صورة"}`);
+          }
+        })
         .on("postgres_changes", { event: "*", schema: "public", table: "group_messages" }, () => loadAdminGroupChat())
         .subscribe();
     });
@@ -510,7 +555,6 @@
       location.reload();
     });
 
-    // إجبار طلب تسجيل الدخول في كل مرة يُفتح فيها الموقع من جديد
     (async function enforceFreshLogin() {
       await supabaseClient.auth.signOut();
     })();
