@@ -7,10 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-main: #091412;
-      --bg-surface: #102420;
-      --bg-card: #152e29;
-      --bg-input: #0b1916;
+      --bg-main: #071312;
+      --bg-surface: #0e2421;
+      --bg-card: #132f2b;
+      --bg-input: #091816;
       --accent-emerald: #10b981;
       --accent-crimson: #e11d48;
       --accent-amber: #f59e0b;
@@ -23,8 +23,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
 
     body {
-      background: radial-gradient(circle at 15% 10%, #133830 0%, var(--bg-main) 55%),
-                  radial-gradient(circle at 85% 85%, #2a0d19 0%, var(--bg-main) 60%);
+      background:
+        radial-gradient(circle at 12% 15%, rgba(16, 185, 129, 0.22) 0%, transparent 42%),
+        radial-gradient(circle at 88% 20%, rgba(225, 29, 72, 0.2) 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(245, 158, 11, 0.16) 0%, transparent 50%),
+        var(--bg-main);
       background-attachment: fixed;
       color: var(--text-main);
       min-height: 100vh;
@@ -33,33 +36,29 @@
 
     header {
       position: sticky; top: 0; z-index: 200;
-      background: rgba(9, 20, 18, 0.92);
+      background: rgba(7, 19, 18, 0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-soft);
       padding: 0.85rem 1.25rem;
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
     }
 
-    .brand {
-      display: flex; align-items: center; gap: 10px;
-      font-weight: 900; font-size: 1.2rem; color: var(--accent-amber);
-    }
+    .brand { font-weight: 900; font-size: 1.2rem; color: var(--accent-amber); }
 
-    .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; }
+    .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .nav-btn {
       background: var(--bg-card); color: var(--text-main);
       border: 1px solid var(--border-soft); padding: 0.5rem 0.95rem;
       border-radius: 999px; font-weight: 700; font-size: 0.9rem; cursor: pointer;
       transition: all 0.2s ease;
     }
-    .nav-btn:hover { border-color: var(--accent-emerald); transform: translateY(-1px); }
     .nav-btn.active {
       background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
       color: #041310; border-color: transparent;
     }
 
     .top-ticker {
-      max-width: 1050px; margin: 1rem auto 0; padding: 0 1rem;
+      max-width: 1280px; margin: 1rem auto 0; padding: 0 1rem;
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
     }
     .ticker-pill {
@@ -68,7 +67,7 @@
     }
     .ticker-pill strong { color: var(--accent-amber); }
 
-    .container { max-width: 1050px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
     .page-view { display: none; animation: fadeIn 0.28s ease; }
     .page-view.active { display: block; }
 
@@ -87,9 +86,8 @@
       .hero-banner { grid-template-columns: 240px 1fr; padding: 2.4rem; }
     }
 
-    /* الدائرة الحماسية المتحركة */
     .hype-circle-wrap {
-      position: relative; width: 200px; height: 200px; margin: 0 auto;
+      position: relative; width: 205px; height: 205px; margin: 0 auto;
       display: flex; align-items: center; justify-content: center;
     }
     .hype-ring {
@@ -105,8 +103,8 @@
       animation: spinReverse 6s linear infinite;
     }
     .hype-core {
-      position: relative; z-index: 2; width: 150px; height: 150px; border-radius: 50%;
-      background: radial-gradient(circle, #1d4ed8 0%, #0f766e 60%, #881337 100%);
+      position: relative; z-index: 2; width: 152px; height: 152px; border-radius: 50%;
+      background: radial-gradient(circle, #0f766e 0%, #115e59 55%, #881337 100%);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       text-align: center; padding: 10px; box-shadow: 0 0 28px rgba(16, 185, 129, 0.35);
       animation: pulseBeat 2.2s ease-in-out infinite;
@@ -151,28 +149,33 @@
     .pillar-box h4 { color: var(--accent-amber); margin-bottom: 0.35rem; font-size: 1rem; }
     .pillar-box p { color: #e2e8f0; font-size: 0.92rem; }
 
-    /* تصميم العلم المطابق للصورة */
     .flag-stage {
       display: flex; flex-direction: column; align-items: center; gap: 1rem;
       background: var(--bg-surface); padding: 1.5rem; border-radius: 18px;
       border: 1px solid var(--border-soft);
     }
     .flag-svg-box {
-      width: 100%; max-width: 440px; border-radius: 12px; overflow: hidden;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5); border: 2px solid rgba(255,255,255,0.2);
+      width: 100%; max-width: 480px; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5); border: 2px solid rgba(255,255,255,0.22);
     }
 
     .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
     @media (min-width: 720px) { .grid-2 { grid-template-columns: repeat(2, 1fr); } }
 
-    .form-group { margin-bottom: 1.1rem; }
+    .apply-and-chat-grid {
+      display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: start;
+    }
+    @media (min-width: 980px) {
+      .apply-and-chat-grid { grid-template-columns: 1.05fr 1fr; }
+    }
+
+    .form-group { margin-bottom: 1.05rem; }
     label { display: block; font-weight: 700; margin-bottom: 0.4rem; font-size: 0.95rem; }
     input[type="text"], input[type="email"], input[type="date"], select, textarea {
       width: 100%; padding: 0.8rem 0.95rem; border-radius: 12px;
       background: var(--bg-input); border: 1.5px solid var(--border-soft);
       color: var(--text-main); font-size: 0.95rem;
     }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-emerald); }
 
     .btn-primary {
       width: 100%; padding: 0.9rem 1.4rem; border: none; border-radius: 12px;
@@ -180,7 +183,7 @@
       color: #041310; font-weight: 900; font-size: 1rem; cursor: pointer;
     }
     .btn-secondary {
-      padding: 0.7rem 1.2rem; border: none; border-radius: 10px;
+      padding: 0.65rem 1.15rem; border: none; border-radius: 10px;
       background: var(--accent-amber); color: #140e02; font-weight: 800; cursor: pointer;
     }
 
@@ -188,7 +191,7 @@
       padding: 1rem 1.2rem; border-radius: 14px; margin-bottom: 1.2rem; font-size: 0.95rem;
     }
     .alert-deleted {
-      background: rgba(225, 29, 72, 0.18); border: 1px solid rgba(225, 29, 72, 0.5); color: #fecdd3;
+      background: rgba(225, 29, 72, 0.2); border: 1px solid rgba(225, 29, 72, 0.55); color: #fecdd3;
     }
     .alert-info {
       background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.45); color: #cffafe;
@@ -201,40 +204,59 @@
       color: var(--accent-amber); text-decoration: none; font-weight: 700; font-size: 0.9rem;
     }
 
-    /* تبويب المحادثتين */
-    .chat-tabs { display: flex; gap: 10px; margin-bottom: 1rem; flex-wrap: wrap; }
-    .chat-tab {
-      padding: 0.6rem 1.1rem; border-radius: 10px; border: 1px solid var(--border-soft);
-      background: var(--bg-surface); color: var(--text-main); font-weight: 800; cursor: pointer;
+    /* محادثة تملأ الشاشة مع خلفية جذابة */
+    .full-screen-chat {
+      min-height: 74vh;
+      height: calc(100vh - 190px);
+      display: flex; flex-direction: column;
+      border-radius: 18px; overflow: hidden;
+      border: 1px solid var(--border-soft);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.18), transparent 45%),
+        radial-gradient(circle at 80% 75%, rgba(6, 182, 212, 0.18), transparent 45%),
+        repeating-linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.015) 0px,
+          rgba(255, 255, 255, 0.015) 2px,
+          transparent 2px,
+          transparent 14px
+        ),
+        #071816;
     }
-    .chat-tab.active { background: var(--accent-crimson); color: #fff; border-color: transparent; }
 
-    .chat-box {
-      background: var(--bg-surface); border: 1px solid var(--border-soft);
-      border-radius: 16px; height: 420px; display: flex; flex-direction: column; overflow: hidden;
+    .chat-header-bar {
+      padding: 0.85rem 1.1rem;
+      background: rgba(9, 28, 25, 0.92);
+      border-bottom: 1px solid var(--border-soft);
+      display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
     }
+
     .chat-messages {
-      flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem;
+      flex: 1; padding: 1.1rem; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 0.8rem;
     }
+
     .bubble {
-      max-width: 84%; padding: 0.7rem 0.95rem; border-radius: 14px; font-size: 0.92rem; word-break: break-word;
+      max-width: 82%; padding: 0.75rem 1rem; border-radius: 14px; font-size: 0.94rem; word-break: break-word;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
     }
-    .bubble.other { background: #1e3a34; align-self: flex-start; border-bottom-right-radius: 3px; }
-    .bubble.mine { background: #1d4ed8; align-self: flex-end; border-bottom-left-radius: 3px; }
-    .bubble-meta { font-size: 0.75rem; opacity: 0.8; margin-top: 0.3rem; }
+    .bubble.other { background: rgba(20, 66, 59, 0.9); align-self: flex-start; border-bottom-right-radius: 3px; }
+    .bubble.mine { background: linear-gradient(135deg, #0f766e, #0369a1); align-self: flex-end; border-bottom-left-radius: 3px; }
+    .bubble-meta { font-size: 0.74rem; opacity: 0.8; margin-top: 0.3rem; }
     .bubble img {
-      max-width: 100%; max-height: 190px; border-radius: 10px; margin-top: 0.45rem;
+      max-width: 100%; max-height: 220px; border-radius: 10px; margin-top: 0.45rem;
       display: block; cursor: pointer; border: 1px solid rgba(255,255,255,0.25);
     }
 
     .chat-input-bar {
-      padding: 0.65rem; background: var(--bg-input); border-top: 1px solid var(--border-soft);
+      padding: 0.7rem; background: rgba(9, 24, 22, 0.96);
+      border-top: 1px solid var(--border-soft);
       display: flex; gap: 8px; align-items: center;
     }
-    .chat-input-bar input[type="text"] { flex: 1; margin: 0; padding: 0.65rem 0.85rem; }
+    .chat-input-bar input[type="text"] { flex: 1; margin: 0; padding: 0.7rem 0.9rem; }
     .icon-btn {
       background: var(--bg-card); color: var(--accent-amber); border: 1px solid var(--border-soft);
-      padding: 0.65rem 0.85rem; border-radius: 10px; cursor: pointer; font-weight: 800;
+      padding: 0.7rem 0.9rem; border-radius: 10px; cursor: pointer; font-weight: 800;
     }
 
     .poll-box { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
@@ -266,8 +288,9 @@
     <nav class="nav-menu">
       <button class="nav-btn active" data-page="homePage">البداية والبيان</button>
       <button class="nav-btn" data-page="flagPage">العلم والهوية</button>
-      <button class="nav-btn" data-page="applyPage">التسجيل والأسئلة</button>
-      <button class="nav-btn" data-page="chatPage">المحادثات</button>
+      <button class="nav-btn" data-page="applyPage">التسجيل والأسئلة والمحادثة</button>
+      <button class="nav-btn" data-page="groupChatPage">المحادثة للجميع</button>
+      <button class="nav-btn" type="button" id="enableNotifBtn">🔔 تفعيل الإشعارات</button>
     </nav>
   </header>
 
@@ -308,7 +331,7 @@
             دولة كيوشان — سيادة تُبنى بالنظام، ومؤسسات تُصان بالمسؤولية. لتقديم طلب الانضمام إلى السجل التأسيسي، يُرجى التوجه إلى بوابة التقديم الرسمية.
           </p>
           <button class="btn-secondary" type="button" onclick="openPage('applyPage')">
-            🚀 الانتقال إلى بوابة التقديم الرسمية
+            🚀 الانتقال إلى بوابة التقديم والأسئلة والمحادثة
           </button>
         </div>
       </div>
@@ -336,25 +359,29 @@
       </div>
     </section>
 
-    <!-- صفحة 2: العلم والهوية والقنوات الرسمية -->
+    <!-- صفحة 2: العلم (ثلاث مثلثات متساوية تلتقي في النصف) والقنوات الرسمية -->
     <section id="flagPage" class="page-view">
       <div class="card">
         <h2 class="card-title">العلم الوطني والهوية السيادية</h2>
         <div class="flag-stage">
           <div class="flag-svg-box">
+            <!-- ثلاث مثلثات متساوية الزوايا والهندسة تلتقي في المركز (300, 180) -->
             <svg viewBox="0 0 600 360" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="علم دولة كيوشان">
-              <!-- أبيض علوي -->
-              <polygon points="0,0 600,0 385,180" fill="#f8fafc" />
-              <!-- أحمر أيمن -->
-              <polygon points="600,0 600,360 385,180" fill="#d61f2c" />
-              <!-- أخضر سفلي -->
-              <polygon points="0,360 600,360 385,180" fill="#0f7a3e" />
-              <!-- أسود أيسر -->
-              <polygon points="0,0 0,360 385,180" fill="#0b0d10" />
+              <!-- المثلث العلوي: أبيض -->
+              <polygon points="0,0 600,0 300,180" fill="#f8fafc" />
+              <!-- المثلث السفلي: أخضر -->
+              <polygon points="0,360 600,360 300,180" fill="#0f7a3e" />
+              <!-- المثلث الأيمن: أحمر -->
+              <polygon points="600,0 600,360 300,180" fill="#d61f2c" />
+              <!-- الخط الفاصل الفاصل بين المثلثات نحو المركز -->
+              <line x1="0" y1="0" x2="300" y2="180" stroke="#0b0d10" stroke-width="2" />
+              <line x1="0" y1="360" x2="300" y2="180" stroke="#0b0d10" stroke-width="2" />
+              <line x1="600" y1="0" x2="300" y2="180" stroke="#0b0d10" stroke-width="2" />
+              <line x1="600" y1="360" x2="300" y2="180" stroke="#0b0d10" stroke-width="2" />
             </svg>
           </div>
-          <p style="text-align: center; max-width: 620px; color: #e2e8f0;">
-            علم دولة كيوشان يجمع بين الأسود والأبيض والأخضر والأحمر في توازن هندسي يرمز إلى الحزم المؤسسي، والنقاء الإداري، والنماء التأسيسي، والعزيمة في العاصمة سِنْدُسِيَا.
+          <p style="text-align: center; max-width: 640px; color: #e2e8f0;">
+            علم دولة كيوشان يتكون من ثلاثة مثلثات متكافئة تلتقي في المنتصف بألوان الأبيض والأخضر والأحمر، معبرةً عن التوازن المؤسسي في العاصمة سِنْدُسِيَا.
           </p>
         </div>
 
@@ -380,162 +407,152 @@
       </div>
     </section>
 
-    <!-- صفحة 3: استمارة التسجيل والأسئلة -->
+    <!-- صفحة 3: التسجيل + الأسئلة + المحادثة الخاصة مع الرئاسة معاً -->
     <section id="applyPage" class="page-view">
-      <div class="card">
-        <h2 class="card-title">بوابة التقديم إلى السجل التأسيسي</h2>
+      <div class="apply-and-chat-grid">
+        <div class="card">
+          <h2 class="card-title">بوابة التقديم والأسئلة المؤسسية</h2>
 
-        <form id="citizenshipForm">
-          <div class="grid-2">
-            <div class="form-group">
-              <label for="fullName">الاسم الكامل *</label>
-              <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل" />
+          <form id="citizenshipForm">
+            <div class="grid-2">
+              <div class="form-group">
+                <label for="fullName">الاسم الكامل *</label>
+                <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل" />
+              </div>
+              <div class="form-group">
+                <label for="email">البريد الإلكتروني *</label>
+                <input type="email" id="email" required placeholder="example@mail.com" />
+              </div>
             </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label for="dob">تاريخ الميلاد *</label>
+                <input type="date" id="dob" required />
+              </div>
+              <div class="form-group">
+                <label for="country">الدولة / الإقامة *</label>
+                <input type="text" id="country" required placeholder="مثال: فلسطين، الأردن، مصر..." />
+              </div>
+            </div>
+
             <div class="form-group">
-              <label for="email">البريد الإلكتروني *</label>
-              <input type="email" id="email" required placeholder="example@mail.com" />
+              <label for="howFound">كيف تعرفت علينا؟ *</label>
+              <select id="howFound" required>
+                <option value="">اختر وسيلة المعرفة...</option>
+                <option value="فيسبوك">فيسبوك</option>
+                <option value="انستغرام">انستغرام</option>
+                <option value="إكس (X)">إكس (X)</option>
+                <option value="صديق أو دعوة مباشرة">صديق أو دعوة مباشرة</option>
+                <option value="بحث أو منصة أخرى">بحث أو منصة أخرى</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="skills">المؤهل / المهارات *</label>
+              <textarea id="skills" rows="2" required placeholder="اذكر مهاراتك أو خبراتك التي يمكنك المساهمة بها..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">متابعة إلى استمارة الاستكمال المؤسسي</button>
+          </form>
+
+          <!-- الأسئلة -->
+          <div id="questionsBox" style="display:none; margin-top: 1.2rem;">
+            <h3 style="color: var(--accent-amber); margin-bottom: 0.4rem;">
+              استمارة الاستكمال المؤسسي للمتقدمين — دولة كيوشان
+            </h3>
+            <p style="color: #cbd5e1; font-size: 0.92rem; margin-bottom: 1rem;">
+              عقب إرسال بياناتك الأساسية، يُرجى استكمال الأسئلة التالية لتمكين الجهات المختصة من تصنيف ملفك وتحديد مسارك داخل الدولة:
+            </p>
+
+            <h4 style="color: var(--accent-emerald); margin-bottom: 0.7rem;">أولاً: الأسئلة الأساسية والتنظيمية (مطلوبة لاستكمال الملف)</h4>
+
+            <div class="form-group">
+              <label>1. المجال التخصصي الرئيسي: ما هو المجال العملي أو المهاري الأساسي الذي يمكنك المساهمة به؟ *</label>
+              <select id="q_field" required>
+                <option value="">اختر المجال...</option>
+                <option value="إدارة">إدارة</option>
+                <option value="تقنية/إلكترونيات">تقنية/إلكترونيات</option>
+                <option value="برمجة">برمجة</option>
+                <option value="تصميم">تصميم</option>
+                <option value="إعلام">إعلام</option>
+                <option value="تنظيم">تنظيم</option>
+                <option value="أخرى">أخرى</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>2. مستوى الجاهزية والمشاركة: هل يمكنك الالتزام بمهام تأسيسية دورية ضمن فرق العمل في العاصمة سِنْدُسِيَا أو المحافظات؟ *</label>
+              <select id="q_readiness" required>
+                <option value="">اختر مستوى الجاهزية...</option>
+                <option value="نعم، بشكل منتظم">نعم، بشكل منتظم</option>
+                <option value="حسب المهام المتاحة">حسب المهام المتاحة</option>
+                <option value="غير متفرغ حالياً">غير متفرغ حالياً</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>3. القطاع المفضل للعمل: أي من المسارات التالية تفضل الانضمام إليه؟ *</label>
+              <select id="q_sector" required>
+                <option value="">اختر القطاع المفضل...</option>
+                <option value="البنية التحتية والتطوير">البنية التحتية والتطوير</option>
+                <option value="الإدارة والتنظيم">الإدارة والتنظيم</option>
+                <option value="الإعلام والعلاقات">الإعلام والعلاقات</option>
+                <option value="المشاريع والموارد">المشاريع والموارد</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>4. الإقرار بالأنظمة الداخلية: هل تقر بالالتزام بالضوابط التنظيمية وميثاق العمل المعتمد في دولة كيوشان؟ *</label>
+              <select id="q_pledge" required>
+                <option value="">اختر الإقرار...</option>
+                <option value="نعم، أقر بالالتزام">نعم، أقر بالالتزام</option>
+              </select>
+            </div>
+
+            <h4 style="color: var(--accent-amber); margin: 1.2rem 0 0.4rem;">ثانياً: بيانات السلامة والرعاية (اختيارية — لأغراض الحماية والتهيئة)</h4>
+            <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 0.8rem;">
+              ملاحظة: الإجابة على هذه البنود اختيارية بالكامل، وتُستخدم حصراً لتوفير بيئة عمل آمنة ومناسبة للمتقدم عند بدء المهام.
+            </p>
+
+            <div class="form-group">
+              <label>5. الظروف الصحية أو البيئية: هل توجد أي ملاحظات صحية أو حساسية معينة تود التنويه عنها لضمان ملاءمة المهام الموكلة إليك؟ (اختياري)</label>
+              <textarea id="q_health" rows="2" placeholder="اختياري..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>6. الارتباطات أو الملاحظات الأمنية: هل تود الإفصاح عن أي التزامات سابقة أو ملاحظات تتعلق بالسلامة والأمن التنظيمي؟ (اختياري)</label>
+              <textarea id="q_security" rows="2" placeholder="اختياري..."></textarea>
+            </div>
+
+            <button type="button" id="submitAnswersBtn" class="btn-primary">إرسال استمارة الاستكمال</button>
+          </div>
+
+          <!-- حالة ما بعد الإرسال -->
+          <div id="afterAnswersBox" class="alert-box alert-info" style="display:none; margin-top: 1.2rem;">
+            <div id="sentTimeInfo" style="font-size: 0.88rem; opacity: 0.85; margin-bottom: 0.4rem;"></div>
+            <div style="font-weight: 700;">
+              بعد 5 ساعات كحد أقصى سيتم إرسال قبولك أو رفضك؛ وإذا لم يتم الرد بعد مرور 5 ساعات فيُرجى التواصل عبر القنوات الرسمية:
+            </div>
+            <div class="social-links">
+              <a class="social-link" href="https://www.facebook.com/share/1Fap1UTtkc/" target="_blank" rel="noopener noreferrer">فيسبوك</a>
+              <a class="social-link" href="https://www.instagram.com/president.of.kyushan?jplx=MTRyN21lcnRhb21uMQ==" target="_blank" rel="noopener noreferrer">انستغرام</a>
+              <a class="social-link" href="https://x.com/Kushan0Presiden" target="_blank" rel="noopener noreferrer">إكس (X)</a>
+            </div>
+            <div style="margin-top: 0.7rem;">
+              الحالة الحالية: <strong id="currentStatusText" style="color: var(--accent-amber);">قيد المراجعة</strong>
             </div>
           </div>
-
-          <div class="grid-2">
-            <div class="form-group">
-              <label for="dob">تاريخ الميلاد *</label>
-              <input type="date" id="dob" required />
-            </div>
-            <div class="form-group">
-              <label for="country">الدولة / الإقامة *</label>
-              <input type="text" id="country" required placeholder="مثال: فلسطين، الأردن، مصر..." />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="howFound">كيف تعرفت علينا؟ *</label>
-            <select id="howFound" required>
-              <option value="">اختر وسيلة المعرفة...</option>
-              <option value="فيسبوك">فيسبوك</option>
-              <option value="انستغرام">انستغرام</option>
-              <option value="إكس (X)">إكس (X)</option>
-              <option value="صديق أو دعوة مباشرة">صديق أو دعوة مباشرة</option>
-              <option value="بحث أو منصة أخرى">بحث أو منصة أخرى</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="skills">المؤهل / المهارات *</label>
-            <textarea id="skills" rows="2" required placeholder="اذكر مهاراتك أو خبراتك التي يمكنك المساهمة بها..."></textarea>
-          </div>
-
-          <button type="submit" class="btn-primary">متابعة إلى استمارة الاستكمال المؤسسي</button>
-        </form>
-
-        <!-- استمارة الاستكمال المؤسسي -->
-        <div id="questionsBox" style="display:none; margin-top: 1.2rem;">
-          <h3 style="color: var(--accent-amber); margin-bottom: 0.4rem;">
-            استمارة الاستكمال المؤسسي للمتقدمين — دولة كيوشان
-          </h3>
-          <p style="color: #cbd5e1; font-size: 0.92rem; margin-bottom: 1rem;">
-            عقب إرسال بياناتك الأساسية، يُرجى استكمال الأسئلة التالية لتمكين الجهات المختصة من تصنيف ملفك وتحديد مسارك داخل الدولة:
-          </p>
-
-          <h4 style="color: var(--accent-emerald); margin-bottom: 0.7rem;">أولاً: الأسئلة الأساسية والتنظيمية (مطلوبة لاستكمال الملف)</h4>
-
-          <div class="form-group">
-            <label>1. المجال التخصصي الرئيسي: ما هو المجال العملي أو المهاري الأساسي الذي يمكنك المساهمة به؟ *</label>
-            <select id="q_field" required>
-              <option value="">اختر المجال...</option>
-              <option value="إدارة">إدارة</option>
-              <option value="تقنية/إلكترونيات">تقنية/إلكترونيات</option>
-              <option value="برمجة">برمجة</option>
-              <option value="تصميم">تصميم</option>
-              <option value="إعلام">إعلام</option>
-              <option value="تنظيم">تنظيم</option>
-              <option value="أخرى">أخرى</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>2. مستوى الجاهزية والمشاركة: هل يمكنك الالتزام بمهام تأسيسية دورية ضمن فرق العمل في العاصمة سِنْدُسِيَا أو المحافظات؟ *</label>
-            <select id="q_readiness" required>
-              <option value="">اختر مستوى الجاهزية...</option>
-              <option value="نعم، بشكل منتظم">نعم، بشكل منتظم</option>
-              <option value="حسب المهام المتاحة">حسب المهام المتاحة</option>
-              <option value="غير متفرغ حالياً">غير متفرغ حالياً</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>3. القطاع المفضل للعمل: أي من المسارات التالية تفضل الانضمام إليه؟ *</label>
-            <select id="q_sector" required>
-              <option value="">اختر القطاع المفضل...</option>
-              <option value="البنية التحتية والتطوير">البنية التحتية والتطوير</option>
-              <option value="الإدارة والتنظيم">الإدارة والتنظيم</option>
-              <option value="الإعلام والعلاقات">الإعلام والعلاقات</option>
-              <option value="المشاريع والموارد">المشاريع والموارد</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>4. الإقرار بالأنظمة الداخلية: هل تقر بالالتزام بالضوابط التنظيمية وميثاق العمل المعتمد في دولة كيوشان؟ *</label>
-            <select id="q_pledge" required>
-              <option value="">اختر الإقرار...</option>
-              <option value="نعم، أقر بالالتزام">نعم، أقر بالالتزام</option>
-            </select>
-          </div>
-
-          <h4 style="color: var(--accent-amber); margin: 1.2rem 0 0.4rem;">ثانياً: بيانات السلامة والرعاية (اختيارية — لأغراض الحماية والتهيئة)</h4>
-          <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 0.8rem;">
-            ملاحظة: الإجابة على هذه البنود اختيارية بالكامل، وتُستخدم حصراً لتوفير بيئة عمل آمنة ومناسبة للمتقدم عند بدء المهام.
-          </p>
-
-          <div class="form-group">
-            <label>5. الظروف الصحية أو البيئية: هل توجد أي ملاحظات صحية أو حساسية معينة تود التنويه عنها لضمان ملاءمة المهام الموكلة إليك؟ (اختياري)</label>
-            <textarea id="q_health" rows="2" placeholder="اختياري..."></textarea>
-          </div>
-
-          <div class="form-group">
-            <label>6. الارتباطات أو الملاحظات الأمنية: هل تود الإفصاح عن أي التزامات سابقة أو ملاحظات تتعلق بالسلامة والأمن التنظيمي؟ (اختياري)</label>
-            <textarea id="q_security" rows="2" placeholder="اختياري..."></textarea>
-          </div>
-
-          <button type="button" id="submitAnswersBtn" class="btn-primary">إرسال استمارة الاستكمال</button>
         </div>
 
-        <!-- حالة ما بعد الإرسال -->
-        <div id="afterAnswersBox" class="alert-box alert-info" style="display:none; margin-top: 1.2rem;">
-          <div id="sentTimeInfo" style="font-size: 0.88rem; opacity: 0.85; margin-bottom: 0.4rem;"></div>
-          <div style="font-weight: 700;">
-            بعد 5 ساعات كحد أقصى سيتم إرسال قبولك أو رفضك؛ وإذا لم يتم الرد بعد مرور 5 ساعات فيُرجى التواصل عبر القنوات الرسمية:
+        <!-- المحادثة الخاصة مع الرئاسة بجانب التسجيل والأسئلة -->
+        <div class="full-screen-chat">
+          <div class="chat-header-bar">
+            <strong style="color: var(--accent-amber);">💬 محادثة مباشرة مع الرئاسة (مع إرسال صور)</strong>
+            <small style="color: var(--text-muted);">متاحة فوراً مع التقديم والأسئلة</small>
           </div>
-          <div class="social-links">
-            <a class="social-link" href="https://www.facebook.com/share/1Fap1UTtkc/" target="_blank" rel="noopener noreferrer">فيسبوك</a>
-            <a class="social-link" href="https://www.instagram.com/president.of.kyushan?jplx=MTRyN21lcnRhb21uMQ==" target="_blank" rel="noopener noreferrer">انستغرام</a>
-            <a class="social-link" href="https://x.com/Kushan0Presiden" target="_blank" rel="noopener noreferrer">إكس (X)</a>
-          </div>
-          <div style="margin-top: 0.7rem;">
-            الحالة الحالية: <strong id="currentStatusText" style="color: var(--accent-amber);">قيد المراجعة</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- صفحة 4: المحادثات (خاصة مع الرئاسة + جماعية للجميع مع إرسال صور) -->
-    <section id="chatPage" class="page-view">
-      <div class="card">
-        <h2 class="card-title">مركز المحادثات وتبادل الصور</h2>
-
-        <div class="chat-tabs">
-          <button class="chat-tab active" id="tabDirect" type="button" onclick="switchChatTab('direct')">
-            محادثة مع الرئاسة (خاصة)
-          </button>
-          <button class="chat-tab" id="tabGroup" type="button" onclick="switchChatTab('group')">
-            محادثة للجميع (الجماعية)
-          </button>
-        </div>
-
-        <!-- محادثة خاصة بين المتقدم والرئاسة -->
-        <div id="directChatPanel" class="chat-box">
           <div class="chat-messages" id="directMessagesBody">
-            <div class="bubble other">مرحباً بك. يمكنك هنا مراسلة الرئاسة مباشرة وإرسال الصور.</div>
+            <div class="bubble other">أهلاً بك. يمكنك هنا مراسلة الرئاسة وإرسال الصور مباشرة.</div>
           </div>
           <div class="chat-input-bar">
             <input type="file" id="directImageInput" accept="image/*" style="display:none;" />
@@ -544,18 +561,24 @@
             <button type="button" class="btn-secondary" id="sendDirectBtn">إرسال</button>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- محادثة للجميع -->
-        <div id="groupChatPanel" class="chat-box" style="display:none;">
-          <div class="chat-messages" id="groupMessagesBody">
-            <div class="bubble other">مرحباً بالجميع في محادثة دولة كيوشان.</div>
-          </div>
-          <div class="chat-input-bar">
-            <input type="file" id="groupImageInput" accept="image/*" style="display:none;" />
-            <button type="button" class="icon-btn" id="groupImageBtn" title="إرسال صورة">📷</button>
-            <input type="text" id="groupInput" placeholder="اكتب رسالة للجميع..." />
-            <button type="button" class="btn-secondary" id="sendGroupBtn">إرسال</button>
-          </div>
+    <!-- صفحة 4: المحادثة للجميع (تملأ الشاشة) -->
+    <section id="groupChatPage" class="page-view">
+      <div class="full-screen-chat">
+        <div class="chat-header-bar">
+          <strong style="color: var(--accent-amber);">🌐 المحادثة للجميع — دولة كيوشان</strong>
+          <small style="color: var(--text-muted);">إعلانات، تصويت، ومحادثة جماعية بالصور</small>
+        </div>
+        <div class="chat-messages" id="groupMessagesBody">
+          <div class="bubble other">مرحباً بالجميع في محادثة دولة كيوشان.</div>
+        </div>
+        <div class="chat-input-bar">
+          <input type="file" id="groupImageInput" accept="image/*" style="display:none;" />
+          <button type="button" class="icon-btn" id="groupImageBtn" title="إرسال صورة">📷</button>
+          <input type="text" id="groupInput" placeholder="اكتب رسالة للجميع..." />
+          <button type="button" class="btn-secondary" id="sendGroupBtn">إرسال</button>
         </div>
       </div>
     </section>
@@ -578,9 +601,26 @@
 
     let currentAppId = localStorage.getItem("kyv_user_id") || null;
     let currentUserName = localStorage.getItem("kyv_voter_name") || "متقدم";
-    let activeChatTab = "direct";
 
-    // عبارات حماسية متحركة في الدائرة
+    async function requestNotificationsPermission() {
+      if (!("Notification" in window)) {
+        alert("المتصفح لا يدعم الإشعارات.");
+        return;
+      }
+      const perm = await Notification.requestPermission();
+      if (perm === "granted") {
+        new Notification("دولة كيوشان", { body: "تم تفعيل الإشعارات بنجاح." });
+      }
+    }
+
+    document.getElementById("enableNotifBtn").addEventListener("click", requestNotificationsPermission);
+
+    function fireAlert(title, body) {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, { body });
+      }
+    }
+
     const hypePhrases = [
       ["الدفعة التأسيسية", "اصنع التاريخ معنا"],
       ["العاصمة سِنْدُسِيَا", "نظام وانضباط"],
@@ -590,15 +630,10 @@
     let hypeIdx = 0;
     setInterval(() => {
       hypeIdx = (hypeIdx + 1) % hypePhrases.length;
-      const topEl = document.getElementById("rotatingHypeTop");
-      const mainEl = document.getElementById("rotatingHypeMain");
-      if (topEl && mainEl) {
-        topEl.textContent = hypePhrases[hypeIdx][0];
-        mainEl.textContent = hypePhrases[hypeIdx][1];
-      }
+      document.getElementById("rotatingHypeTop").textContent = hypePhrases[hypeIdx][0];
+      document.getElementById("rotatingHypeMain").textContent = hypePhrases[hypeIdx][1];
     }, 2800);
 
-    // التنقل بين الصفحات
     window.openPage = function(pageId) {
       document.querySelectorAll(".page-view").forEach(v => v.classList.remove("active"));
       document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
@@ -608,19 +643,9 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    document.querySelectorAll(".nav-btn").forEach(btn => {
+    document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
       btn.addEventListener("click", () => openPage(btn.dataset.page));
     });
-
-    window.switchChatTab = function(tab) {
-      activeChatTab = tab;
-      document.getElementById("tabDirect").classList.toggle("active", tab === "direct");
-      document.getElementById("tabGroup").classList.toggle("active", tab === "group");
-      document.getElementById("directChatPanel").style.display = tab === "direct" ? "flex" : "none";
-      document.getElementById("groupChatPanel").style.display = tab === "group" ? "flex" : "none";
-      if (tab === "direct") loadDirectChat();
-      else loadGroupChat();
-    };
 
     window.previewImage = function(src) {
       document.getElementById("modalImg").src = src;
@@ -641,19 +666,11 @@
       });
     }
 
-    function triggerBrowserNotification(title, body) {
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification(title, { body });
-      }
-    }
-
     function showDeletionNotice(reason) {
       const box = document.getElementById("globalNoticeBox");
-      box.innerHTML = `
-        <strong>تم حذف ملفك من السجل:</strong> ${escapeHtml(reason || "لم يتم ذكر سبب محدد")}
-      `;
+      box.innerHTML = `<strong>تم حذف ملفك من السجل:</strong> ${escapeHtml(reason || "لم يتم ذكر سبب محدد")}`;
       box.style.display = "block";
-      triggerBrowserNotification("إشعار من دولة كيوشان", `تم حذف طلبك. السبب: ${reason || "لم يتم ذكر سبب"}`);
+      fireAlert("إشعار من دولة كيوشان", `تم حذف ملفك. السبب: ${reason || "لم يتم ذكر سبب"}`);
     }
 
     async function loadAcceptedCount() {
@@ -680,10 +697,6 @@
       } else if (app.status === "rejected") {
         statusEl.textContent = "مرفوض";
         statusEl.style.color = "#fb7185";
-      } else if (app.status === "deleted") {
-        statusEl.textContent = "محذوف";
-        statusEl.style.color = "#fb7185";
-        showDeletionNotice(app.deletion_reason);
       } else {
         statusEl.textContent = "قيد المراجعة";
         statusEl.style.color = "#fbbf24";
@@ -693,7 +706,7 @@
     document.getElementById("citizenshipForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       if ("Notification" in window && Notification.permission === "default") {
-        await Notification.requestPermission();
+        await requestNotificationsPermission();
       }
 
       const fullName = document.getElementById("fullName").value.trim();
@@ -782,7 +795,7 @@
     async function loadDirectChat() {
       const body = document.getElementById("directMessagesBody");
       if (!currentAppId) {
-        body.innerHTML = `<div class="bubble other">أرسل طلب التقديم أولاً لتفتح محادثتك الخاصة مع الرئاسة.</div>`;
+        body.innerHTML = `<div class="bubble other">أرسل بياناتك الأساسية أولاً لتبدأ محادثتك الخاصة مع الرئاسة.</div>`;
         return;
       }
       const { data, error } = await supabase
@@ -816,7 +829,7 @@
 
     async function sendDirectMessage(imageData = "") {
       if (!currentAppId) {
-        alert("يرجى تقديم طلبك أولاً من صفحة التسجيل والأسئلة.");
+        alert("يرجى إرسال بياناتك الأساسية أولاً لفتح محادثتك.");
         return;
       }
       const input = document.getElementById("directInput");
@@ -963,9 +976,7 @@
 
         if (app) {
           currentUserName = app.full_name;
-          if (app.status === "deleted") {
-            showDeletionNotice(app.deletion_reason);
-          } else if (Array.isArray(app.answers) && app.answers.length > 0) {
+          if (Array.isArray(app.answers) && app.answers.length > 0) {
             showAfterAnswers(app);
           } else {
             document.getElementById("citizenshipForm").style.display = "none";
@@ -978,18 +989,28 @@
       loadGroupChat();
 
       supabase
-        .channel("kyushan-rt-v2")
+        .channel("kyushan-rt-v3")
         .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, async (payload) => {
           await loadAcceptedCount();
-          if (payload.new && payload.new.id === currentAppId) {
+          if (payload.eventType === "UPDATE" && payload.new && payload.new.id === currentAppId) {
             showAfterAnswers(payload.new);
           }
+          if (payload.eventType === "DELETE" && payload.old && payload.old.id === currentAppId) {
+            const reason = localStorage.getItem("kyv_last_delete_reason_" + currentAppId) || "تم حذف الملف من الإدارة";
+            showDeletionNotice(reason);
+          }
         })
-        .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, (payload) => {
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, (payload) => {
           if (payload.new && payload.new.application_id === currentAppId) {
             loadDirectChat();
             if (payload.new.sender_role === "admin") {
-              triggerBrowserNotification("رسالة جديدة من الرئاسة", payload.new.text || "تم إرسال صورة");
+              if (payload.new.text && payload.new.text.startsWith("إشعار حذف الملف — السبب:")) {
+                const reason = payload.new.text.replace("إشعار حذف الملف — السبب:", "").trim();
+                localStorage.setItem("kyv_last_delete_reason_" + currentAppId, reason);
+                showDeletionNotice(reason);
+              } else {
+                fireAlert("رسالة جديدة من الرئاسة", payload.new.text || "تم إرسال صورة");
+              }
             }
           }
         })
