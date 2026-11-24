@@ -56,7 +56,6 @@
     }
     .counter-num { font-size: 1.4rem; font-weight: 900; color: var(--amber); }
 
-    /* حجم ثابت مع سحب داخلي حتى لا تتكدس الصفحة بشكل طويل */
     .compact-list {
       max-height: 290px;
       overflow-y: auto;
@@ -181,7 +180,6 @@
         </div>
       </div>
 
-      <!-- قائمة المتقدمين بحجم ثابت وسحب داخلي -->
       <div class="card">
         <h2>سجل المتقدمين (اضغط على الشخص لفتح ملفه بالكامل)</h2>
         <input type="text" id="applicantSearchInput" placeholder="ابحث بالاسم أو الدولة أو الحالة..." oninput="renderApplicantsList()" />
@@ -189,7 +187,6 @@
         <div id="applicationsList" class="compact-list">جارٍ التحميل...</div>
       </div>
 
-      <!-- محادثة خاصة مع متقدم/مواطن + حذف الرسائل -->
       <div class="card">
         <h2>محادثة خاصة مع متقدم / مواطن</h2>
         <label for="targetApplicantSelect">اختر الشخص للتواصل معه</label>
@@ -205,33 +202,35 @@
         </div>
       </div>
 
-      <!-- الشات الجماعي + إعلان رسمي + استطلاع رأي بمربعات وإضافة خيار -->
       <div class="card">
         <h2>الشات الجماعي (امتيازات الإدارة السيادية)</h2>
         <form id="broadcastForm">
           <label for="msgType">نوع المنشور</label>
           <select id="msgType">
             <option value="announcement">إعلان رسمي (بارز)</option>
-            <option value="poll">استطلاع رأي (خيار واحد لكل شخص)</option>
+            <option value="poll">استطلاع رأي (حدد خياراً واحداً)</option>
             <option value="chat">رسالة إدارية عادية</option>
           </select>
 
           <div id="pollOptionsWrap" class="hidden" style="margin-bottom: 12px;">
-            <label>خيارات استطلاع الرأي</label>
+            <label for="pollQuestionInput">سؤال الاستطلاع</label>
+            <input id="pollQuestionInput" type="text" placeholder="مثال: هل توافق على القرار الجديد؟" />
+
+            <label>خيارات الاستطلاع (أضف أي عدد من الخيارات)</label>
             <div id="pollOptionInputsContainer">
               <div class="poll-option-box">
-                <input type="text" class="poll-choice-input" placeholder="الخيار الأول" />
+                <input type="text" class="poll-choice-input" placeholder="مثلاً: لا" />
                 <button type="button" class="btn-delete" onclick="removePollOptionRow(this)">×</button>
               </div>
               <div class="poll-option-box">
-                <input type="text" class="poll-choice-input" placeholder="الخيار الثاني" />
+                <input type="text" class="poll-choice-input" placeholder="مثلاً: نعم" />
                 <button type="button" class="btn-delete" onclick="removePollOptionRow(this)">×</button>
               </div>
             </div>
             <button type="button" class="btn-logout" onclick="addPollOptionRow()">+ إضافة خيار</button>
           </div>
 
-          <label for="msgText">النص (أي كلمة بين **نجمتين** ستظهر كبيرة وغامقة)</label>
+          <label for="msgText">النص / التفاصيل (أي كلمة بين **نجمتين** ستظهر كبيرة وغامقة)</label>
           <textarea id="msgText" rows="2" required placeholder="مثال: **قرار سيادي** بخصوص تنظيم العمل..."></textarea>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
             <input type="file" id="adminGroupImgInput" accept="image/*" style="max-width:280px; margin:0;" />
@@ -304,7 +303,7 @@
       const row = document.createElement("div");
       row.className = "poll-option-box";
       row.innerHTML = `
-        <input type="text" class="poll-choice-input" placeholder="خيار إضافي ${count}" />
+        <input type="text" class="poll-choice-input" placeholder="خيار ${count}" />
         <button type="button" class="btn-delete" onclick="removePollOptionRow(this)">×</button>
       `;
       container.appendChild(row);
@@ -585,6 +584,7 @@
       e.preventDefault();
       const type = document.getElementById("msgType").value;
       const text = document.getElementById("msgText").value.trim();
+      const pollQ = document.getElementById("pollQuestionInput").value.trim();
       const file = document.getElementById("adminGroupImgInput").files[0];
 
       let imgData = "";
@@ -603,17 +603,23 @@
         }
       }
 
-      const { error } = await supabaseClient.from("group_messages").insert([{
+      const payload = {
         sender: "الرئاسة السيادية — كيوشان",
         sender_name: "الرئاسة السيادية — كيوشان",
         message_type: type,
-        text,
+        text: text || pollQ,
         image_data: imgData,
         options
-      }]);
+      };
+      if (type === "poll") {
+        payload.poll_question = pollQ || text;
+      }
+
+      const { error } = await supabaseClient.from("group_messages").insert([payload]);
 
       if (error) return showError(error.message);
       document.getElementById("msgText").value = "";
+      document.getElementById("pollQuestionInput").value = "";
       document.querySelectorAll(".poll-choice-input").forEach(inp => { inp.value = ""; });
       document.getElementById("adminGroupImgInput").value = "";
       showNotice("تم النشر بامتيازات الإدارة.");
@@ -679,7 +685,7 @@
       await loadAdminGroupChat();
 
       supabaseClient
-        .channel("admin-rt-v5")
+        .channel("admin-rt-v6")
         .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => loadApplications())
         .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, (payload) => {
           loadAdminDirectChat();
