@@ -67,6 +67,7 @@
     }
     .ticker-pill strong { color: var(--accent-gold); }
 
+    /* نافذة طلب الإشعارات في الزيارة الأولى */
     #notifPermissionModal {
       display: none;
       position: fixed;
@@ -92,23 +93,6 @@
     .notif-card h3 { color: var(--accent-gold); font-size: 1.25rem; margin-bottom: 0.5rem; }
     .notif-card p { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem; }
     .notif-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-
-    #liveToastBanner {
-      display: none;
-      position: fixed;
-      bottom: 18px;
-      left: 18px;
-      right: 18px;
-      max-width: 480px;
-      margin: 0 auto;
-      z-index: 9600;
-      background: #241b3d;
-      border: 1.5px solid var(--accent-gold);
-      border-radius: 14px;
-      padding: 0.9rem 1.1rem;
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6);
-    }
-    #liveToastBanner.show { display: block; animation: fadeIn 0.25s ease; }
 
     .container { max-width: 1280px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
     .page-view { display: none; animation: fadeIn 0.25s ease; }
@@ -475,7 +459,7 @@
     <div class="notif-card">
       <h3 id="notifModalTitle">تفعيل إشعارات دولة كيوشان</h3>
       <p>
-        هل ترغب في تفعيل الإشعارات لتصلك الإعلانات الرسمية وتحديثات طلبك والرسائل المهمة؟
+        هل ترغب في تفعيل الإشعارات الفورية لتصلك الإعلانات الرسمية وتحديثات طلبك والرسائل المهمة؟
       </p>
       <div class="notif-actions">
         <button type="button" class="btn-secondary" id="confirmEnableNotifBtn">تفعيل الإشعارات</button>
@@ -484,21 +468,13 @@
     </div>
   </div>
 
-  <div id="liveToastBanner">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-      <strong id="toastTitle" style="color:var(--accent-gold); font-size:0.95rem;"></strong>
-      <button type="button" class="btn-ghost" style="padding:2px 8px; font-size:0.78rem;" id="closeToastBtn">إغلاق</button>
-    </div>
-    <div id="toastBody" style="color:#f8fafc; font-size:0.88rem; margin-top:4px;"></div>
-  </div>
-
   <header>
     <div class="brand">دولة كِيُوشَان — سِنْدُسِيَا</div>
     <nav class="nav-menu">
-      <button type="button" class="nav-btn active" data-page="homePage">البداية والبيان</button>
-      <button type="button" class="nav-btn" data-page="flagPage">العلم والهوية</button>
-      <button type="button" class="nav-btn" data-page="applyPage">التسجيل والأسئلة والمحادثة</button>
-      <button type="button" class="nav-btn" data-page="groupChatPage">المحادثة للجميع</button>
+      <button class="nav-btn active" data-page="homePage">البداية والبيان</button>
+      <button class="nav-btn" data-page="flagPage">العلم والهوية</button>
+      <button class="nav-btn" data-page="applyPage">التسجيل والأسئلة والمحادثة</button>
+      <button class="nav-btn" data-page="groupChatPage">المحادثة للجميع</button>
     </nav>
   </header>
 
@@ -537,7 +513,7 @@
           <p style="margin-bottom: 1.1rem; color: #fde68a; font-weight: 700;">
             دولة كيوشان — سيادة تُبنى بالنظام، ومؤسسات تُصان بالمسؤولية. لتقديم طلب الانضمام إلى السجل التأسيسي، يُرجى التوجه إلى بوابة التقديم الرسمية.
           </p>
-          <button class="btn-secondary" type="button" id="goToApplyBtn">
+          <button class="btn-secondary" type="button" onclick="openPage('applyPage')">
             الانتقال إلى بوابة التقديم والأسئلة والمحادثة
           </button>
         </div>
@@ -745,7 +721,7 @@
         <div class="chat-shell" id="directChatShell">
           <div class="chat-header-bar">
             <strong style="color: var(--accent-gold);">محادثة مباشرة مع الرئاسة (مع إرسال صور)</strong>
-            <button type="button" class="expand-btn" data-fs-target="directChatShell">ملء الشاشة</button>
+            <button type="button" class="expand-btn" onclick="toggleChatFullscreen('directChatShell', this)">ملء الشاشة</button>
           </div>
           <div class="chat-messages" id="directMessagesBody">
             <div class="bubble other">أهلاً بك. يمكنك هنا مراسلة الرئاسة وإرسال الصور مباشرة.</div>
@@ -764,7 +740,7 @@
       <div class="chat-shell" id="groupChatShell">
         <div class="chat-header-bar">
           <strong style="color: var(--accent-gold);">المحادثة للجميع — دولة كيوشان</strong>
-          <button type="button" class="expand-btn" data-fs-target="groupChatShell">ملء الشاشة</button>
+          <button type="button" class="expand-btn" onclick="toggleChatFullscreen('groupChatShell', this)">ملء الشاشة</button>
         </div>
         <div class="chat-messages" id="groupMessagesBody">
           <div class="bubble other">مرحباً بالجميع في محادثة دولة كيوشان.</div>
@@ -779,7 +755,7 @@
     </section>
   </div>
 
-  <div id="imageModal">
+  <div id="imageModal" onclick="this.style.display='none'">
     <img id="modalImg" src="" alt="صورة مكبرة" />
   </div>
 
@@ -793,132 +769,6 @@
     </div>
   </footer>
 
-  <!-- سكربت الواجهة والأزرار والإشعارات الفوري والمستقل -->
-  <script>
-    (function initUiAndNotifications() {
-      function openPage(pageId) {
-        document.querySelectorAll(".page-view").forEach(function(v) { v.classList.remove("active"); });
-        document.querySelectorAll(".nav-btn").forEach(function(b) { b.classList.remove("active"); });
-        var target = document.getElementById(pageId);
-        if (target) target.classList.add("active");
-        var navBtn = document.querySelector('.nav-btn[data-page="' + pageId + '"]');
-        if (navBtn) navBtn.classList.add("active");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-      window.openPage = openPage;
-
-      document.querySelectorAll(".nav-btn[data-page]").forEach(function(btn) {
-        btn.addEventListener("click", function() {
-          openPage(btn.getAttribute("data-page"));
-        });
-      });
-
-      var goApplyBtn = document.getElementById("goToApplyBtn");
-      if (goApplyBtn) {
-        goApplyBtn.addEventListener("click", function() { openPage("applyPage"); });
-      }
-
-      document.querySelectorAll("[data-fs-target]").forEach(function(btn) {
-        btn.addEventListener("click", function() {
-          var shell = document.getElementById(btn.getAttribute("data-fs-target"));
-          if (!shell) return;
-          var active = shell.classList.toggle("is-fullscreen");
-          btn.textContent = active ? "الوضع العادي" : "ملء الشاشة";
-        });
-      });
-
-      var imgModal = document.getElementById("imageModal");
-      if (imgModal) {
-        imgModal.addEventListener("click", function() { imgModal.style.display = "none"; });
-      }
-      window.previewImage = function(src) {
-        var mImg = document.getElementById("modalImg");
-        if (mImg && imgModal) {
-          mImg.src = src;
-          imgModal.style.display = "flex";
-        }
-      };
-
-      var closeToastBtn = document.getElementById("closeToastBtn");
-      if (closeToastBtn) {
-        closeToastBtn.addEventListener("click", function() {
-          document.getElementById("liveToastBanner").classList.remove("show");
-        });
-      }
-
-      function showInAppToast(title, body) {
-        var banner = document.getElementById("liveToastBanner");
-        document.getElementById("toastTitle").textContent = title || "إشعار";
-        document.getElementById("toastBody").textContent = body || "";
-        banner.classList.add("show");
-        clearTimeout(window.__kyvToastTimer);
-        window.__kyvToastTimer = setTimeout(function() {
-          banner.classList.remove("show");
-        }, 5500);
-      }
-
-      window.fireAlert = function(title, body) {
-        showInAppToast(title, body);
-        try {
-          if ("Notification" in window && Notification.permission === "granted") {
-            new Notification(title, { body: body });
-          }
-        } catch (_) {}
-      };
-
-      var notifModal = document.getElementById("notifPermissionModal");
-      var confirmBtn = document.getElementById("confirmEnableNotifBtn");
-      var dismissBtn = document.getElementById("dismissNotifModalBtn");
-
-      var alreadyHandled = localStorage.getItem("kyv_notif_handled_v3") === "1";
-      if (!alreadyHandled && "Notification" in window && Notification.permission === "default") {
-        notifModal.classList.add("show");
-      }
-
-      if (confirmBtn) {
-        confirmBtn.addEventListener("click", async function() {
-          localStorage.setItem("kyv_notif_handled_v3", "1");
-          notifModal.classList.remove("show");
-          if ("Notification" in window) {
-            try {
-              var perm = await Notification.requestPermission();
-              if (perm === "granted") {
-                window.fireAlert("دولة كيوشان", "تم تفعيل الإشعارات بنجاح.");
-              } else {
-                showInAppToast("تنبيه الإشعارات", "يمكنك تفعيل إشعارات المتصفح من إعدادات الموقع في أي وقت.");
-              }
-            } catch (_) {
-              showInAppToast("دولة كيوشان", "تم تفعيل التنبيهات داخل الموقع.");
-            }
-          }
-        });
-      }
-
-      if (dismissBtn) {
-        dismissBtn.addEventListener("click", function() {
-          localStorage.setItem("kyv_notif_handled_v3", "1");
-          notifModal.classList.remove("show");
-        });
-      }
-
-      var hypePhrases = [
-        ["الدفعة التأسيسية", "اصنع التاريخ معنا"],
-        ["العاصمة سِنْدُسِيَا", "نظام وانضباط"],
-        ["لغة المقمڛية", "هوية سيادية أصيلة"],
-        ["ست محافظات", "بناء ومؤسسات"]
-      ];
-      var hypeIdx = 0;
-      setInterval(function() {
-        hypeIdx = (hypeIdx + 1) % hypePhrases.length;
-        var t1 = document.getElementById("rotatingHypeTop");
-        var t2 = document.getElementById("rotatingHypeMain");
-        if (t1) t1.textContent = hypePhrases[hypeIdx][0];
-        if (t2) t2.textContent = hypePhrases[hypeIdx][1];
-      }, 2800);
-    })();
-  </script>
-
-  <!-- سكربت قاعدة البيانات والمحادثات والاستطلاعات -->
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -928,6 +778,75 @@
 
     let currentAppId = localStorage.getItem("kyv_user_id") || null;
     let currentUserName = localStorage.getItem("kyv_voter_name") || "متقدم";
+
+    function setupFirstVisitNotificationModal() {
+      if (!("Notification" in window)) return;
+      const modal = document.getElementById("notifPermissionModal");
+      const alreadyHandled = localStorage.getItem("kyv_notif_handled") === "1";
+
+      if (!alreadyHandled && Notification.permission === "default") {
+        modal.classList.add("show");
+      }
+
+      document.getElementById("confirmEnableNotifBtn").addEventListener("click", async () => {
+        localStorage.setItem("kyv_notif_handled", "1");
+        modal.classList.remove("show");
+        try {
+          const perm = await Notification.requestPermission();
+          if (perm === "granted") {
+            new Notification("دولة كيوشان", { body: "تم تفعيل الإشعارات بنجاح." });
+          }
+        } catch (_) {}
+      });
+
+      document.getElementById("dismissNotifModalBtn").addEventListener("click", () => {
+        localStorage.setItem("kyv_notif_handled", "1");
+        modal.classList.remove("show");
+      });
+    }
+
+    function fireAlert(title, body) {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, { body });
+      }
+    }
+
+    window.toggleChatFullscreen = function(shellId, btn) {
+      const shell = document.getElementById(shellId);
+      const active = shell.classList.toggle("is-fullscreen");
+      btn.textContent = active ? "الوضع العادي" : "ملء الشاشة";
+    };
+
+    const hypePhrases = [
+      ["الدفعة التأسيسية", "اصنع التاريخ معنا"],
+      ["العاصمة سِنْدُسِيَا", "نظام وانضباط"],
+      ["لغة المقمڛية", "هوية سيادية أصيلة"],
+      ["ست محافظات", "بناء ومؤسسات"]
+    ];
+    let hypeIdx = 0;
+    setInterval(() => {
+      hypeIdx = (hypeIdx + 1) % hypePhrases.length;
+      document.getElementById("rotatingHypeTop").textContent = hypePhrases[hypeIdx][0];
+      document.getElementById("rotatingHypeMain").textContent = hypePhrases[hypeIdx][1];
+    }, 2800);
+
+    window.openPage = function(pageId) {
+      document.querySelectorAll(".page-view").forEach(v => v.classList.remove("active"));
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      const btn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
+      if (btn) btn.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
+      btn.addEventListener("click", () => openPage(btn.dataset.page));
+    });
+
+    window.previewImage = function(src) {
+      document.getElementById("modalImg").src = src;
+      document.getElementById("imageModal").style.display = "flex";
+    };
 
     function escapeHtml(str) {
       return String(str ?? "")
@@ -951,20 +870,18 @@
       const box = document.getElementById("globalNoticeBox");
       box.innerHTML = `<strong>تم حذف ملفك من السجل:</strong> ${escapeHtml(reason || "لم يتم ذكر سبب محدد")}`;
       box.style.display = "block";
-      window.fireAlert("إشعار من دولة كيوشان", `تم حذف ملفك. السبب: ${reason || "لم يتم ذكر سبب"}`);
+      fireAlert("إشعار من دولة كيوشان", `تم حذف ملفك. السبب: ${reason || "لم يتم ذكر سبب"}`);
     }
 
     async function loadAcceptedCount() {
-      try {
-        const { count, error } = await supabase
-          .from("applications")
-          .select("*", { count: "exact", head: true })
-          .eq("status", "accepted");
-        const offset = Number(localStorage.getItem("kyv_accepted_offset") || "0");
-        if (!error && typeof count === "number") {
-          document.getElementById("acceptedCount").textContent = Math.max(0, count + offset);
-        }
-      } catch (_) {}
+      const { count, error } = await supabase
+        .from("applications")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "accepted");
+      const offset = Number(localStorage.getItem("kyv_accepted_offset") || "0");
+      if (!error && typeof count === "number") {
+        document.getElementById("acceptedCount").textContent = Math.max(0, count + offset);
+      }
     }
 
     function showAfterAnswers(app) {
@@ -1166,17 +1083,16 @@
         const senderLabel = m.sender_name || m.sender || "عضو";
         const isMine = m.sender_name === currentUserName;
         const isAnnouncement = m.message_type === "announcement";
-        const isPoll = m.message_type === "poll" || m.message_type === "election";
         const imgHtml = m.image_data
           ? `<img src="${m.image_data}" alt="صورة" onclick="previewImage(this.src)" />`
           : "";
 
         let pollHtml = "";
-        if (isPoll && Array.isArray(m.options) && m.options.length > 0) {
+        if ((m.message_type === "poll" || m.message_type === "election") && Array.isArray(m.options) && m.options.length > 0) {
           const mVotes = allVotes.filter(v => v.message_id === m.id);
           const totalVotes = mVotes.length;
           const myVote = mVotes.find(v => v.voter_name === currentUserName);
-          const questionText = m.text || "استطلاع رأي";
+          const questionText = m.poll_question || m.text || "استطلاع رأي";
 
           pollHtml = `
             <div class="poll-card-box">
@@ -1209,7 +1125,103 @@
           ? "bubble official-announcement"
           : `bubble ${isMine ? "mine" : "other"}`;
 
+        const showTopText = !(m.message_type === "poll" && m.poll_question && m.text === m.poll_question);
+
         return `
           <div class="${bubbleClass}">
             ${isAnnouncement ? `<span class="official-badge">إعلان رسمي</span>` : ""}
-            <div style="font-weigh
+            <div style="font-weight:800; color:#fde68a;">${escapeHtml(senderLabel)}</div>
+            ${m.text && showTopText ? `<div style="margin-top:4px;">${formatRichText(m.text)}</div>` : ""}
+            ${imgHtml}
+            ${pollHtml}
+            <div class="bubble-meta">${formatTime(m.created_at)}</div>
+          </div>
+        `;
+      }).join("");
+      body.scrollTop = body.scrollHeight;
+    }
+
+    window.voteSingleChoice = async function(messageId, choice) {
+      await supabase.from("poll_votes")
+        .delete()
+        .eq("message_id", messageId)
+        .eq("voter_name", currentUserName);
+
+      const { error } = await supabase.from("poll_votes").insert([{
+        message_id: messageId,
+        voter_name: currentUserName,
+        choice
+      }]);
+
+      if (!error) loadGroupChat();
+    };
+
+    async function sendGroupMessage(imageData = "") {
+      const input = document.getElementById("groupInput");
+      const text = input.value.trim();
+      if (!text && !imageData) return;
+
+      const { error } = await supabase.from("group_messages").insert([{
+        sender: currentUserName,
+        sender_name: currentUserName,
+        message_type: "chat",
+        text,
+        image_data: imageData,
+        options: []
+      }]);
+
+      if (error) {
+        alert("تعذر إرسال الرسالة: " + error.message);
+        return;
+      }
+      input.value = "";
+      document.getElementById("groupImageInput").value = "";
+      loadGroupChat();
+    }
+
+    document.getElementById("sendGroupBtn").addEventListener("click", () => sendGroupMessage(""));
+    document.getElementById("groupInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendGroupMessage("");
+    });
+    document.getElementById("groupImageBtn").addEventListener("click", () => {
+      document.getElementById("groupImageInput").click();
+    });
+    document.getElementById("groupImageInput").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const imgUrl = await readImageAsDataUrl(file);
+        await sendGroupMessage(imgUrl);
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    window.addEventListener("load", async () => {
+      setupFirstVisitNotificationModal();
+      await loadAcceptedCount();
+
+      if (currentAppId) {
+        const { data: app } = await supabase
+          .from("applications")
+          .select("*")
+          .eq("id", currentAppId)
+          .single();
+
+        if (app) {
+          currentUserName = app.full_name;
+          if (Array.isArray(app.answers) && app.answers.length > 0) {
+            showAfterAnswers(app);
+          } else {
+            document.getElementById("citizenshipForm").style.display = "none";
+            document.getElementById("questionsBox").style.display = "block";
+          }
+        }
+      }
+
+      loadDirectChat();
+      loadGroupChat();
+
+      supabase
+        .channel("kyushan-rt-v6")
+        .on("postgres_changes", { event: "*", schema: "public", table: "applicat
