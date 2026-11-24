@@ -266,9 +266,11 @@
     }
 
     function notifyAdmin(title, body) {
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification(title, { body });
-      }
+      try {
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification(title, { body });
+        }
+      } catch (_) {}
     }
 
     function showNotice(msg) {
@@ -677,7 +679,7 @@
       await loadAdminGroupChat();
 
       supabaseClient
-        .channel("admin-rt-v7")
+        .channel("admin-rt-v8")
         .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => loadApplications())
         .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, (payload) => {
           loadAdminDirectChat();
