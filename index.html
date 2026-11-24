@@ -7,26 +7,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-main: #071312;
-      --bg-surface: #0e2421;
-      --bg-card: #132f2b;
-      --bg-input: #091816;
-      --accent-emerald: #10b981;
+      --bg-main: #120d1d;
+      --bg-surface: #1b152b;
+      --bg-card: #241c38;
+      --bg-input: #140f21;
+      --accent-gold: #f59e0b;
       --accent-crimson: #e11d48;
-      --accent-amber: #f59e0b;
-      --accent-cyan: #06b6d4;
+      --accent-teal: #14b8a6;
+      --accent-violet: #8b5cf6;
       --text-main: #f8fafc;
-      --text-muted: #a7f3d0;
-      --border-soft: rgba(167, 243, 208, 0.16);
+      --text-muted: #cbd5e1;
+      --border-soft: rgba(245, 158, 11, 0.22);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
 
     body {
       background:
-        radial-gradient(circle at 12% 15%, rgba(16, 185, 129, 0.22) 0%, transparent 42%),
-        radial-gradient(circle at 88% 20%, rgba(225, 29, 72, 0.2) 0%, transparent 45%),
-        radial-gradient(circle at 50% 90%, rgba(245, 158, 11, 0.16) 0%, transparent 50%),
+        radial-gradient(circle at 12% 12%, rgba(139, 92, 246, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 88% 18%, rgba(225, 29, 72, 0.2) 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(20, 184, 166, 0.16) 0%, transparent 50%),
         var(--bg-main);
       background-attachment: fixed;
       color: var(--text-main);
@@ -36,14 +36,14 @@
 
     header {
       position: sticky; top: 0; z-index: 200;
-      background: rgba(7, 19, 18, 0.92);
+      background: rgba(18, 13, 29, 0.94);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-soft);
       padding: 0.85rem 1.25rem;
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
     }
 
-    .brand { font-weight: 900; font-size: 1.2rem; color: var(--accent-amber); }
+    .brand { font-weight: 900; font-size: 1.25rem; color: var(--accent-gold); letter-spacing: 0.3px; }
 
     .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .nav-btn {
@@ -53,8 +53,8 @@
       transition: all 0.2s ease;
     }
     .nav-btn.active {
-      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
-      color: #041310; border-color: transparent;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-crimson));
+      color: #ffffff; border-color: transparent;
     }
 
     .top-ticker {
@@ -63,50 +63,50 @@
     }
     .ticker-pill {
       background: var(--bg-card); border: 1px solid var(--border-soft);
-      padding: 0.55rem 1rem; border-radius: 999px; font-size: 0.9rem; font-weight: 700;
+      padding: 0.5rem 1rem; border-radius: 999px; font-size: 0.9rem; font-weight: 700;
     }
-    .ticker-pill strong { color: var(--accent-amber); }
+    .ticker-pill strong { color: var(--accent-gold); }
 
     .container { max-width: 1280px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
-    .page-view { display: none; animation: fadeIn 0.28s ease; }
+    .page-view { display: none; animation: fadeIn 0.25s ease; }
     .page-view.active { display: block; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .hero-banner {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(225, 29, 72, 0.14), rgba(245, 158, 11, 0.14));
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(225, 29, 72, 0.16), rgba(20, 184, 166, 0.16));
       border: 1px solid var(--border-soft); border-radius: 24px;
       padding: 2rem 1.5rem; margin-bottom: 1.5rem;
       display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: center;
     }
     @media (min-width: 820px) {
-      .hero-banner { grid-template-columns: 240px 1fr; padding: 2.4rem; }
+      .hero-banner { grid-template-columns: 230px 1fr; padding: 2.3rem; }
     }
 
     .hype-circle-wrap {
-      position: relative; width: 205px; height: 205px; margin: 0 auto;
+      position: relative; width: 200px; height: 200px; margin: 0 auto;
       display: flex; align-items: center; justify-content: center;
     }
     .hype-ring {
       position: absolute; inset: 0; border-radius: 50%;
-      border: 3px dashed var(--accent-amber);
+      border: 3px dashed var(--accent-gold);
       animation: spinSlow 14s linear infinite;
     }
     .hype-ring-inner {
       position: absolute; inset: 12px; border-radius: 50%;
       border: 3px solid transparent;
-      border-top-color: var(--accent-emerald);
+      border-top-color: var(--accent-teal);
       border-right-color: var(--accent-crimson);
       animation: spinReverse 6s linear infinite;
     }
     .hype-core {
-      position: relative; z-index: 2; width: 152px; height: 152px; border-radius: 50%;
-      background: radial-gradient(circle, #0f766e 0%, #115e59 55%, #881337 100%);
+      position: relative; z-index: 2; width: 150px; height: 150px; border-radius: 50%;
+      background: radial-gradient(circle, #5b21b6 0%, #9f1239 60%, #115e59 100%);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 10px; box-shadow: 0 0 28px rgba(16, 185, 129, 0.35);
+      text-align: center; padding: 10px; box-shadow: 0 0 28px rgba(225, 29, 72, 0.35);
       animation: pulseBeat 2.2s ease-in-out infinite;
     }
     .hype-core span { font-size: 0.78rem; font-weight: 800; color: #fde68a; }
@@ -133,7 +133,7 @@
     @media (min-width: 768px) { .card { padding: 2rem; } }
 
     .card-title {
-      font-size: 1.35rem; font-weight: 900; color: var(--accent-amber);
+      font-size: 1.35rem; font-weight: 900; color: var(--accent-gold);
       margin-bottom: 1rem; padding-bottom: 0.45rem;
       border-bottom: 2px solid rgba(245, 158, 11, 0.35);
     }
@@ -143,10 +143,11 @@
 
     .pillar-box {
       background: var(--bg-surface); border: 1px solid var(--border-soft);
-      border-right: 4px solid var(--accent-emerald); border-radius: 14px; padding: 1.1rem;
+      border-right: 4px solid var(--accent-teal); border-radius: 14px; padding: 1.1rem;
     }
     .pillar-box:nth-child(2n) { border-right-color: var(--accent-crimson); }
-    .pillar-box h4 { color: var(--accent-amber); margin-bottom: 0.35rem; font-size: 1rem; }
+    .pillar-box:nth-child(3n) { border-right-color: var(--accent-violet); }
+    .pillar-box h4 { color: var(--accent-gold); margin-bottom: 0.35rem; font-size: 1rem; }
     .pillar-box p { color: #e2e8f0; font-size: 0.92rem; }
 
     .flag-stage {
@@ -179,41 +180,41 @@
 
     .btn-primary {
       width: 100%; padding: 0.9rem 1.4rem; border: none; border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
-      color: #041310; font-weight: 900; font-size: 1rem; cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-crimson));
+      color: #ffffff; font-weight: 900; font-size: 1rem; cursor: pointer;
     }
     .btn-secondary {
       padding: 0.65rem 1.15rem; border: none; border-radius: 10px;
-      background: var(--accent-amber); color: #140e02; font-weight: 800; cursor: pointer;
+      background: var(--accent-teal); color: #041311; font-weight: 800; cursor: pointer;
     }
 
     .alert-box {
       padding: 1rem 1.2rem; border-radius: 14px; margin-bottom: 1.2rem; font-size: 0.95rem;
     }
     .alert-deleted {
-      background: rgba(225, 29, 72, 0.2); border: 1px solid rgba(225, 29, 72, 0.55); color: #fecdd3;
+      background: rgba(225, 29, 72, 0.22); border: 1px solid rgba(225, 29, 72, 0.55); color: #fecdd3;
     }
     .alert-info {
-      background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.45); color: #cffafe;
+      background: rgba(139, 92, 246, 0.16); border: 1px solid rgba(139, 92, 246, 0.45); color: #ede9fe;
     }
 
     .social-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 0.8rem; }
     .social-link {
       display: inline-block; padding: 0.45rem 0.9rem; border-radius: 10px;
       background: var(--bg-surface); border: 1px solid var(--border-soft);
-      color: var(--accent-amber); text-decoration: none; font-weight: 700; font-size: 0.9rem;
+      color: var(--accent-gold); text-decoration: none; font-weight: 700; font-size: 0.9rem;
     }
 
-    /* محادثة تملأ الشاشة مع خلفية جذابة */
-    .full-screen-chat {
-      min-height: 74vh;
-      height: calc(100vh - 190px);
+    /* حاوية المحادثة مع وضع ملء الشاشة */
+    .chat-shell {
+      min-height: 520px;
+      height: 68vh;
       display: flex; flex-direction: column;
       border-radius: 18px; overflow: hidden;
       border: 1px solid var(--border-soft);
       background:
-        radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.18), transparent 45%),
-        radial-gradient(circle at 80% 75%, rgba(6, 182, 212, 0.18), transparent 45%),
+        radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.2), transparent 45%),
+        radial-gradient(circle at 80% 75%, rgba(225, 29, 72, 0.18), transparent 45%),
         repeating-linear-gradient(
           45deg,
           rgba(255, 255, 255, 0.015) 0px,
@@ -221,52 +222,136 @@
           transparent 2px,
           transparent 14px
         ),
-        #071816;
+        #120e22;
+      transition: all 0.2s ease;
+    }
+
+    .chat-shell.is-fullscreen {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      z-index: 9000;
+      border-radius: 0;
+      border: none;
     }
 
     .chat-header-bar {
       padding: 0.85rem 1.1rem;
-      background: rgba(9, 28, 25, 0.92);
+      background: rgba(24, 18, 40, 0.95);
       border-bottom: 1px solid var(--border-soft);
       display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
     }
 
+    .expand-btn {
+      background: rgba(245, 158, 11, 0.18);
+      color: var(--accent-gold);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
     .chat-messages {
       flex: 1; padding: 1.1rem; overflow-y: auto;
-      display: flex; flex-direction: column; gap: 0.8rem;
+      display: flex; flex-direction: column; gap: 0.85rem;
     }
 
     .bubble {
-      max-width: 82%; padding: 0.75rem 1rem; border-radius: 14px; font-size: 0.94rem; word-break: break-word;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      max-width: 84%; padding: 0.8rem 1rem; border-radius: 14px; font-size: 0.94rem; word-break: break-word;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
     }
-    .bubble.other { background: rgba(20, 66, 59, 0.9); align-self: flex-start; border-bottom-right-radius: 3px; }
-    .bubble.mine { background: linear-gradient(135deg, #0f766e, #0369a1); align-self: flex-end; border-bottom-left-radius: 3px; }
-    .bubble-meta { font-size: 0.74rem; opacity: 0.8; margin-top: 0.3rem; }
+    .bubble.other { background: rgba(43, 33, 69, 0.94); align-self: flex-start; border-bottom-right-radius: 3px; }
+    .bubble.mine { background: linear-gradient(135deg, #6d28d9, #be123c); align-self: flex-end; border-bottom-left-radius: 3px; }
+
+    /* تمييز الإعلان الرسمي */
+    .bubble.official-announcement {
+      max-width: 94%;
+      align-self: stretch;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(225, 29, 72, 0.22));
+      border: 1.5px solid var(--accent-gold);
+      border-right: 5px solid var(--accent-gold);
+    }
+    .official-badge {
+      display: inline-block;
+      background: var(--accent-gold);
+      color: #140c02;
+      font-weight: 900;
+      font-size: 0.78rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.4rem;
+    }
+
+    /* تنسيق استطلاع رأي على نمط واتساب */
+    .wa-poll-card {
+      margin-top: 0.5rem;
+      background: rgba(15, 11, 28, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 0.75rem;
+    }
+    .wa-poll-header {
+      font-size: 0.8rem;
+      color: var(--accent-teal);
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .wa-poll-option {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9px;
+      padding: 0.55rem 0.75rem;
+      margin-bottom: 0.45rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .wa-poll-option.voted {
+      border-color: var(--accent-teal);
+    }
+    .wa-poll-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      background: rgba(20, 184, 166, 0.25);
+      z-index: 0;
+      transition: width 0.25s ease;
+    }
+    .wa-poll-label, .wa-poll-count {
+      position: relative;
+      z-index: 1;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .bold-highlight {
+      font-weight: 900;
+      font-size: 1.08em;
+      color: #fde68a;
+    }
+
+    .bubble-meta { font-size: 0.74rem; opacity: 0.8; margin-top: 0.35rem; }
     .bubble img {
       max-width: 100%; max-height: 220px; border-radius: 10px; margin-top: 0.45rem;
       display: block; cursor: pointer; border: 1px solid rgba(255,255,255,0.25);
     }
 
     .chat-input-bar {
-      padding: 0.7rem; background: rgba(9, 24, 22, 0.96);
+      padding: 0.7rem; background: rgba(18, 13, 29, 0.97);
       border-top: 1px solid var(--border-soft);
       display: flex; gap: 8px; align-items: center;
     }
     .chat-input-bar input[type="text"] { flex: 1; margin: 0; padding: 0.7rem 0.9rem; }
     .icon-btn {
-      background: var(--bg-card); color: var(--accent-amber); border: 1px solid var(--border-soft);
+      background: var(--bg-card); color: var(--accent-gold); border: 1px solid var(--border-soft);
       padding: 0.7rem 0.9rem; border-radius: 10px; cursor: pointer; font-weight: 800;
-    }
-
-    .poll-box { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
-    .poll-row {
-      display: flex; justify-content: space-between; align-items: center;
-      background: rgba(0,0,0,0.28); padding: 0.45rem 0.7rem; border-radius: 8px;
-    }
-    .poll-vote-btn {
-      background: var(--accent-amber); color: #111; border: none; border-radius: 6px;
-      padding: 0.25rem 0.65rem; font-weight: 800; cursor: pointer; font-size: 0.82rem;
     }
 
     #imageModal {
@@ -276,21 +361,27 @@
     #imageModal img { max-width: 95%; max-height: 90vh; border-radius: 12px; }
 
     footer {
-      text-align: center; padding: 1.5rem; color: #94a3b8;
-      border-top: 1px solid var(--border-soft); font-size: 0.9rem;
+      text-align: center; padding: 1.6rem 1rem; color: #cbd5e1;
+      border-top: 1px solid var(--border-soft); font-size: 0.88rem;
+      background: rgba(14, 10, 23, 0.85);
+    }
+    .footer-links {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 0.65rem;
+    }
+    .footer-links a {
+      color: var(--accent-gold); text-decoration: none; font-weight: 700; font-size: 0.85rem;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="brand">✦ دولة كِيُوشَان — سِنْدُسِيَا</div>
+    <div class="brand">دولة كِيُوشَان — سِنْدُسِيَا</div>
     <nav class="nav-menu">
       <button class="nav-btn active" data-page="homePage">البداية والبيان</button>
       <button class="nav-btn" data-page="flagPage">العلم والهوية</button>
       <button class="nav-btn" data-page="applyPage">التسجيل والأسئلة والمحادثة</button>
       <button class="nav-btn" data-page="groupChatPage">المحادثة للجميع</button>
-      <button class="nav-btn" type="button" id="enableNotifBtn">🔔 تفعيل الإشعارات</button>
     </nav>
   </header>
 
@@ -315,23 +406,23 @@
         </div>
 
         <div>
-          <h1 style="font-size: 1.9rem; font-weight: 900; color: var(--accent-amber); margin-bottom: 0.6rem;">
+          <h1 style="font-size: 1.9rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 0.6rem;">
             دولة كيوشان — البيان التعريفي الرسمي
           </h1>
           <div class="hype-tags">
-            <span class="hype-tag">⚡ الدفعة الأولى للبناة</span>
-            <span class="hype-tag">🏛️ العاصمة: سِنْدُسِيَا</span>
-            <span class="hype-tag">🗣️ لغة المقمڛية</span>
-            <span class="hype-tag">🧭 ست محافظات سيادية</span>
+            <span class="hype-tag">الدفعة الأولى للبناة</span>
+            <span class="hype-tag">العاصمة: سِنْدُسِيَا</span>
+            <span class="hype-tag">لغة المقمڛية</span>
+            <span class="hype-tag">ست محافظات سيادية</span>
           </div>
           <p style="margin-bottom: 0.75rem;">
             تُعد دولة كيوشان كياناً سيادياً قيد التأسيس المؤسسي، تُدار شؤونه وتُصاغ هويته من عاصمته <strong>سِنْدُسِيَا</strong>. تقوم الدولة على أطر تنظيمية واضحة تجمع بين الانضباط الإداري، والهوية اللغوية الخاصة المتمثلة بلغة <strong>المقمڛية</strong> وحروفها السيادية، ونشيدها الوطني الرسمي.
           </p>
-          <p style="margin-bottom: 1.1rem; color: var(--text-muted); font-weight: 700;">
+          <p style="margin-bottom: 1.1rem; color: #fde68a; font-weight: 700;">
             دولة كيوشان — سيادة تُبنى بالنظام، ومؤسسات تُصان بالمسؤولية. لتقديم طلب الانضمام إلى السجل التأسيسي، يُرجى التوجه إلى بوابة التقديم الرسمية.
           </p>
           <button class="btn-secondary" type="button" onclick="openPage('applyPage')">
-            🚀 الانتقال إلى بوابة التقديم والأسئلة والمحادثة
+            الانتقال إلى بوابة التقديم والأسئلة والمحادثة
           </button>
         </div>
       </div>
@@ -359,29 +450,21 @@
       </div>
     </section>
 
-    <!-- صفحة 2: العلم (ثلاث مثلثات متساوية تلتقي في النصف) والقنوات الرسمية -->
+    <!-- صفحة 2: العلم (أربعة مثلثات تلتقي في المنتصف) والقنوات الرسمية -->
     <section id="flagPage" class="page-view">
       <div class="card">
         <h2 class="card-title">العلم الوطني والهوية السيادية</h2>
         <div class="flag-stage">
           <div class="flag-svg-box">
-            <!-- ثلاث مثلثات متساوية الزوايا والهندسة تلتقي في المركز (300, 180) -->
             <svg viewBox="0 0 600 360" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="علم دولة كيوشان">
-              <!-- المثلث العلوي: أبيض -->
               <polygon points="0,0 600,0 300,180" fill="#f8fafc" />
-              <!-- المثلث السفلي: أخضر -->
-              <polygon points="0,360 600,360 300,180" fill="#0f7a3e" />
-              <!-- المثلث الأيمن: أحمر -->
               <polygon points="600,0 600,360 300,180" fill="#d61f2c" />
-              <!-- الخط الفاصل الفاصل بين المثلثات نحو المركز -->
-              <line x1="0" y1="0" x2="300" y2="180" stroke="#0b0d10" stroke-width="2" />
-              <line x1="0" y1="360" x2="300" y2="180" stroke="#0b0d10" stroke-width="2" />
-              <line x1="600" y1="0" x2="300" y2="180" stroke="#0b0d10" stroke-width="2" />
-              <line x1="600" y1="360" x2="300" y2="180" stroke="#0b0d10" stroke-width="2" />
+              <polygon points="0,360 600,360 300,180" fill="#0f7a3e" />
+              <polygon points="0,0 0,360 300,180" fill="#0b0d10" />
             </svg>
           </div>
-          <p style="text-align: center; max-width: 640px; color: #e2e8f0;">
-            علم دولة كيوشان يتكون من ثلاثة مثلثات متكافئة تلتقي في المنتصف بألوان الأبيض والأخضر والأحمر، معبرةً عن التوازن المؤسسي في العاصمة سِنْدُسِيَا.
+          <p style="text-align: center; max-width: 650px; color: #e2e8f0;">
+            علم دولة كيوشان يتكون من <strong>أربعة مثلثات</strong> بالأسود والأبيض والأحمر والأخضر تلتقي في المنتصف، لترمز إلى الحزم المؤسسي، والنقاء الإداري، والعزيمة، والنماء في العاصمة سِنْدُسِيَا.
           </p>
         </div>
 
@@ -397,17 +480,18 @@
         </div>
 
         <div style="margin-top: 1.5rem;">
-          <h3 style="color: var(--accent-amber); margin-bottom: 0.4rem;">القنوات الرسمية لدولة كيوشان</h3>
+          <h3 style="color: var(--accent-gold); margin-bottom: 0.4rem;">القنوات الرسمية لدولة كيوشان</h3>
           <div class="social-links">
             <a class="social-link" href="https://www.facebook.com/share/1Fap1UTtkc/" target="_blank" rel="noopener noreferrer">فيسبوك الرسمي</a>
             <a class="social-link" href="https://www.instagram.com/president.of.kyushan?jplx=MTRyN21lcnRhb21uMQ==" target="_blank" rel="noopener noreferrer">انستغرام الرسمي</a>
             <a class="social-link" href="https://x.com/Kushan0Presiden" target="_blank" rel="noopener noreferrer">إكس (X) الرسمي</a>
+            <a class="social-link" href="mailto:kyushan.presidency@gmail.com">kyushan.presidency@gmail.com</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- صفحة 3: التسجيل + الأسئلة + المحادثة الخاصة مع الرئاسة معاً -->
+    <!-- صفحة 3: التسجيل + الأسئلة + المحادثة الخاصة مع الرئاسة -->
     <section id="applyPage" class="page-view">
       <div class="apply-and-chat-grid">
         <div class="card">
@@ -458,14 +542,14 @@
 
           <!-- الأسئلة -->
           <div id="questionsBox" style="display:none; margin-top: 1.2rem;">
-            <h3 style="color: var(--accent-amber); margin-bottom: 0.4rem;">
+            <h3 style="color: var(--accent-gold); margin-bottom: 0.4rem;">
               استمارة الاستكمال المؤسسي للمتقدمين — دولة كيوشان
             </h3>
             <p style="color: #cbd5e1; font-size: 0.92rem; margin-bottom: 1rem;">
               عقب إرسال بياناتك الأساسية، يُرجى استكمال الأسئلة التالية لتمكين الجهات المختصة من تصنيف ملفك وتحديد مسارك داخل الدولة:
             </p>
 
-            <h4 style="color: var(--accent-emerald); margin-bottom: 0.7rem;">أولاً: الأسئلة الأساسية والتنظيمية (مطلوبة لاستكمال الملف)</h4>
+            <h4 style="color: var(--accent-teal); margin-bottom: 0.7rem;">أولاً: الأسئلة الأساسية والتنظيمية (مطلوبة لاستكمال الملف)</h4>
 
             <div class="form-group">
               <label>1. المجال التخصصي الرئيسي: ما هو المجال العملي أو المهاري الأساسي الذي يمكنك المساهمة به؟ *</label>
@@ -510,7 +594,7 @@
               </select>
             </div>
 
-            <h4 style="color: var(--accent-amber); margin: 1.2rem 0 0.4rem;">ثانياً: بيانات السلامة والرعاية (اختيارية — لأغراض الحماية والتهيئة)</h4>
+            <h4 style="color: var(--accent-gold); margin: 1.2rem 0 0.4rem;">ثانياً: بيانات السلامة والرعاية (اختيارية — لأغراض الحماية والتهيئة)</h4>
             <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 0.8rem;">
               ملاحظة: الإجابة على هذه البنود اختيارية بالكامل، وتُستخدم حصراً لتوفير بيئة عمل آمنة ومناسبة للمتقدم عند بدء المهام.
             </p>
@@ -538,18 +622,19 @@
               <a class="social-link" href="https://www.facebook.com/share/1Fap1UTtkc/" target="_blank" rel="noopener noreferrer">فيسبوك</a>
               <a class="social-link" href="https://www.instagram.com/president.of.kyushan?jplx=MTRyN21lcnRhb21uMQ==" target="_blank" rel="noopener noreferrer">انستغرام</a>
               <a class="social-link" href="https://x.com/Kushan0Presiden" target="_blank" rel="noopener noreferrer">إكس (X)</a>
+              <a class="social-link" href="mailto:kyushan.presidency@gmail.com">kyushan.presidency@gmail.com</a>
             </div>
             <div style="margin-top: 0.7rem;">
-              الحالة الحالية: <strong id="currentStatusText" style="color: var(--accent-amber);">قيد المراجعة</strong>
+              الحالة الحالية: <strong id="currentStatusText" style="color: var(--accent-gold);">قيد المراجعة</strong>
             </div>
           </div>
         </div>
 
-        <!-- المحادثة الخاصة مع الرئاسة بجانب التسجيل والأسئلة -->
-        <div class="full-screen-chat">
+        <!-- المحادثة الخاصة مع الرئاسة -->
+        <div class="chat-shell" id="directChatShell">
           <div class="chat-header-bar">
-            <strong style="color: var(--accent-amber);">💬 محادثة مباشرة مع الرئاسة (مع إرسال صور)</strong>
-            <small style="color: var(--text-muted);">متاحة فوراً مع التقديم والأسئلة</small>
+            <strong style="color: var(--accent-gold);">محادثة مباشرة مع الرئاسة (مع إرسال صور)</strong>
+            <button type="button" class="expand-btn" onclick="toggleChatFullscreen('directChatShell', this)">ملء الشاشة</button>
           </div>
           <div class="chat-messages" id="directMessagesBody">
             <div class="bubble other">أهلاً بك. يمكنك هنا مراسلة الرئاسة وإرسال الصور مباشرة.</div>
@@ -564,12 +649,12 @@
       </div>
     </section>
 
-    <!-- صفحة 4: المحادثة للجميع (تملأ الشاشة) -->
+    <!-- صفحة 4: المحادثة للجميع -->
     <section id="groupChatPage" class="page-view">
-      <div class="full-screen-chat">
+      <div class="chat-shell" id="groupChatShell">
         <div class="chat-header-bar">
-          <strong style="color: var(--accent-amber);">🌐 المحادثة للجميع — دولة كيوشان</strong>
-          <small style="color: var(--text-muted);">إعلانات، تصويت، ومحادثة جماعية بالصور</small>
+          <strong style="color: var(--accent-gold);">المحادثة للجميع — دولة كيوشان</strong>
+          <button type="button" class="expand-btn" onclick="toggleChatFullscreen('groupChatShell', this)">ملء الشاشة</button>
         </div>
         <div class="chat-messages" id="groupMessagesBody">
           <div class="bubble other">مرحباً بالجميع في محادثة دولة كيوشان.</div>
@@ -589,7 +674,13 @@
   </div>
 
   <footer>
-    دولة كيوشان — العاصمة: سِنْدُسِيَا | سيادة تُبنى بالنظام، ومؤسسات تُصان بالمسؤولية
+    <div>دولة كيوشان — العاصمة: سِنْدُسِيَا | سيادة تُبنى بالنظام، ومؤسسات تُصان بالمسؤولية</div>
+    <div class="footer-links">
+      <a href="https://www.facebook.com/share/1Fap1UTtkc/" target="_blank" rel="noopener noreferrer">فيسبوك</a>
+      <a href="https://www.instagram.com/president.of.kyushan?jplx=MTRyN21lcnRhb21uMQ==" target="_blank" rel="noopener noreferrer">انستغرام</a>
+      <a href="https://x.com/Kushan0Presiden" target="_blank" rel="noopener noreferrer">إكس (X)</a>
+      <a href="mailto:kyushan.presidency@gmail.com">kyushan.presidency@gmail.com</a>
+    </div>
   </footer>
 
   <script type="module">
@@ -602,24 +693,40 @@
     let currentAppId = localStorage.getItem("kyv_user_id") || null;
     let currentUserName = localStorage.getItem("kyv_voter_name") || "متقدم";
 
-    async function requestNotificationsPermission() {
-      if (!("Notification" in window)) {
-        alert("المتصفح لا يدعم الإشعارات.");
-        return;
-      }
-      const perm = await Notification.requestPermission();
-      if (perm === "granted") {
-        new Notification("دولة كيوشان", { body: "تم تفعيل الإشعارات بنجاح." });
+    // طلب الإشعارات في المرة الأولى فقط وحفظ الحالة
+    async function initFirstVisitNotification() {
+      if (!("Notification" in window)) return;
+      const alreadyPrompted = localStorage.getItem("kyv_notif_prompted") === "1";
+      if (!alreadyPrompted && Notification.permission === "default") {
+        localStorage.setItem("kyv_notif_prompted", "1");
+        try {
+          const res = await Notification.requestPermission();
+          if (res === "granted") {
+            new Notification("دولة كيوشان", { body: "تم تفعيل الإشعارات الفورية بنجاح." });
+          }
+        } catch (_) {}
       }
     }
 
-    document.getElementById("enableNotifBtn").addEventListener("click", requestNotificationsPermission);
+    document.addEventListener("pointerdown", () => {
+      if (!("Notification" in window)) return;
+      const alreadyPrompted = localStorage.getItem("kyv_notif_prompted") === "1";
+      if (!alreadyPrompted && Notification.permission === "default") {
+        initFirstVisitNotification();
+      }
+    }, { once: true });
 
     function fireAlert(title, body) {
       if ("Notification" in window && Notification.permission === "granted") {
         new Notification(title, { body });
       }
     }
+
+    window.toggleChatFullscreen = function(shellId, btn) {
+      const shell = document.getElementById(shellId);
+      const active = shell.classList.toggle("is-fullscreen");
+      btn.textContent = active ? "الوضع العادي" : "ملء الشاشة";
+    };
 
     const hypePhrases = [
       ["الدفعة التأسيسية", "اصنع التاريخ معنا"],
@@ -656,6 +763,12 @@
       return String(str ?? "")
         .replace(/&/g, "&amp;").replace(/</g, "&lt;")
         .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    // تحويل أي نص بين ** إلى نص غامق وكبير
+    function formatRichText(str) {
+      const safe = escapeHtml(str);
+      return safe.replace(/\*\*(.+?)\*\*/g, '<strong class="bold-highlight">$1</strong>');
     }
 
     function formatTime(isoStr) {
@@ -705,9 +818,6 @@
 
     document.getElementById("citizenshipForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      if ("Notification" in window && Notification.permission === "default") {
-        await requestNotificationsPermission();
-      }
 
       const fullName = document.getElementById("fullName").value.trim();
       const email = document.getElementById("email").value.trim();
@@ -818,7 +928,7 @@
         return `
           <div class="bubble ${cls}">
             <div style="font-weight:800; color:#fde68a;">${escapeHtml(m.sender_name)}</div>
-            ${m.text ? `<div>${escapeHtml(m.text)}</div>` : ""}
+            ${m.text ? `<div>${formatRichText(m.text)}</div>` : ""}
             ${imgHtml}
             <div class="bubble-meta">${formatTime(m.created_at)}</div>
           </div>
@@ -885,27 +995,39 @@
       body.innerHTML = messages.map(m => {
         const senderLabel = m.sender_name || m.sender || "عضو";
         const isMine = m.sender_name === currentUserName;
+        const isAnnouncement = m.message_type === "announcement";
         const imgHtml = m.image_data
           ? `<img src="${m.image_data}" alt="صورة" onclick="previewImage(this.src)" />`
           : "";
 
         let pollHtml = "";
         if ((m.message_type === "poll" || m.message_type === "election") && Array.isArray(m.options) && m.options.length > 0) {
-          pollHtml = `<div class="poll-box">` + m.options.map(opt => {
-            const count = allVotes.filter(v => v.message_id === m.id && v.choice === opt).length;
-            return `
-              <div class="poll-row">
-                <span>${escapeHtml(opt)} (${count} صوت)</span>
-                <button type="button" class="poll-vote-btn" onclick="window.votePoll('${m.id}', '${escapeHtml(opt).replace(/'/g, "\\'")}')">تصويت</button>
-              </div>
-            `;
-          }).join("") + `</div>`;
+          const mVotes = allVotes.filter(v => v.message_id === m.id);
+          const totalVotes = mVotes.length;
+          pollHtml = `<div class="wa-poll-card"><div class="wa-poll-header">استطلاع رأي — اضغط للاختيار (${totalVotes} صوت)</div>` +
+            m.options.map(opt => {
+              const optVotes = mVotes.filter(v => v.choice === opt);
+              const pct = totalVotes > 0 ? Math.round((optVotes.length / totalVotes) * 100) : 0;
+              const userVotedThis = optVotes.some(v => v.voter_name === currentUserName);
+              return `
+                <div class="wa-poll-option ${userVotedThis ? "voted" : ""}" onclick="window.votePoll('${m.id}', '${escapeHtml(opt).replace(/'/g, "\\'")}')">
+                  <div class="wa-poll-fill" style="width:${pct}%;"></div>
+                  <span class="wa-poll-label">${userVotedThis ? "✓ " : ""}${escapeHtml(opt)}</span>
+                  <span class="wa-poll-count">${optVotes.length} (${pct}%)</span>
+                </div>
+              `;
+            }).join("") + `</div>`;
         }
 
+        const bubbleClass = isAnnouncement
+          ? "bubble official-announcement"
+          : `bubble ${isMine ? "mine" : "other"}`;
+
         return `
-          <div class="bubble ${isMine ? "mine" : "other"}">
+          <div class="${bubbleClass}">
+            ${isAnnouncement ? `<span class="official-badge">إعلان رسمي</span>` : ""}
             <div style="font-weight:800; color:#fde68a;">${escapeHtml(senderLabel)}</div>
-            ${m.text ? `<div>${escapeHtml(m.text)}</div>` : ""}
+            ${m.text ? `<div style="margin-top:4px;">${formatRichText(m.text)}</div>` : ""}
             ${imgHtml}
             ${pollHtml}
             <div class="bubble-meta">${formatTime(m.created_at)}</div>
@@ -965,6 +1087,7 @@
     });
 
     window.addEventListener("load", async () => {
+      await initFirstVisitNotification();
       await loadAcceptedCount();
 
       if (currentAppId) {
@@ -989,20 +1112,23 @@
       loadGroupChat();
 
       supabase
-        .channel("kyushan-rt-v3")
+        .channel("kyushan-rt-v4")
         .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, async (payload) => {
           await loadAcceptedCount();
           if (payload.eventType === "UPDATE" && payload.new && payload.new.id === currentAppId) {
             showAfterAnswers(payload.new);
+            if (payload.new.status === "accepted") {
+              fireAlert("تهانينا — دولة كيوشان", "تم قبول طلبك في السجل التأسيسي.");
+            }
           }
           if (payload.eventType === "DELETE" && payload.old && payload.old.id === currentAppId) {
             const reason = localStorage.getItem("kyv_last_delete_reason_" + currentAppId) || "تم حذف الملف من الإدارة";
             showDeletionNotice(reason);
           }
         })
-        .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, (payload) => {
-          if (payload.new && payload.new.application_id === currentAppId) {
-            loadDirectChat();
+        .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, (payload) => {
+          loadDirectChat();
+          if (payload.eventType === "INSERT" && payload.new && payload.new.application_id === currentAppId) {
             if (payload.new.sender_role === "admin") {
               if (payload.new.text && payload.new.text.startsWith("إشعار حذف الملف — السبب:")) {
                 const reason = payload.new.text.replace("إشعار حذف الملف — السبب:", "").trim();
@@ -1014,7 +1140,12 @@
             }
           }
         })
-        .on("postgres_changes", { event: "*", schema: "public", table: "group_messages" }, () => loadGroupChat())
+        .on("postgres_changes", { event: "*", schema: "public", table: "group_messages" }, (payload) => {
+          loadGroupChat();
+          if (payload.eventType === "INSERT" && payload.new && payload.new.message_type === "announcement") {
+            fireAlert("إعلان رسمي — دولة كيوشان", payload.new.text || "تم نشر إعلان رسمي جديد");
+          }
+        })
         .on("postgres_changes", { event: "*", schema: "public", table: "poll_votes" }, () => loadGroupChat())
         .subscribe();
     });
