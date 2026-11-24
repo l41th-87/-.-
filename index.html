@@ -67,6 +67,33 @@
     }
     .ticker-pill strong { color: var(--accent-gold); }
 
+    /* نافذة طلب الإشعارات في الزيارة الأولى */
+    #notifPermissionModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9500;
+      background: rgba(8, 6, 15, 0.78);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    #notifPermissionModal.show { display: flex; }
+    .notif-card {
+      width: 100%;
+      max-width: 430px;
+      background: #211936;
+      border: 1.5px solid var(--accent-gold);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+      text-align: center;
+    }
+    .notif-card h3 { color: var(--accent-gold); font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .notif-card p { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem; }
+    .notif-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
     .container { max-width: 1280px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
     .page-view { display: none; animation: fadeIn 0.25s ease; }
     .page-view.active { display: block; }
@@ -188,6 +215,11 @@
       background: var(--accent-teal); color: #041311; font-weight: 800; cursor: pointer;
       flex-shrink: 0;
     }
+    .btn-ghost {
+      padding: 0.65rem 1.1rem; border-radius: 10px;
+      background: transparent; color: var(--text-muted);
+      border: 1px solid var(--border-soft); font-weight: 700; cursor: pointer;
+    }
 
     .alert-box {
       padding: 1rem 1.2rem; border-radius: 14px; margin-bottom: 1.2rem; font-size: 0.95rem;
@@ -262,14 +294,14 @@
     }
 
     .bubble {
-      max-width: 84%; padding: 0.8rem 1rem; border-radius: 14px; font-size: 0.94rem; word-break: break-word;
+      max-width: 85%; padding: 0.8rem 1rem; border-radius: 14px; font-size: 0.94rem; word-break: break-word;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
     }
     .bubble.other { background: rgba(43, 33, 69, 0.94); align-self: flex-start; border-bottom-right-radius: 3px; }
     .bubble.mine { background: linear-gradient(135deg, #6d28d9, #be123c); align-self: flex-end; border-bottom-left-radius: 3px; }
 
     .bubble.official-announcement {
-      max-width: 94%;
+      max-width: 95%;
       align-self: stretch;
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(225, 29, 72, 0.22));
       border: 1.5px solid var(--accent-gold);
@@ -286,48 +318,96 @@
       margin-bottom: 0.4rem;
     }
 
-    .wa-poll-card {
-      margin-top: 0.5rem;
-      background: rgba(15, 11, 28, 0.72);
+    /* بطاقة استطلاع الرأي المطابقة للصورة مع دائرة ونسبة من 100 */
+    .poll-card-box {
+      margin-top: 0.45rem;
+      background: #171226;
       border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 12px;
-      padding: 0.75rem;
+      border-radius: 14px;
+      padding: 0.9rem;
     }
-    .wa-poll-header {
+    .poll-question-title {
+      font-size: 1rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+    }
+    .poll-single-hint {
       font-size: 0.8rem;
-      color: var(--accent-teal);
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
-    .wa-poll-option {
-      position: relative;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 9px;
-      padding: 0.55rem 0.75rem;
-      margin-bottom: 0.45rem;
-      cursor: pointer;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
-    .wa-poll-option.voted {
+    .poll-choice-item {
+      cursor: pointer;
+      padding: 0.55rem 0.65rem;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .poll-choice-item.selected {
+      border-color: var(--accent-teal);
+      background: rgba(20, 184, 166, 0.12);
+    }
+    .poll-choice-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0.4rem;
+    }
+    .poll-radio-circle {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border-radius: 50%;
+      border: 2px solid #94a3b8;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poll-choice-item.selected .poll-radio-circle {
       border-color: var(--accent-teal);
     }
-    .wa-poll-fill {
-      position: absolute;
-      inset: 0 auto 0 0;
-      background: rgba(20, 184, 166, 0.25);
-      z-index: 0;
-      transition: width 0.25s ease;
+    .poll-choice-item.selected .poll-radio-circle::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-teal);
     }
-    .wa-poll-label, .wa-poll-count {
-      position: relative;
-      z-index: 1;
-      font-weight: 700;
-      font-size: 0.9rem;
+    .poll-choice-text {
+      font-weight: 800;
+      font-size: 0.94rem;
+      color: #f8fafc;
+      flex: 1;
+    }
+    .poll-progress-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .poll-pct-label {
+      min-width: 44px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+    }
+    .poll-bar-track {
+      flex: 1;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      overflow: hidden;
+    }
+    .poll-bar-fill {
+      height: 100%;
+      background: var(--accent-teal);
+      border-radius: 999px;
+      transition: width 0.25s ease;
     }
 
     .bold-highlight {
@@ -375,6 +455,20 @@
   </style>
 </head>
 <body>
+
+  <!-- نافذة طلب إذن الإشعارات في الزيارة الأولى -->
+  <div id="notifPermissionModal" role="dialog" aria-modal="true" aria-labelledby="notifModalTitle">
+    <div class="notif-card">
+      <h3 id="notifModalTitle">تفعيل إشعارات دولة كيوشان</h3>
+      <p>
+        هل ترغب في تفعيل الإشعارات الفورية لتصلك الإعلانات الرسمية وتحديثات طلبك والرسائل المهمة؟
+      </p>
+      <div class="notif-actions">
+        <button type="button" class="btn-secondary" id="confirmEnableNotifBtn">تفعيل الإشعارات</button>
+        <button type="button" class="btn-ghost" id="dismissNotifModalBtn">لاحقاً</button>
+      </div>
+    </div>
+  </div>
 
   <header>
     <div class="brand">دولة كِيُوشَان — سِنْدُسِيَا</div>
@@ -694,33 +788,32 @@
     let currentAppId = localStorage.getItem("kyv_user_id") || null;
     let currentUserName = localStorage.getItem("kyv_voter_name") || "متقدم";
 
-    // طلب إذن الإشعارات في المرة الأولى فقط وحفظ أنه تم الطلب/التفعيل
-    async function requestFirstVisitNotificationOnce() {
+    // إظهار نافذة الإشعارات في المرة الأولى فقط وعند الضغط يتم تفعيل إذن المتصفح الحقيقي
+    function setupFirstVisitNotificationModal() {
       if (!("Notification" in window)) return;
-      if (localStorage.getItem("kyv_notif_done") === "1") return;
-      if (Notification.permission === "granted") {
-        localStorage.setItem("kyv_notif_done", "1");
-        return;
-      }
-      try {
-        const perm = await Notification.requestPermission();
-        if (perm === "granted" || perm === "denied") {
-          localStorage.setItem("kyv_notif_done", "1");
-          if (perm === "granted") {
-            new Notification("دولة كيوشان", { body: "تم تفعيل الإشعارات الفورية بنجاح." });
-          }
-        }
-      } catch (_) {}
-    }
+      const modal = document.getElementById("notifPermissionModal");
+      const alreadyHandled = localStorage.getItem("kyv_notif_handled") === "1";
 
-    // استدعاء فوري عند أول لمسة/نقرة في المرة الأولى لضمان ظهور نافذة المتصفح الحقيقية
-    ["pointerdown", "click", "keydown"].forEach(evt => {
-      window.addEventListener(evt, () => {
-        if (localStorage.getItem("kyv_notif_done") !== "1") {
-          requestFirstVisitNotificationOnce();
-        }
-      }, { once: true });
-    });
+      if (!alreadyHandled && Notification.permission === "default") {
+        modal.classList.add("show");
+      }
+
+      document.getElementById("confirmEnableNotifBtn").addEventListener("click", async () => {
+        localStorage.setItem("kyv_notif_handled", "1");
+        modal.classList.remove("show");
+        try {
+          const perm = await Notification.requestPermission();
+          if (perm === "granted") {
+            new Notification("دولة كيوشان", { body: "تم تفعيل الإشعارات بنجاح." });
+          }
+        } catch (_) {}
+      });
+
+      document.getElementById("dismissNotifModalBtn").addEventListener("click", () => {
+        localStorage.setItem("kyv_notif_handled", "1");
+        modal.classList.remove("show");
+      });
+    }
 
     function fireAlert(title, body) {
       if ("Notification" in window && Notification.permission === "granted") {
@@ -1009,31 +1102,46 @@
           const mVotes = allVotes.filter(v => v.message_id === m.id);
           const totalVotes = mVotes.length;
           const myVote = mVotes.find(v => v.voter_name === currentUserName);
+          const questionText = m.poll_question || m.text || "استطلاع رأي";
 
-          pollHtml = `<div class="wa-poll-card"><div class="wa-poll-header">استطلاع رأي (خيار واحد فقط) — إجمالي الأصوات: ${totalVotes}</div>` +
-            m.options.map(opt => {
-              const optVotes = mVotes.filter(v => v.choice === opt);
-              const pct = totalVotes > 0 ? Math.round((optVotes.length / totalVotes) * 100) : 0;
-              const userVotedThis = myVote && myVote.choice === opt;
-              return `
-                <div class="wa-poll-option ${userVotedThis ? "voted" : ""}" onclick="window.voteSingleChoice('${m.id}', '${escapeHtml(opt).replace(/'/g, "\\'")}')">
-                  <div class="wa-poll-fill" style="width:${pct}%;"></div>
-                  <span class="wa-poll-label">${userVotedThis ? "◉ " : "○ "}${escapeHtml(opt)}</span>
-                  <span class="wa-poll-count">${optVotes.length} (${pct}%)</span>
-                </div>
-              `;
-            }).join("") + `</div>`;
+          pollHtml = `
+            <div class="poll-card-box">
+              <div class="poll-question-title">${formatRichText(questionText)}</div>
+              <div class="poll-single-hint">✓ حدد خياراً واحداً</div>
+              ${m.options.map(opt => {
+                const optVotes = mVotes.filter(v => v.choice === opt);
+                const pct = totalVotes > 0 ? Math.round((optVotes.length / totalVotes) * 100) : 0;
+                const isSelected = myVote && myVote.choice === opt;
+                return `
+                  <div class="poll-choice-item ${isSelected ? "selected" : ""}" onclick="window.voteSingleChoice('${m.id}', '${escapeHtml(opt).replace(/'/g, "\\'")}')">
+                    <div class="poll-choice-top">
+                      <span class="poll-radio-circle"></span>
+                      <span class="poll-choice-text">${escapeHtml(opt)}</span>
+                    </div>
+                    <div class="poll-progress-row">
+                      <span class="poll-pct-label">${pct}% (${optVotes.length})</span>
+                      <div class="poll-bar-track">
+                        <div class="poll-bar-fill" style="width:${pct}%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          `;
         }
 
         const bubbleClass = isAnnouncement
           ? "bubble official-announcement"
           : `bubble ${isMine ? "mine" : "other"}`;
 
+        const showTopText = !(m.message_type === "poll" && m.poll_question && m.text === m.poll_question);
+
         return `
           <div class="${bubbleClass}">
             ${isAnnouncement ? `<span class="official-badge">إعلان رسمي</span>` : ""}
             <div style="font-weight:800; color:#fde68a;">${escapeHtml(senderLabel)}</div>
-            ${m.text ? `<div style="margin-top:4px;">${formatRichText(m.text)}</div>` : ""}
+            ${m.text && showTopText ? `<div style="margin-top:4px;">${formatRichText(m.text)}</div>` : ""}
             ${imgHtml}
             ${pollHtml}
             <div class="bubble-meta">${formatTime(m.created_at)}</div>
@@ -1043,7 +1151,6 @@
       body.scrollTop = body.scrollHeight;
     }
 
-    // السماح باختيار خيار واحد فقط لكل مستخدم في الاستطلاع
     window.voteSingleChoice = async function(messageId, choice) {
       await supabase.from("poll_votes")
         .delete()
@@ -1101,7 +1208,7 @@
     });
 
     window.addEventListener("load", async () => {
-      await requestFirstVisitNotificationOnce();
+      setupFirstVisitNotificationModal();
       await loadAcceptedCount();
 
       if (currentAppId) {
@@ -1109,62 +1216,4 @@
           .from("applications")
           .select("*")
           .eq("id", currentAppId)
-          .single();
-
-        if (app) {
-          currentUserName = app.full_name;
-          if (Array.isArray(app.answers) && app.answers.length > 0) {
-            showAfterAnswers(app);
-          } else {
-            document.getElementById("citizenshipForm").style.display = "none";
-            document.getElementById("questionsBox").style.display = "block";
-          }
-        }
-      }
-
-      loadDirectChat();
-      loadGroupChat();
-
-      supabase
-        .channel("kyushan-rt-v5")
-        .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, async (payload) => {
-          await loadAcceptedCount();
-          if (payload.eventType === "UPDATE" && payload.new && payload.new.id === currentAppId) {
-            showAfterAnswers(payload.new);
-            if (payload.new.status === "accepted") {
-              fireAlert("تهانينا — دولة كيوشان", "تم قبول طلبك في السجل التأسيسي.");
-            }
-          }
-          if (payload.eventType === "DELETE" && payload.old && payload.old.id === currentAppId) {
-            const reason = localStorage.getItem("kyv_last_delete_reason_" + currentAppId) || "تم حذف الملف من الإدارة";
-            showDeletionNotice(reason);
-          }
-        })
-        .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, (payload) => {
-          loadDirectChat();
-          if (payload.eventType === "INSERT" && payload.new && payload.new.application_id === currentAppId) {
-            if (payload.new.sender_role === "admin") {
-              if (payload.new.text && payload.new.text.startsWith("إشعار حذف الملف — السبب:")) {
-                const reason = payload.new.text.replace("إشعار حذف الملف — السبب:", "").trim();
-                localStorage.setItem("kyv_last_delete_reason_" + currentAppId, reason);
-                showDeletionNotice(reason);
-              } else {
-                fireAlert("رسالة جديدة من الرئاسة", payload.new.text || "تم إرسال صورة");
-              }
-            }
-          }
-        })
-        .on("postgres_changes", { event: "*", schema: "public", table: "group_messages" }, (payload) => {
-          loadGroupChat();
-          if (payload.eventType === "INSERT" && payload.new && payload.new.message_type === "announcement") {
-            fireAlert("إعلان رسمي — دولة كيوشان", payload.new.text || "تم نشر إعلان رسمي جديد");
-          }
-        })
-        .on("postgres_changes", { event: "*", schema: "public", table: "poll_votes" }, () => loadGroupChat())
-        .subscribe();
-    });
-  </script>
-</body>
-</html>
-
-        
+          .sing
