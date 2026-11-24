@@ -67,7 +67,6 @@
     }
     .ticker-pill strong { color: var(--accent-gold); }
 
-    /* نافذة طلب الإشعارات في الزيارة الأولى */
     #notifPermissionModal {
       display: none;
       position: fixed;
@@ -935,6 +934,8 @@
       localStorage.setItem("kyv_user_id", data.id);
       localStorage.setItem("kyv_voter_name", data.full_name);
 
+      fireAlert("تم إرسال طلب التسجيل", "تم حفظ بياناتك الأساسية، أكمل الأسئلة المؤسسية الآن.");
+
       document.getElementById("citizenshipForm").style.display = "none";
       document.getElementById("questionsBox").style.display = "block";
     });
@@ -973,6 +974,7 @@
         return;
       }
 
+      fireAlert("تم إرسال استمارة الاستكمال", "طلبك الآن قيد المراجعة.");
       showAfterAnswers(data);
     });
 
@@ -1083,16 +1085,17 @@
         const senderLabel = m.sender_name || m.sender || "عضو";
         const isMine = m.sender_name === currentUserName;
         const isAnnouncement = m.message_type === "announcement";
+        const isPoll = m.message_type === "poll" || m.message_type === "election";
         const imgHtml = m.image_data
           ? `<img src="${m.image_data}" alt="صورة" onclick="previewImage(this.src)" />`
           : "";
 
         let pollHtml = "";
-        if ((m.message_type === "poll" || m.message_type === "election") && Array.isArray(m.options) && m.options.length > 0) {
-          const mVotes = allVotes.filter(v => v.message_id === m.id);
+        if (isPoll && Array.isArray(m.options) && m.options.length > 0) {
+          const mVotes = allVotes.filter(v => String(v.message_id) === String(m.id));
           const totalVotes = mVotes.length;
           const myVote = mVotes.find(v => v.voter_name === currentUserName);
-          const questionText = m.poll_question || m.text || "استطلاع رأي";
+          const questionText = m.text || "استطلاع رأي";
 
           pollHtml = `
             <div class="poll-card-box">
@@ -1125,13 +1128,11 @@
           ? "bubble official-announcement"
           : `bubble ${isMine ? "mine" : "other"}`;
 
-        const showTopText = !(m.message_type === "poll" && m.poll_question && m.text === m.poll_question);
-
         return `
           <div class="${bubbleClass}">
             ${isAnnouncement ? `<span class="official-badge">إعلان رسمي</span>` : ""}
             <div style="font-weight:800; color:#fde68a;">${escapeHtml(senderLabel)}</div>
-            ${m.text && showTopText ? `<div style="margin-top:4px;">${formatRichText(m.text)}</div>` : ""}
+            ${m.text && !isPoll ? `<div style="margin-top:4px;">${formatRichText(m.text)}</div>` : ""}
             ${imgHtml}
             ${pollHtml}
             <div class="bubble-meta">${formatTime(m.created_at)}</div>
@@ -1224,4 +1225,4 @@
 
       supabase
         .channel("kyushan-rt-v6")
-        .on("postgres_changes", { event: "*", schema: "public", table: "applicat
+        .on("postgres_changes", { event: "
