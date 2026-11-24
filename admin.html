@@ -56,9 +56,9 @@
     }
     .counter-num { font-size: 1.4rem; font-weight: 900; color: var(--amber); }
 
-    /* قائمة المتقدمين المدمجة والقابلة للتكبير عند الضغط */
+    /* حجم ثابت مع سحب داخلي حتى لا تتكدس الصفحة بشكل طويل */
     .compact-list {
-      max-height: 430px;
+      max-height: 290px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -92,6 +92,17 @@
     }
     .answer-row { margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.08); }
     .answer-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .poll-option-box {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .poll-option-box input {
+      margin-bottom: 0;
+      flex: 1;
+    }
 
     .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
     .msg-ok {
@@ -170,7 +181,7 @@
         </div>
       </div>
 
-      <!-- قائمة المتقدمين المدمجة + بحث + نافذة تفاصيل مكبرة -->
+      <!-- قائمة المتقدمين بحجم ثابت وسحب داخلي -->
       <div class="card">
         <h2>سجل المتقدمين (اضغط على الشخص لفتح ملفه بالكامل)</h2>
         <input type="text" id="applicantSearchInput" placeholder="ابحث بالاسم أو الدولة أو الحالة..." oninput="renderApplicantsList()" />
@@ -194,24 +205,32 @@
         </div>
       </div>
 
-      <!-- الشات الجماعي + إعلان رسمي + استطلاع رأي واتساب + حذف أي رسالة -->
+      <!-- الشات الجماعي + إعلان رسمي + استطلاع رأي بمربعات وإضافة خيار -->
       <div class="card">
         <h2>الشات الجماعي (امتيازات الإدارة السيادية)</h2>
         <form id="broadcastForm">
-          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-            <div>
-              <label for="msgType">نوع المنشور</label>
-              <select id="msgType">
-                <option value="announcement">إعلان رسمي (بارز)</option>
-                <option value="poll">استطلاع رأي (مثل واتساب)</option>
-                <option value="chat">رسالة إدارية عادية</option>
-              </select>
+          <label for="msgType">نوع المنشور</label>
+          <select id="msgType">
+            <option value="announcement">إعلان رسمي (بارز)</option>
+            <option value="poll">استطلاع رأي (خيار واحد لكل شخص)</option>
+            <option value="chat">رسالة إدارية عادية</option>
+          </select>
+
+          <div id="pollOptionsWrap" class="hidden" style="margin-bottom: 12px;">
+            <label>خيارات استطلاع الرأي</label>
+            <div id="pollOptionInputsContainer">
+              <div class="poll-option-box">
+                <input type="text" class="poll-choice-input" placeholder="الخيار الأول" />
+                <button type="button" class="btn-delete" onclick="removePollOptionRow(this)">×</button>
+              </div>
+              <div class="poll-option-box">
+                <input type="text" class="poll-choice-input" placeholder="الخيار الثاني" />
+                <button type="button" class="btn-delete" onclick="removePollOptionRow(this)">×</button>
+              </div>
             </div>
-            <div id="pollOptionsWrap" class="hidden">
-              <label for="pollOptionsInput">خيارات استطلاع الرأي (افصل بفاصلة)</label>
-              <input id="pollOptionsInput" type="text" placeholder="موافق, غير موافق, امتناع" />
-            </div>
+            <button type="button" class="btn-logout" onclick="addPollOptionRow()">+ إضافة خيار</button>
           </div>
+
           <label for="msgText">النص (أي كلمة بين **نجمتين** ستظهر كبيرة وغامقة)</label>
           <textarea id="msgText" rows="2" required placeholder="مثال: **قرار سيادي** بخصوص تنظيم العمل..."></textarea>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
@@ -239,8 +258,14 @@
 
     async function promptAdminNotifOnce() {
       if (!("Notification" in window)) return;
+      if (localStorage.getItem("kyv_admin_notif_done") === "1") return;
       if (Notification.permission === "default") {
-        try { await Notification.requestPermission(); } catch (_) {}
+        try {
+          const perm = await Notification.requestPermission();
+          if (perm === "granted" || perm === "denied") {
+            localStorage.setItem("kyv_admin_notif_done", "1");
+          }
+        } catch (_) {}
       }
     }
 
@@ -272,6 +297,27 @@
     function formatRichText(str) {
       return escapeHtml(str).replace(/\*\*(.+?)\*\*/g, '<strong class="bold-highlight">$1</strong>');
     }
+
+    window.addPollOptionRow = function() {
+      const container = document.getElementById("pollOptionInputsContainer");
+      const count = container.querySelectorAll(".poll-option-box").length + 1;
+      const row = document.createElement("div");
+      row.className = "poll-option-box";
+      row.innerHTML = `
+        <input type="text" class="poll-choice-input" placeholder="خيار إضافي ${count}" />
+        <button type="button" class="btn-delete" onclick="removePollOptionRow(this)">×</button>
+      `;
+      container.appendChild(row);
+    };
+
+    window.removePollOptionRow = function(btn) {
+      const container = document.getElementById("pollOptionInputsContainer");
+      const rows = container.querySelectorAll(".poll-option-box");
+      if (rows.length <= 2) {
+        return alert("يجب أن يبقى خياران على الأقل في الاستطلاع.");
+      }
+      btn.parentElement.remove();
+    };
 
     function updateAcceptedDisplay() {
       const offset = Number(localStorage.getItem("kyv_accepted_offset") || "0");
@@ -539,7 +585,6 @@
       e.preventDefault();
       const type = document.getElementById("msgType").value;
       const text = document.getElementById("msgText").value.trim();
-      const rawOpts = document.getElementById("pollOptionsInput").value.trim();
       const file = document.getElementById("adminGroupImgInput").files[0];
 
       let imgData = "";
@@ -550,8 +595,12 @@
 
       let options = [];
       if (type === "poll") {
-        options = rawOpts.split(",").map(s => s.trim()).filter(Boolean);
-        if (options.length < 2) return alert("أدخل خيارين على الأقل مفصولين بفاصلة.");
+        options = [...document.querySelectorAll(".poll-choice-input")]
+          .map(inp => inp.value.trim())
+          .filter(Boolean);
+        if (options.length < 2) {
+          return alert("يرجى تعبئة خيارين على الأقل في مربعات الاستطلاع.");
+        }
       }
 
       const { error } = await supabaseClient.from("group_messages").insert([{
@@ -565,7 +614,7 @@
 
       if (error) return showError(error.message);
       document.getElementById("msgText").value = "";
-      document.getElementById("pollOptionsInput").value = "";
+      document.querySelectorAll(".poll-choice-input").forEach(inp => { inp.value = ""; });
       document.getElementById("adminGroupImgInput").value = "";
       showNotice("تم النشر بامتيازات الإدارة.");
       loadAdminGroupChat();
@@ -630,7 +679,7 @@
       await loadAdminGroupChat();
 
       supabaseClient
-        .channel("admin-rt-v4")
+        .channel("admin-rt-v5")
         .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => loadApplications())
         .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, (payload) => {
           loadAdminDirectChat();
