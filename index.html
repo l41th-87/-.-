@@ -67,7 +67,6 @@
     }
     .ticker-pill strong { color: var(--accent-gold); }
 
-    /* نافذة طلب الإشعارات في الزيارة الأولى */
     #notifPermissionModal {
       display: none;
       position: fixed;
@@ -93,6 +92,23 @@
     .notif-card h3 { color: var(--accent-gold); font-size: 1.25rem; margin-bottom: 0.5rem; }
     .notif-card p { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem; }
     .notif-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+    #liveToastBanner {
+      display: none;
+      position: fixed;
+      bottom: 18px;
+      left: 18px;
+      right: 18px;
+      max-width: 480px;
+      margin: 0 auto;
+      z-index: 9600;
+      background: #241b3d;
+      border: 1.5px solid var(--accent-gold);
+      border-radius: 14px;
+      padding: 0.9rem 1.1rem;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6);
+    }
+    #liveToastBanner.show { display: block; animation: fadeIn 0.25s ease; }
 
     .container { max-width: 1280px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
     .page-view { display: none; animation: fadeIn 0.25s ease; }
@@ -318,7 +334,6 @@
       margin-bottom: 0.4rem;
     }
 
-    /* بطاقة استطلاع الرأي المطابقة للصورة مع دائرة ونسبة من 100 */
     .poll-card-box {
       margin-top: 0.45rem;
       background: #171226;
@@ -456,18 +471,25 @@
 </head>
 <body>
 
-  <!-- نافذة طلب إذن الإشعارات في الزيارة الأولى -->
   <div id="notifPermissionModal" role="dialog" aria-modal="true" aria-labelledby="notifModalTitle">
     <div class="notif-card">
       <h3 id="notifModalTitle">تفعيل إشعارات دولة كيوشان</h3>
       <p>
-        هل ترغب في تفعيل الإشعارات الفورية لتصلك الإعلانات الرسمية وتحديثات طلبك والرسائل المهمة؟
+        هل ترغب في تفعيل الإشعارات لتصلك الإعلانات الرسمية وتحديثات طلبك والرسائل المهمة؟
       </p>
       <div class="notif-actions">
         <button type="button" class="btn-secondary" id="confirmEnableNotifBtn">تفعيل الإشعارات</button>
         <button type="button" class="btn-ghost" id="dismissNotifModalBtn">لاحقاً</button>
       </div>
     </div>
+  </div>
+
+  <div id="liveToastBanner">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <strong id="toastTitle" style="color:var(--accent-gold); font-size:0.95rem;"></strong>
+      <button type="button" class="btn-ghost" style="padding:2px 8px; font-size:0.78rem;" onclick="document.getElementById('liveToastBanner').classList.remove('show')">إغلاق</button>
+    </div>
+    <div id="toastBody" style="color:#f8fafc; font-size:0.88rem; margin-top:4px;"></div>
   </div>
 
   <header>
@@ -488,7 +510,6 @@
   <div class="container">
     <div id="globalNoticeBox" class="alert-box alert-deleted" style="display:none;"></div>
 
-    <!-- صفحة 1: البداية الحماسية والبيان التعريفي -->
     <section id="homePage" class="page-view active">
       <div class="hero-banner">
         <div class="hype-circle-wrap">
@@ -545,7 +566,6 @@
       </div>
     </section>
 
-    <!-- صفحة 2: العلم (أربعة مثلثات تلتقي في المنتصف) والقنوات الرسمية -->
     <section id="flagPage" class="page-view">
       <div class="card">
         <h2 class="card-title">العلم الوطني والهوية السيادية</h2>
@@ -586,7 +606,6 @@
       </div>
     </section>
 
-    <!-- صفحة 3: التسجيل + الأسئلة + المحادثة الخاصة مع الرئاسة -->
     <section id="applyPage" class="page-view">
       <div class="apply-and-chat-grid">
         <div class="card">
@@ -635,7 +654,6 @@
             <button type="submit" class="btn-primary">متابعة إلى استمارة الاستكمال المؤسسي</button>
           </form>
 
-          <!-- الأسئلة -->
           <div id="questionsBox" style="display:none; margin-top: 1.2rem;">
             <h3 style="color: var(--accent-gold); margin-bottom: 0.4rem;">
               استمارة الاستكمال المؤسسي للمتقدمين — دولة كيوشان
@@ -707,7 +725,6 @@
             <button type="button" id="submitAnswersBtn" class="btn-primary">إرسال استمارة الاستكمال</button>
           </div>
 
-          <!-- حالة ما بعد الإرسال -->
           <div id="afterAnswersBox" class="alert-box alert-info" style="display:none; margin-top: 1.2rem;">
             <div id="sentTimeInfo" style="font-size: 0.88rem; opacity: 0.85; margin-bottom: 0.4rem;"></div>
             <div style="font-weight: 700;">
@@ -725,7 +742,6 @@
           </div>
         </div>
 
-        <!-- المحادثة الخاصة مع الرئاسة -->
         <div class="chat-shell" id="directChatShell">
           <div class="chat-header-bar">
             <strong style="color: var(--accent-gold);">محادثة مباشرة مع الرئاسة (مع إرسال صور)</strong>
@@ -744,7 +760,6 @@
       </div>
     </section>
 
-    <!-- صفحة 4: المحادثة للجميع -->
     <section id="groupChatPage" class="page-view">
       <div class="chat-shell" id="groupChatShell">
         <div class="chat-header-bar">
@@ -788,37 +803,53 @@
     let currentAppId = localStorage.getItem("kyv_user_id") || null;
     let currentUserName = localStorage.getItem("kyv_voter_name") || "متقدم";
 
-    // إظهار نافذة الإشعارات في المرة الأولى فقط وعند الضغط يتم تفعيل إذن المتصفح الحقيقي
-    function setupFirstVisitNotificationModal() {
-      if (!("Notification" in window)) return;
-      const modal = document.getElementById("notifPermissionModal");
-      const alreadyHandled = localStorage.getItem("kyv_notif_handled") === "1";
+    function showInAppToast(title, body) {
+      const banner = document.getElementById("liveToastBanner");
+      document.getElementById("toastTitle").textContent = title;
+      document.getElementById("toastBody").textContent = body;
+      banner.classList.add("show");
+      setTimeout(() => banner.classList.remove("show"), 5000);
+    }
 
-      if (!alreadyHandled && Notification.permission === "default") {
+    function fireAlert(title, body) {
+      showInAppToast(title, body);
+      try {
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification(title, { body });
+        }
+      } catch (_) {}
+    }
+
+    function setupFirstVisitNotificationModal() {
+      const modal = document.getElementById("notifPermissionModal");
+      const alreadyHandled = localStorage.getItem("kyv_notif_handled_v2") === "1";
+      const hasNotifApi = "Notification" in window;
+
+      if (!alreadyHandled && hasNotifApi && Notification.permission === "default") {
         modal.classList.add("show");
       }
 
       document.getElementById("confirmEnableNotifBtn").addEventListener("click", async () => {
-        localStorage.setItem("kyv_notif_handled", "1");
+        localStorage.setItem("kyv_notif_handled_v2", "1");
         modal.classList.remove("show");
-        try {
-          const perm = await Notification.requestPermission();
-          if (perm === "granted") {
-            new Notification("دولة كيوشان", { body: "تم تفعيل الإشعارات بنجاح." });
+        if ("Notification" in window && Notification.permission === "default") {
+          try {
+            const perm = await Notification.requestPermission();
+            if (perm === "granted") {
+              fireAlert("دولة كيوشان", "تم تفعيل الإشعارات بنجاح.");
+            } else {
+              showInAppToast("تنبيه الإشعارات", "تم حفظ اختيارك؛ يمكنك تفعيل إشعارات المتصفح من إعدادات الموقع في أي وقت.");
+            }
+          } catch (_) {
+            showInAppToast("دولة كيوشان", "تم تفعيل التنبيهات داخل الموقع.");
           }
-        } catch (_) {}
+        }
       });
 
       document.getElementById("dismissNotifModalBtn").addEventListener("click", () => {
-        localStorage.setItem("kyv_notif_handled", "1");
+        localStorage.setItem("kyv_notif_handled_v2", "1");
         modal.classList.remove("show");
       });
-    }
-
-    function fireAlert(title, body) {
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification(title, { body });
-      }
     }
 
     window.toggleChatFullscreen = function(shellId, btn) {
@@ -1102,7 +1133,7 @@
           const mVotes = allVotes.filter(v => v.message_id === m.id);
           const totalVotes = mVotes.length;
           const myVote = mVotes.find(v => v.voter_name === currentUserName);
-          const questionText = m.poll_question || m.text || "استطلاع رأي";
+          const questionText = m.text || "استطلاع رأي";
 
           pollHtml = `
             <div class="poll-card-box">
@@ -1135,13 +1166,13 @@
           ? "bubble official-announcement"
           : `bubble ${isMine ? "mine" : "other"}`;
 
-        const showTopText = !(m.message_type === "poll" && m.poll_question && m.text === m.poll_question);
+        const isPoll = m.message_type === "poll" || m.message_type === "election";
 
         return `
           <div class="${bubbleClass}">
             ${isAnnouncement ? `<span class="official-badge">إعلان رسمي</span>` : ""}
             <div style="font-weight:800; color:#fde68a;">${escapeHtml(senderLabel)}</div>
-            ${m.text && showTopText ? `<div style="margin-top:4px;">${formatRichText(m.text)}</div>` : ""}
+            ${m.text && !isPoll ? `<div style="margin-top:4px;">${formatRichText(m.text)}</div>` : ""}
             ${imgHtml}
             ${pollHtml}
             <div class="bubble-meta">${formatTime(m.created_at)}</div>
@@ -1185,35 +1216,4 @@
         return;
       }
       input.value = "";
-      document.getElementById("groupImageInput").value = "";
-      loadGroupChat();
-    }
-
-    document.getElementById("sendGroupBtn").addEventListener("click", () => sendGroupMessage(""));
-    document.getElementById("groupInput").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendGroupMessage("");
-    });
-    document.getElementById("groupImageBtn").addEventListener("click", () => {
-      document.getElementById("groupImageInput").click();
-    });
-    document.getElementById("groupImageInput").addEventListener("change", async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      try {
-        const imgUrl = await readImageAsDataUrl(file);
-        await sendGroupMessage(imgUrl);
-      } catch (err) {
-        alert(err.message);
-      }
-    });
-
-    window.addEventListener("load", async () => {
-      setupFirstVisitNotificationModal();
-      await loadAcceptedCount();
-
-      if (currentAppId) {
-        const { data: app } = await supabase
-          .from("applications")
-          .select("*")
-          .eq("id", currentAppId)
-          .sing
+      document.getElementById("g
