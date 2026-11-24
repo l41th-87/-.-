@@ -213,9 +213,6 @@
           </select>
 
           <div id="pollOptionsWrap" class="hidden" style="margin-bottom: 12px;">
-            <label for="pollQuestionInput">سؤال الاستطلاع</label>
-            <input id="pollQuestionInput" type="text" placeholder="مثال: هل توافق على القرار الجديد؟" />
-
             <label>خيارات الاستطلاع (أضف أي عدد من الخيارات)</label>
             <div id="pollOptionInputsContainer">
               <div class="poll-option-box">
@@ -230,8 +227,8 @@
             <button type="button" class="btn-logout" onclick="addPollOptionRow()">+ إضافة خيار</button>
           </div>
 
-          <label for="msgText">النص / التفاصيل (أي كلمة بين **نجمتين** ستظهر كبيرة وغامقة)</label>
-          <textarea id="msgText" rows="2" required placeholder="مثال: **قرار سيادي** بخصوص تنظيم العمل..."></textarea>
+          <label for="msgText">النص / سؤال الاستطلاع (أي كلمة بين **نجمتين** ستظهر كبيرة وغامقة)</label>
+          <textarea id="msgText" rows="2" required placeholder="مثال: (أي سؤال) أو **قرار سيادي**..."></textarea>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
             <input type="file" id="adminGroupImgInput" accept="image/*" style="max-width:280px; margin:0;" />
             <button type="submit" class="btn-accept">نشر في الشات الجماعي</button>
@@ -582,9 +579,10 @@
 
     document.getElementById("broadcastForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      document.getElementById("errorBox").classList.add("hidden");
+
       const type = document.getElementById("msgType").value;
       const text = document.getElementById("msgText").value.trim();
-      const pollQ = document.getElementById("pollQuestionInput").value.trim();
       const file = document.getElementById("adminGroupImgInput").files[0];
 
       let imgData = "";
@@ -603,23 +601,17 @@
         }
       }
 
-      const payload = {
+      const { error } = await supabaseClient.from("group_messages").insert([{
         sender: "الرئاسة السيادية — كيوشان",
         sender_name: "الرئاسة السيادية — كيوشان",
         message_type: type,
-        text: text || pollQ,
+        text,
         image_data: imgData,
         options
-      };
-      if (type === "poll") {
-        payload.poll_question = pollQ || text;
-      }
-
-      const { error } = await supabaseClient.from("group_messages").insert([payload]);
+      }]);
 
       if (error) return showError(error.message);
       document.getElementById("msgText").value = "";
-      document.getElementById("pollQuestionInput").value = "";
       document.querySelectorAll(".poll-choice-input").forEach(inp => { inp.value = ""; });
       document.getElementById("adminGroupImgInput").value = "";
       showNotice("تم النشر بامتيازات الإدارة.");
@@ -685,7 +677,7 @@
       await loadAdminGroupChat();
 
       supabaseClient
-        .channel("admin-rt-v6")
+        .channel("admin-rt-v7")
         .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => loadApplications())
         .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, (payload) => {
           loadAdminDirectChat();
