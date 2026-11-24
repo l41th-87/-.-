@@ -186,6 +186,7 @@
     .btn-secondary {
       padding: 0.65rem 1.15rem; border: none; border-radius: 10px;
       background: var(--accent-teal); color: #041311; font-weight: 800; cursor: pointer;
+      flex-shrink: 0;
     }
 
     .alert-box {
@@ -205,7 +206,6 @@
       color: var(--accent-gold); text-decoration: none; font-weight: 700; font-size: 0.9rem;
     }
 
-    /* حاوية المحادثة مع وضع ملء الشاشة */
     .chat-shell {
       min-height: 520px;
       height: 68vh;
@@ -230,8 +230,8 @@
       position: fixed;
       inset: 0;
       width: 100vw;
-      height: 100vh;
-      min-height: 100vh;
+      height: 100dvh;
+      min-height: 100dvh;
       z-index: 9000;
       border-radius: 0;
       border: none;
@@ -239,9 +239,10 @@
 
     .chat-header-bar {
       padding: 0.85rem 1.1rem;
-      background: rgba(24, 18, 40, 0.95);
+      background: rgba(24, 18, 40, 0.96);
       border-bottom: 1px solid var(--border-soft);
       display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+      flex-shrink: 0;
     }
 
     .expand-btn {
@@ -256,7 +257,7 @@
     }
 
     .chat-messages {
-      flex: 1; padding: 1.1rem; overflow-y: auto;
+      flex: 1; min-height: 0; padding: 1.1rem; overflow-y: auto;
       display: flex; flex-direction: column; gap: 0.85rem;
     }
 
@@ -267,7 +268,6 @@
     .bubble.other { background: rgba(43, 33, 69, 0.94); align-self: flex-start; border-bottom-right-radius: 3px; }
     .bubble.mine { background: linear-gradient(135deg, #6d28d9, #be123c); align-self: flex-end; border-bottom-left-radius: 3px; }
 
-    /* تمييز الإعلان الرسمي */
     .bubble.official-announcement {
       max-width: 94%;
       align-self: stretch;
@@ -286,7 +286,6 @@
       margin-bottom: 0.4rem;
     }
 
-    /* تنسيق استطلاع رأي على نمط واتساب */
     .wa-poll-card {
       margin-top: 0.5rem;
       background: rgba(15, 11, 28, 0.72);
@@ -344,14 +343,16 @@
     }
 
     .chat-input-bar {
-      padding: 0.7rem; background: rgba(18, 13, 29, 0.97);
+      padding: 0.7rem; background: rgba(18, 13, 29, 0.98);
       border-top: 1px solid var(--border-soft);
       display: flex; gap: 8px; align-items: center;
+      flex-shrink: 0;
     }
-    .chat-input-bar input[type="text"] { flex: 1; margin: 0; padding: 0.7rem 0.9rem; }
+    .chat-input-bar input[type="text"] { flex: 1; min-width: 0; margin: 0; padding: 0.7rem 0.9rem; }
     .icon-btn {
       background: var(--bg-card); color: var(--accent-gold); border: 1px solid var(--border-soft);
       padding: 0.7rem 0.9rem; border-radius: 10px; cursor: pointer; font-weight: 800;
+      flex-shrink: 0;
     }
 
     #imageModal {
@@ -693,28 +694,33 @@
     let currentAppId = localStorage.getItem("kyv_user_id") || null;
     let currentUserName = localStorage.getItem("kyv_voter_name") || "متقدم";
 
-    // طلب الإشعارات في المرة الأولى فقط وحفظ الحالة
-    async function initFirstVisitNotification() {
+    // طلب إذن الإشعارات في المرة الأولى فقط وحفظ أنه تم الطلب/التفعيل
+    async function requestFirstVisitNotificationOnce() {
       if (!("Notification" in window)) return;
-      const alreadyPrompted = localStorage.getItem("kyv_notif_prompted") === "1";
-      if (!alreadyPrompted && Notification.permission === "default") {
-        localStorage.setItem("kyv_notif_prompted", "1");
-        try {
-          const res = await Notification.requestPermission();
-          if (res === "granted") {
+      if (localStorage.getItem("kyv_notif_done") === "1") return;
+      if (Notification.permission === "granted") {
+        localStorage.setItem("kyv_notif_done", "1");
+        return;
+      }
+      try {
+        const perm = await Notification.requestPermission();
+        if (perm === "granted" || perm === "denied") {
+          localStorage.setItem("kyv_notif_done", "1");
+          if (perm === "granted") {
             new Notification("دولة كيوشان", { body: "تم تفعيل الإشعارات الفورية بنجاح." });
           }
-        } catch (_) {}
-      }
+        }
+      } catch (_) {}
     }
 
-    document.addEventListener("pointerdown", () => {
-      if (!("Notification" in window)) return;
-      const alreadyPrompted = localStorage.getItem("kyv_notif_prompted") === "1";
-      if (!alreadyPrompted && Notification.permission === "default") {
-        initFirstVisitNotification();
-      }
-    }, { once: true });
+    // استدعاء فوري عند أول لمسة/نقرة في المرة الأولى لضمان ظهور نافذة المتصفح الحقيقية
+    ["pointerdown", "click", "keydown"].forEach(evt => {
+      window.addEventListener(evt, () => {
+        if (localStorage.getItem("kyv_notif_done") !== "1") {
+          requestFirstVisitNotificationOnce();
+        }
+      }, { once: true });
+    });
 
     function fireAlert(title, body) {
       if ("Notification" in window && Notification.permission === "granted") {
@@ -765,10 +771,8 @@
         .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     }
 
-    // تحويل أي نص بين ** إلى نص غامق وكبير
     function formatRichText(str) {
-      const safe = escapeHtml(str);
-      return safe.replace(/\*\*(.+?)\*\*/g, '<strong class="bold-highlight">$1</strong>');
+      return escapeHtml(str).replace(/\*\*(.+?)\*\*/g, '<strong class="bold-highlight">$1</strong>');
     }
 
     function formatTime(isoStr) {
@@ -1004,15 +1008,17 @@
         if ((m.message_type === "poll" || m.message_type === "election") && Array.isArray(m.options) && m.options.length > 0) {
           const mVotes = allVotes.filter(v => v.message_id === m.id);
           const totalVotes = mVotes.length;
-          pollHtml = `<div class="wa-poll-card"><div class="wa-poll-header">استطلاع رأي — اضغط للاختيار (${totalVotes} صوت)</div>` +
+          const myVote = mVotes.find(v => v.voter_name === currentUserName);
+
+          pollHtml = `<div class="wa-poll-card"><div class="wa-poll-header">استطلاع رأي (خيار واحد فقط) — إجمالي الأصوات: ${totalVotes}</div>` +
             m.options.map(opt => {
               const optVotes = mVotes.filter(v => v.choice === opt);
               const pct = totalVotes > 0 ? Math.round((optVotes.length / totalVotes) * 100) : 0;
-              const userVotedThis = optVotes.some(v => v.voter_name === currentUserName);
+              const userVotedThis = myVote && myVote.choice === opt;
               return `
-                <div class="wa-poll-option ${userVotedThis ? "voted" : ""}" onclick="window.votePoll('${m.id}', '${escapeHtml(opt).replace(/'/g, "\\'")}')">
+                <div class="wa-poll-option ${userVotedThis ? "voted" : ""}" onclick="window.voteSingleChoice('${m.id}', '${escapeHtml(opt).replace(/'/g, "\\'")}')">
                   <div class="wa-poll-fill" style="width:${pct}%;"></div>
-                  <span class="wa-poll-label">${userVotedThis ? "✓ " : ""}${escapeHtml(opt)}</span>
+                  <span class="wa-poll-label">${userVotedThis ? "◉ " : "○ "}${escapeHtml(opt)}</span>
                   <span class="wa-poll-count">${optVotes.length} (${pct}%)</span>
                 </div>
               `;
@@ -1037,11 +1043,19 @@
       body.scrollTop = body.scrollHeight;
     }
 
-    window.votePoll = async function(messageId, choice) {
-      const { error } = await supabase.from("poll_votes").upsert(
-        [{ message_id: messageId, voter_name: currentUserName, choice }],
-        { onConflict: "message_id,voter_name" }
-      );
+    // السماح باختيار خيار واحد فقط لكل مستخدم في الاستطلاع
+    window.voteSingleChoice = async function(messageId, choice) {
+      await supabase.from("poll_votes")
+        .delete()
+        .eq("message_id", messageId)
+        .eq("voter_name", currentUserName);
+
+      const { error } = await supabase.from("poll_votes").insert([{
+        message_id: messageId,
+        voter_name: currentUserName,
+        choice
+      }]);
+
       if (!error) loadGroupChat();
     };
 
@@ -1087,7 +1101,7 @@
     });
 
     window.addEventListener("load", async () => {
-      await initFirstVisitNotification();
+      await requestFirstVisitNotificationOnce();
       await loadAcceptedCount();
 
       if (currentAppId) {
@@ -1112,7 +1126,7 @@
       loadGroupChat();
 
       supabase
-        .channel("kyushan-rt-v4")
+        .channel("kyushan-rt-v5")
         .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, async (payload) => {
           await loadAcceptedCount();
           if (payload.eventType === "UPDATE" && payload.new && payload.new.id === currentAppId) {
@@ -1152,3 +1166,5 @@
   </script>
 </body>
 </html>
+
+        
