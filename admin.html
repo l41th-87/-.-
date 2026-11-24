@@ -213,6 +213,9 @@
           </select>
 
           <div id="pollOptionsWrap" class="hidden" style="margin-bottom: 12px;">
+            <label for="pollQuestionInput">سؤال الاستطلاع</label>
+            <input id="pollQuestionInput" type="text" placeholder="مثال: هل توافق على القرار الجديد؟" />
+
             <label>خيارات الاستطلاع (أضف أي عدد من الخيارات)</label>
             <div id="pollOptionInputsContainer">
               <div class="poll-option-box">
@@ -227,8 +230,8 @@
             <button type="button" class="btn-logout" onclick="addPollOptionRow()">+ إضافة خيار</button>
           </div>
 
-          <label for="msgText">النص / سؤال الاستطلاع (أي كلمة بين **نجمتين** ستظهر كبيرة وغامقة)</label>
-          <textarea id="msgText" rows="2" required placeholder="مثال: (أي سؤال) أو **قرار سيادي**..."></textarea>
+          <label for="msgText">النص / التفاصيل (أي كلمة بين **نجمتين** ستظهر كبيرة وغامقة)</label>
+          <textarea id="msgText" rows="2" required placeholder="مثال: **قرار سيادي** بخصوص تنظيم العمل..."></textarea>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
             <input type="file" id="adminGroupImgInput" accept="image/*" style="max-width:280px; margin:0;" />
             <button type="submit" class="btn-accept">نشر في الشات الجماعي</button>
@@ -266,11 +269,9 @@
     }
 
     function notifyAdmin(title, body) {
-      try {
-        if ("Notification" in window && Notification.permission === "granted") {
-          new Notification(title, { body });
-        }
-      } catch (_) {}
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, { body });
+      }
     }
 
     function showNotice(msg) {
@@ -585,6 +586,7 @@
 
       const type = document.getElementById("msgType").value;
       const text = document.getElementById("msgText").value.trim();
+      const pollQ = document.getElementById("pollQuestionInput").value.trim();
       const file = document.getElementById("adminGroupImgInput").files[0];
 
       let imgData = "";
@@ -603,17 +605,20 @@
         }
       }
 
+      const finalText = type === "poll" ? (pollQ || text) : text;
+
       const { error } = await supabaseClient.from("group_messages").insert([{
         sender: "الرئاسة السيادية — كيوشان",
         sender_name: "الرئاسة السيادية — كيوشان",
         message_type: type,
-        text,
+        text: finalText,
         image_data: imgData,
         options
       }]);
 
       if (error) return showError(error.message);
       document.getElementById("msgText").value = "";
+      document.getElementById("pollQuestionInput").value = "";
       document.querySelectorAll(".poll-choice-input").forEach(inp => { inp.value = ""; });
       document.getElementById("adminGroupImgInput").value = "";
       showNotice("تم النشر بامتيازات الإدارة.");
@@ -679,7 +684,7 @@
       await loadAdminGroupChat();
 
       supabaseClient
-        .channel("admin-rt-v8")
+        .channel("admin-rt-v6")
         .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => loadApplications())
         .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages" }, (payload) => {
           loadAdminDirectChat();
@@ -702,3 +707,5 @@
   </script>
 </body>
 </html>
+
+  
