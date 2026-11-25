@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>دولة كِيُوشَان — البوابة الرسمية</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --bg-main: #120d1d;
@@ -470,10 +471,10 @@
   <header>
     <div class="brand">دولة كِيُوشَان — سِنْدُسِيَا</div>
     <nav class="nav-menu">
-      <button class="nav-btn active" data-page="homePage">البداية والبيان</button>
-      <button class="nav-btn" data-page="flagPage">العلم والهوية</button>
-      <button class="nav-btn" data-page="applyPage">التسجيل والأسئلة والمحادثة</button>
-      <button class="nav-btn" data-page="groupChatPage">المحادثة للجميع</button>
+      <button type="button" class="nav-btn active" data-page="homePage">البداية والبيان</button>
+      <button type="button" class="nav-btn" data-page="flagPage">العلم والهوية</button>
+      <button type="button" class="nav-btn" data-page="applyPage">التسجيل والأسئلة والمحادثة</button>
+      <button type="button" class="nav-btn" data-page="groupChatPage">المحادثة للجميع</button>
     </nav>
   </header>
 
@@ -768,15 +769,33 @@
     </div>
   </footer>
 
-  <script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
+  <script>
     const SUPABASE_URL = "https://rrwessrapdcozozcxlcq.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_QPjklI2G5v0kC8S7I9-T1A_rZR7aJUN";
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = (window.supabase && typeof window.supabase.createClient === "function")
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
 
     let currentAppId = localStorage.getItem("kyv_user_id") || null;
     let currentUserName = localStorage.getItem("kyv_voter_name") || "متقدم";
+
+    window.openPage = function(pageId) {
+      document.querySelectorAll(".page-view").forEach(v => v.classList.remove("active"));
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+      const target = document.getElementById(pageId);
+      if (target) target.classList.add("active");
+      const btn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
+      if (btn) btn.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    document.addEventListener("click", (e) => {
+      const navBtn = e.target.closest(".nav-btn[data-page]");
+      if (navBtn) {
+        e.preventDefault();
+        window.openPage(navBtn.dataset.page);
+      }
+    });
 
     function setupFirstVisitNotificationModal() {
       if (!("Notification" in window)) return;
@@ -829,19 +848,6 @@
       document.getElementById("rotatingHypeMain").textContent = hypePhrases[hypeIdx][1];
     }, 2800);
 
-    window.openPage = function(pageId) {
-      document.querySelectorAll(".page-view").forEach(v => v.classList.remove("active"));
-      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-      document.getElementById(pageId).classList.add("active");
-      const btn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
-      if (btn) btn.classList.add("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
-    document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
-      btn.addEventListener("click", () => openPage(btn.dataset.page));
-    });
-
     window.previewImage = function(src) {
       document.getElementById("modalImg").src = src;
       document.getElementById("imageModal").style.display = "flex";
@@ -873,7 +879,8 @@
     }
 
     async function loadAcceptedCount() {
-      const { count, error } = await supabase
+      if (!supabaseClient) return;
+      const { count, error } = await supabaseClient
         .from("applications")
         .select("*", { count: "exact", head: true })
         .eq("status", "accepted");
@@ -904,6 +911,7 @@
 
     document.getElementById("citizenshipForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      if (!supabaseClient) return alert("تعذر الاتصال بقاعدة البيانات حالياً.");
 
       const fullName = document.getElementById("fullName").value.trim();
       const email = document.getElementById("email").value.trim();
@@ -912,7 +920,7 @@
       const howFound = document.getElementById("howFound").value;
       const skills = document.getElementById("skills").value.trim();
 
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from("applications")
         .insert([{
           full_name: fullName,
@@ -941,6 +949,8 @@
     });
 
     document.getElementById("submitAnswersBtn").addEventListener("click", async () => {
+      if (!supabaseClient) return alert("تعذر الاتصال بقاعدة البيانات حالياً.");
+
       const qField = document.getElementById("q_field").value;
       const qReadiness = document.getElementById("q_readiness").value;
       const qSector = document.getElementById("q_sector").value;
@@ -962,7 +972,7 @@
         { question: "الارتباطات أو الملاحظات الأمنية (اختياري)", answer: qSecurity || "لم يُذكر" }
       ];
 
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from("applications")
         .update({ answers })
         .eq("id", currentAppId)
@@ -997,7 +1007,8 @@
         body.innerHTML = `<div class="bubble other">أرسل بياناتك الأساسية أولاً لتبدأ محادثتك الخاصة مع الرئاسة.</div>`;
         return;
       }
-      const { data, error } = await supabase
+      if (!supabaseClient) return;
+      const { data, error } = await supabaseClient
         .from("direct_messages")
         .select("*")
         .eq("application_id", currentAppId)
@@ -1031,11 +1042,12 @@
         alert("يرجى إرسال بياناتك الأساسية أولاً لفتح محادثتك.");
         return;
       }
+      if (!supabaseClient) return;
       const input = document.getElementById("directInput");
       const text = input.value.trim();
       if (!text && !imageData) return;
 
-      const { error } = await supabase.from("direct_messages").insert([{
+      const { error } = await supabaseClient.from("direct_messages").insert([{
         application_id: currentAppId,
         sender_role: "user",
         sender_name: currentUserName,
@@ -1071,13 +1083,14 @@
     });
 
     async function loadGroupChat() {
-      const { data: messages } = await supabase
+      if (!supabaseClient) return;
+      const { data: messages } = await supabaseClient
         .from("group_messages")
         .select("*")
         .order("created_at", { ascending: true });
       if (!messages) return;
 
-      const { data: votes } = await supabase.from("poll_votes").select("*");
+      const { data: votes } = await supabaseClient.from("poll_votes").select("*");
       const allVotes = votes || [];
       const body = document.getElementById("groupMessagesBody");
 
@@ -1143,12 +1156,13 @@
     }
 
     window.voteSingleChoice = async function(messageId, choice) {
-      await supabase.from("poll_votes")
+      if (!supabaseClient) return;
+      await supabaseClient.from("poll_votes")
         .delete()
         .eq("message_id", messageId)
         .eq("voter_name", currentUserName);
 
-      const { error } = await supabase.from("poll_votes").insert([{
+      const { error } = await supabaseClient.from("poll_votes").insert([{
         message_id: messageId,
         voter_name: currentUserName,
         choice
@@ -1158,11 +1172,12 @@
     };
 
     async function sendGroupMessage(imageData = "") {
+      if (!supabaseClient) return;
       const input = document.getElementById("groupInput");
       const text = input.value.trim();
       if (!text && !imageData) return;
 
-      const { error } = await supabase.from("group_messages").insert([{
+      const { error } = await supabaseClient.from("group_messages").insert([{
         sender: currentUserName,
         sender_name: currentUserName,
         message_type: "chat",
@@ -1200,29 +1215,4 @@
 
     window.addEventListener("load", async () => {
       setupFirstVisitNotificationModal();
-      await loadAcceptedCount();
-
-      if (currentAppId) {
-        const { data: app } = await supabase
-          .from("applications")
-          .select("*")
-          .eq("id", currentAppId)
-          .single();
-
-        if (app) {
-          currentUserName = app.full_name;
-          if (Array.isArray(app.answers) && app.answers.length > 0) {
-            showAfterAnswers(app);
-          } else {
-            document.getElementById("citizenshipForm").style.display = "none";
-            document.getElementById("questionsBox").style.display = "block";
-          }
-        }
-      }
-
-      loadDirectChat();
-      loadGroupChat();
-
-      supabase
-        .channel("kyushan-rt-v6")
-        .on("postgres_changes", { event: "
+      if (!supabaseClie
